@@ -1,0 +1,33 @@
+{
+  "slug": "llm-foundations",
+  "name": "LLM Foundations",
+  "domain_slug": "ai-engineering",
+  "domain_tier": "beginner",
+  "prerequisites": [
+    "python-for-ai"
+  ],
+  "overview": "Understand the transformer architecture, self-attention mechanisms, and tokenizer mechanics behind modern foundation models.",
+  "outline": [
+    "Transformer self-attention and positional encodings",
+    "Tokenization strategies: BPE and WordPiece",
+    "Inference generation: temperature, top-p, and top-k",
+    "Context window limits and KV caching"
+  ],
+  "mini_project": "Write a self-attention calculation function in raw Python and inspect how token weights shift across layers.",
+  "videos": [
+    {
+      "youtube_id": "zjkBMFhNj_g",
+      "title": "Intro to Large Language Models",
+      "channel": "Andrej Karpathy",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    },
+    {
+      "youtube_id": "kCc8FmEb1nY",
+      "title": "Let's build GPT: from scratch, in code, spelled out",
+      "channel": "Andrej Karpathy",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

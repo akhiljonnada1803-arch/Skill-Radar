@@ -1,0 +1,27 @@
+{
+  "slug": "mobile-security-auth",
+  "name": "Mobile Security & JWT Auth",
+  "domain_slug": "fullstack-mobile",
+  "domain_tier": "advanced",
+  "prerequisites": [
+    "rest-api-design",
+    "expo-react-native"
+  ],
+  "overview": "Implement secure authentication flows using JWTs, biometric hardware unlock, encrypted storage, and PKCE OAuth standards.",
+  "outline": [
+    "JWT anatomy, signing algorithms, and claim validation",
+    "Secure token storage: Expo SecureStore / Keychain",
+    "OAuth 2.0 with PKCE for native mobile apps",
+    "Protection against token theft and replay attacks"
+  ],
+  "mini_project": "Build a secure auth interceptor that automatically refreshes expired access tokens without interrupting user flow.",
+  "videos": [
+    {
+      "youtube_id": "7Q17ubqL20U",
+      "title": "JWT Authentication Explained",
+      "channel": "Web Dev Simplified",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

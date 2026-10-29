@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#93000a", "primary": "#b12401", "inverse-on-surface": "#f6f0e2", "tertiary-fixed": "#cbebc2", "error-container": "#ffdad6", "on-secondary-fixed": "#1d1b18", "surface-dim": "#dfdacc", "surface-variant": "#e8e2d4", "inverse-primary": "#ffb4a3", "on-tertiary-fixed-variant": "#334d2f", "primary-fixed": "#ffdad2", "on-secondary": "#ffffff", "primary-fixed-dim": "#ffb4a3", "inverse-surface": "#333027", "on-primary-fixed-variant": "#8b1a00", "on-surface-variant": "#5b403a", "on-tertiary-fixed": "#072107", "primary-container": "#d53e1b", "error": "#ba1a1a", "on-error": "#ffffff", "surface-container-lowest": "#ffffff", "on-background": "#1d1c13", "surface-container-high": "#eee8da", "secondary": "#605e5a", "on-primary-container": "#fffbff", "secondary-fixed-dim": "#cac6c1", "outline": "#8f7069", "surface-bright": "#fff9eb", "on-tertiary-container": "#f7fff0", "surface-container-low": "#f9f3e5", "on-tertiary": "#ffffff", "tertiary-fixed-dim": "#b0cfa7", "on-primary": "#ffffff", "on-primary-fixed": "#3d0600", "tertiary": "#476343", "surface-container": "#f3eddf", "surface": "#fff9eb", "on-secondary-fixed-variant": "#484743", "secondary-container": "#e6e2dc", "surface-container-highest": "#e8e2d4", "outline-variant": "#e3beb6", "on-secondary-container": "#666460", "tertiary-container": "#5f7c5a", "background": "#fff9eb", "on-surface": "#1d1c13", "surface-tint": "#b52703", "secondary-fixed": "#e6e2dc" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "gutter": "0.75rem", "space-lg": "1.25rem", "space-md": "0.75rem", "margin": "1rem" }, "fontFamily": { "headline-xl": ["Newsreader"], "body-md": ["Newsreader"], "headline-xl-mobile": ["Newsreader"], "label-md": ["Space Mono"], "body-sm": ["Newsreader"], "body-lg": ["Newsreader"], "label-sm": ["Space Mono"], "headline-lg": ["Newsreader"], "headline-sm": ["Newsreader"], "label-lg": ["Space Mono"] }, "fontSize": { "headline-xl": ["36px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-xl-mobile": ["28px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-md": ["11px", { "lineHeight": "14px", "letterSpacing": "0.1em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }], "body-lg": ["18px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }], "label-sm": ["9px", { "lineHeight": "12px", "letterSpacing": "0.12em", "fontWeight": "400" }], "headline-lg": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-sm": ["20px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "600" }], "label-lg": ["13px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#fff9eb;color:#1d1c13;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen relative flex flex-col"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 px-margin flex items-center justify-between relative"><div class="absolute top-2 left-2 text-on-surface-variant font-label-sm text-label-sm select-none opacity-40">+</div><div class="absolute top-2 right-2 text-on-surface-variant font-label-sm text-label-sm select-none opacity-40">+</div><div class="flex items-center gap-space-sm"><button aria-label="Return to previous station" class="w-11 h-11 flex items-center justify-center text-on-surface hover:text-primary transition-colors" onclick="history.back()" type="button"><span class="material-symbols-outlined text-[20px]">arrow_back</span></button><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none">SkillRadar</span><span class="font-label-sm text-label-sm text-primary uppercase">[REV. 24]</span></div><span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase mt-space-xs">EXPEDITION QUESTIONNAIRE // FORM 01-SR</span></div></div><div class="flex items-center gap-space-sm"><div class="hidden sm:flex flex-col items-end"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">SECTION</span><span class="font-label-md text-label-md text-on-surface uppercase">Survey Introduction</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div><div class="absolute bottom-1 left-2 text-on-surface-variant font-label-sm text-label-sm select-none opacity-40">+</div><div class="absolute bottom-1 right-2 text-on-surface-variant font-label-sm text-label-sm select-none opacity-40">+</div></div></header><main class="flex-1 w-full bg-surface pt-20 pb-16 px-margin flex flex-col relative"><div class="flex flex-col w-full relative">
+<!-- Archival Page Frame (tactile printed field ledger) -->
+<div class="w-full bg-[#F1EBDD] text-[#1B1A17] p-4 sm:p-6 shadow-[3px_3px_0px_#1B1A17] relative border border-[#1B1A17]">
+<!-- Registration Crop Marks (Printed alignment crosses) -->
+<span class="absolute top-1 left-1.5 font-label-sm text-label-sm text-[#1B1A17] select-none opacity-50">+</span>
+<span class="absolute top-1 right-1.5 font-label-sm text-label-sm text-[#1B1A17] select-none opacity-50">+</span>
+<span class="absolute bottom-1 left-1.5 font-label-sm text-label-sm text-[#1B1A17] select-none opacity-50">+</span>
+<span class="absolute bottom-1 right-1.5 font-label-sm text-label-sm text-[#1B1A17] select-none opacity-50">+</span>
+<!-- Top Document Meta Header -->
+<div class="border-b-2 border-[#1B1A17] pb-3 mb-4">
+<div class="flex items-center justify-between font-label-sm text-label-sm tracking-widest uppercase mb-1">
+<span class="bg-[#1B1A17] text-[#F1EBDD] px-1.5 py-0.5 font-bold">FORM REF: SR-2026/ONBOARDING</span>
+<span class="text-[#D9411E] font-bold">FIELD INTAKE // 01-SR</span>
+</div>
+<div class="flex flex-wrap items-baseline justify-between gap-1">
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-[#1B1A17] tracking-tight leading-none mt-1">
+          Cadet Survey &amp; Profile Ledger
+        </h1>
+<span class="font-label-sm text-label-sm text-[#605E5A] uppercase tracking-wider">
+          ARCHIVE STATION: NORTH QUAD // SPEC-2026
+        </span>
+</div>
+<p class="font-body-md text-body-md text-[#5B403A] mt-2 italic leading-snug">
+        Complete the field dossier below to calibrate radar sensitivity and specimen telemetry to your technical trajectory. All inputs are indelibly inscribed.
+      </p>
+</div>
+<!-- Survey Form Interactive Body -->
+<form class="space-y-6" id="expedition-form" onsubmit="event.preventDefault();">
+<!-- SECTION 01: Full Name / Identifier -->
+<div class="space-y-1">
+<div class="flex items-baseline justify-between">
+<label class="font-label-sm text-label-sm text-[#1B1A17] font-bold tracking-wider uppercase" for="cadet-name">
+            01 // CANDIDATE NAME &amp; IDENTIFIER
+          </label>
+<span class="font-label-sm text-label-sm text-[#4F6B4A] uppercase">[FIELD READY]</span>
+</div>
+<div class="flex items-baseline gap-2 pt-1 border-b-2 border-[#1B1A17]">
+<span class="font-label-md text-label-md text-[#1B1A17] uppercase select-none shrink-0">FULL NAME:</span>
+<input class="w-full bg-transparent font-headline-sm text-headline-sm text-[#1B1A17] focus:outline-none focus:text-[#D9411E] placeholder:text-[#8F7069]/40 py-0.5 tracking-tight font-semibold" id="cadet-name" placeholder="e.g. Elena Rostova // ML-04" type="text" value="A. Vance // CS-28"/>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm text-[#8F7069]">
+<span>PRINT OR INSCRIBE LEGIBLY</span>
+<span>REGISTRY ID: #SR-9942</span>
+</div>
+</div>
+<!-- SECTION 02: Domain Specializations -->
+<div class="space-y-2 pt-1">
+<div class="flex items-baseline justify-between border-b border-[#CFC6B0] pb-1">
+<span class="font-label-sm text-label-sm text-[#1B1A17] font-bold tracking-wider uppercase">
+            02 // DOMAIN INTERESTS
+          </span>
+<span class="font-label-sm text-label-sm text-[#D9411E] font-bold tracking-wider">
+            [SELECT MINIMUM 2]
+          </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="domains-grid">
+<!-- Item 1 (Selected) -->
+<button class="domain-chip group flex items-center justify-between p-2.5 bg-[#F1EBDD] text-[#1B1A17] border border-[#1B1A17] shadow-[2px_2px_0px_#1B1A17] hover:shadow-[1px_1px_0px_#1B1A17] hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-left" data-domain-tag="ai" type="button">
+<div class="flex items-center gap-2">
+<span class="status-box w-4 h-4 border border-[#1B1A17] bg-[#D9411E] text-[#F1EBDD] flex items-center justify-center font-label-sm text-[10px] font-bold">✕</span>
+<span class="font-label-md text-label-md font-bold tracking-tight">AI &amp; LLM Inference</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#605E5A]">#SPEC-01</span>
+</button>
+<!-- Item 2 (Selected) -->
+<button class="domain-chip group flex items-center justify-between p-2.5 bg-[#F1EBDD] text-[#1B1A17] border border-[#1B1A17] shadow-[2px_2px_0px_#1B1A17] hover:shadow-[1px_1px_0px_#1B1A17] hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-left" data-domain-tag="systems" type="button">
+<div class="flex items-center gap-2">
+<span class="status-box w-4 h-4 border border-[#1B1A17] bg-[#D9411E] text-[#F1EBDD] flex items-center justify-center font-label-sm text-[10px] font-bold">✕</span>
+<span class="font-label-md text-label-md font-bold tracking-tight">Systems &amp; eBPF</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#605E5A]">#SPEC-02</span>
+</button>
+<!-- Item 3 -->
+<button class="domain-chip group flex items-center justify-between p-2.5 bg-[#F1EBDD] text-[#1B1A17] border border-[#1B1A17] shadow-[2px_2px_0px_#1B1A17] hover:shadow-[1px_1px_0px_#1B1A17] hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-left" data-domain-tag="wasm" type="button">
+<div class="flex items-center gap-2">
+<span class="status-box w-4 h-4 border border-[#1B1A17] bg-[#F1EBDD] text-[#1B1A17] flex items-center justify-center font-label-sm text-[10px] font-bold"></span>
+<span class="font-label-md text-label-md font-bold tracking-tight">Compiler &amp; WASM</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#605E5A]">#SPEC-03</span>
+</button>
+<!-- Item 4 -->
+<button class="domain-chip group flex items-center justify-between p-2.5 bg-[#F1EBDD] text-[#1B1A17] border border-[#1B1A17] shadow-[2px_2px_0px_#1B1A17] hover:shadow-[1px_1px_0px_#1B1A17] hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-left" data-domain-tag="gpu" type="button">
+<div class="flex items-center gap-2">
+<span class="status-box w-4 h-4 border border-[#1B1A17] bg-[#F1EBDD] text-[#1B1A17] flex items-center justify-center font-label-sm text-[10px] font-bold"></span>
+<span class="font-label-md text-label-md font-bold tracking-tight">Edge Compute &amp; GPU</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#605E5A]">#SPEC-04</span>
+</button>
+<!-- Item 5 -->
+<button class="domain-chip group flex items-center justify-between p-2.5 bg-[#F1EBDD] text-[#1B1A17] border border-[#1B1A17] shadow-[2px_2px_0px_#1B1A17] hover:shadow-[1px_1px_0px_#1B1A17] hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-left" data-domain-tag="distrib" type="button">
+<div class="flex items-center gap-2">
+<span class="status-box w-4 h-4 border border-[#1B1A17] bg-[#F1EBDD] text-[#1B1A17] flex items-center justify-center font-label-sm text-[10px] font-bold"></span>
+<span class="font-label-md text-label-md font-bold tracking-tight">Distributed Consensus</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#605E5A]">#SPEC-05</span>
+</button>
+<!-- Item 6 -->
+<button class="domain-chip group flex items-center justify-between p-2.5 bg-[#F1EBDD] text-[#1B1A17] border border-[#1B1A17] shadow-[2px_2px_0px_#1B1A17] hover:shadow-[1px_1px_0px_#1B1A17] hover:translate-x-[1px] hover:translate-y-[1px] transition-all text-left" data-domain-tag="crypto" type="button">
+<div class="flex items-center gap-2">
+<span class="status-box w-4 h-4 border border-[#1B1A17] bg-[#F1EBDD] text-[#1B1A17] flex items-center justify-center font-label-sm text-[10px] font-bold"></span>
+<span class="font-label-md text-label-md font-bold tracking-tight">Applied Cryptography</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#605E5A]">#SPEC-06</span>
+</button>
+</div>
+</div>
+<!-- SECTION 03: Current Practiced Skills -->
+<div class="space-y-2 pt-1">
+<div class="flex items-baseline justify-between border-b border-[#CFC6B0] pb-1">
+<span class="font-label-sm text-label-sm text-[#1B1A17] font-bold tracking-wider uppercase">
+            03 // CURRENT PRACTICED SKILLS
+          </span>
+<span class="font-label-sm text-label-sm text-[#605E5A] uppercase">[6 LOGGED]</span>
+</div>
+<!-- Add Skill Underlined Blank -->
+<div class="flex items-baseline gap-2 pb-1 border-b border-[#1B1A17]">
+<span class="font-label-sm text-label-sm text-[#1B1A17] uppercase tracking-wider select-none shrink-0">ADD SKILL:</span>
+<input class="w-full bg-transparent font-label-md text-label-md text-[#1B1A17] focus:outline-none focus:text-[#D9411E] placeholder:text-[#8F7069]/40 py-0.5" id="new-skill-input" placeholder="Type skill &amp; press enter (e.g. Zig, Docker, Triton)..." type="text"/>
+<button class="px-2 py-0.5 bg-[#1B1A17] text-[#F1EBDD] font-label-sm text-label-sm uppercase hover:bg-[#D9411E] transition-colors" id="add-skill-btn" type="button">
+            [+]
+          </button>
+</div>
+<!-- Skill Slips Container -->
+<div class="flex flex-wrap gap-1.5 pt-1" id="skills-container">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-[#E8E2D4] border border-[#1B1A17] font-label-sm text-label-sm text-[#1B1A17]">
+            [ Python 3.12 ]
+            <button aria-label="Remove skill" class="text-[#D9411E] font-bold hover:text-[#1B1A17] leading-none" onclick="this.parentElement.remove()" type="button">✕</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-[#E8E2D4] border border-[#1B1A17] font-label-sm text-label-sm text-[#1B1A17]">
+            [ CUDA / C++ ]
+            <button aria-label="Remove skill" class="text-[#D9411E] font-bold hover:text-[#1B1A17] leading-none" onclick="this.parentElement.remove()" type="button">✕</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-[#E8E2D4] border border-[#1B1A17] font-label-sm text-label-sm text-[#1B1A17]">
+            [ Linux Kernel ]
+            <button aria-label="Remove skill" class="text-[#D9411E] font-bold hover:text-[#1B1A17] leading-none" onclick="this.parentElement.remove()" type="button">✕</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-[#E8E2D4] border border-[#1B1A17] font-label-sm text-label-sm text-[#1B1A17]">
+            [ PyTorch ]
+            <button aria-label="Remove skill" class="text-[#D9411E] font-bold hover:text-[#1B1A17] leading-none" onclick="this.parentElement.remove()" type="button">✕</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-[#E8E2D4] border border-[#1B1A17] font-label-sm text-label-sm text-[#1B1A17]">
+            [ Rust ]
+            <button aria-label="Remove skill" class="text-[#D9411E] font-bold hover:text-[#1B1A17] leading-none" onclick="this.parentElement.remove()" type="button">✕</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-[#E8E2D4] border border-[#1B1A17] font-label-sm text-label-sm text-[#1B1A17]">
+            [ Go ]
+            <button aria-label="Remove skill" class="text-[#D9411E] font-bold hover:text-[#1B1A17] leading-none" onclick="this.parentElement.remove()" type="button">✕</button>
+</span>
+</div>
+</div>
+<!-- SECTION 04: Experience Level (Rubber-Stamp Style) -->
+<div class="space-y-2 pt-1">
+<div class="flex items-baseline justify-between border-b border-[#CFC6B0] pb-1">
+<span class="font-label-sm text-label-sm text-[#1B1A17] font-bold tracking-wider uppercase">
+            04 // STATION RANK / EXPEDITION LEVEL
+          </span>
+<span class="font-label-sm text-label-sm text-[#605E5A] uppercase">[CHOOSE 1 RUBBER STAMP]</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1" id="stamp-ranks">
+<!-- Stamp 1: Novice -->
+<button class="stamp-card relative p-3 border-2 border-dashed border-[#1B1A17] bg-[#F1EBDD] text-[#1B1A17] rotate-[-1deg] hover:rotate-0 transition-transform text-center flex flex-col items-center justify-center gap-0.5" data-rank="novice" type="button">
+<span class="font-label-sm text-label-sm tracking-widest text-[#605E5A] uppercase">STAMP #01</span>
+<span class="font-label-md text-label-md font-bold uppercase tracking-tight">NOVICE EXPLORER</span>
+<span class="font-label-sm text-label-sm text-[#8F7069] tracking-widest">&lt; 1 YEAR LOGGED</span>
+</button>
+<!-- Stamp 2: Surveyor (ACTIVE/VERMILION) -->
+<button class="stamp-card relative p-3 border-4 border-[#D9411E] bg-[#D9411E] text-[#F1EBDD] rotate-[1.5deg] hover:rotate-0 transition-transform text-center flex flex-col items-center justify-center gap-0.5 shadow-[3px_3px_0px_#1B1A17]" data-rank="surveyor" type="button">
+<span class="font-label-sm text-label-sm tracking-widest text-[#FFDAD2] uppercase font-bold">★ SEAL VERIFIED ★</span>
+<span class="font-label-md text-label-md font-bold uppercase tracking-tight">PRACTICING SURVEYOR</span>
+<span class="font-label-sm text-label-sm text-[#F1EBDD] tracking-widest font-bold">1 – 3 YEARS LOGGED</span>
+</button>
+<!-- Stamp 3: Senior -->
+<button class="stamp-card relative p-3 border-2 border-[#4F6B4A] bg-[#F1EBDD] text-[#4F6B4A] rotate-[-1.5deg] hover:rotate-0 transition-transform text-center flex flex-col items-center justify-center gap-0.5" data-rank="senior" type="button">
+<span class="font-label-sm text-label-sm tracking-widest text-[#4F6B4A] uppercase">STAMP #03</span>
+<span class="font-label-md text-label-md font-bold uppercase tracking-tight">SENIOR OPERATOR</span>
+<span class="font-label-sm text-label-sm text-[#605E5A] tracking-widest">4+ YEARS LOGGED</span>
+</button>
+</div>
+</div>
+<!-- SECTION 05: Career Trajectory & Goal -->
+<div class="space-y-2 pt-1">
+<div class="flex items-baseline justify-between border-b border-[#CFC6B0] pb-1">
+<span class="font-label-sm text-label-sm text-[#1B1A17] font-bold tracking-wider uppercase">
+            05 // CAREER TRAJECTORY &amp; GOAL
+          </span>
+<span class="font-label-sm text-label-sm text-[#C99A2E] font-bold uppercase">[LEDGER INSCRIPTION]</span>
+</div>
+<!-- Ruled Notebook Ledger Lines (Authentic Field Lines) -->
+<div class="space-y-3 pt-1">
+<div class="flex items-baseline gap-2 border-b border-[#1B1A17] pb-1">
+<span class="font-label-sm text-label-sm text-[#1B1A17] uppercase tracking-wider shrink-0 select-none">
+              I AM PREPARING FOR:
+            </span>
+<input class="w-full bg-transparent font-headline-sm text-headline-sm text-[#1B1A17] focus:outline-none focus:text-[#D9411E] tracking-tight font-medium" type="text" value="Staff Systems Researcher in Distributed LLM Serving"/>
+</div>
+<div class="flex items-baseline gap-2 border-b border-[#1B1A17] pb-1">
+<span class="font-label-sm text-label-sm text-[#1B1A17] uppercase tracking-wider shrink-0 select-none">
+              WITHIN SECTOR:
+            </span>
+<input class="w-full bg-transparent font-label-md text-label-md text-[#1B1A17] focus:outline-none focus:text-[#D9411E] tracking-tight" type="text" value="Infrastructure &amp; Machine Learning Systems Labs"/>
+</div>
+</div>
+</div>
+<!-- SECTION 06: Weekly Field Study Allocation -->
+<div class="space-y-3 pt-1">
+<div class="flex items-baseline justify-between border-b border-[#CFC6B0] pb-1">
+<span class="font-label-sm text-label-sm text-[#1B1A17] font-bold tracking-wider uppercase">
+            06 // WEEKLY FIELD STUDY ALLOCATION
+          </span>
+<span class="font-label-sm text-label-sm text-[#1B1A17] uppercase tracking-wider">MEASURED IN HOURS</span>
+</div>
+<!-- Slider readout stamped badge -->
+<div class="flex items-center justify-between gap-3 bg-[#E8E2D4] p-3 border border-[#1B1A17] shadow-[2px_2px_0px_#1B1A17]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#D9411E] text-[20px]">timer</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-[#605E5A]">REGISTERED INTENSITY:</span>
+<span class="font-label-lg text-label-lg font-bold text-[#1B1A17] tracking-wider" id="hours-readout">
+                [ 12.5 HOURS / WEEK ]
+              </span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-[#4F6B4A] font-bold" id="rate-readout">
+              ~2.5 specimens analyzed daily
+            </span>
+</div>
+</div>
+<!-- Hand-Ruled Measure Strip with Tick Marks -->
+<div class="relative pt-2 pb-3">
+<input class="w-full h-2 bg-[#1B1A17] appearance-none cursor-pointer accent-[#D9411E] focus:outline-none" id="hours-slider" max="30" min="2" step="0.5" type="range" value="12.5"/>
+<!-- Ruled Ticks on printed rule -->
+<div class="flex justify-between items-center text-[#1B1A17] font-label-sm text-label-sm pt-2 select-none">
+<div class="flex flex-col items-center">
+<span class="text-[10px] leading-none mb-0.5">|</span>
+<span>2H</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] leading-none mb-0.5">|</span>
+<span>5H</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] leading-none mb-0.5">|</span>
+<span>10H</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] leading-none mb-0.5">|</span>
+<span>15H</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] leading-none mb-0.5">|</span>
+<span>20H</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] leading-none mb-0.5">|</span>
+<span>30H+</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Verification Divider -->
+<div class="border-t-2 border-[#1B1A17] pt-4 mt-6">
+<button class="w-full py-3.5 px-4 bg-[#D9411E] text-[#F1EBDD] font-label-lg text-label-lg uppercase tracking-wider font-bold border-2 border-[#1B1A17] shadow-[3px_3px_0px_#1B1A17] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none hover:-rotate-[0.5deg] transition-all flex items-center justify-center gap-2" id="submit-survey-btn" type="button">
+<span>INSCRIBE &amp; INITIALIZE RADAR TELEMETRY</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<!-- Subtext Stamp Seal -->
+<div class="flex flex-wrap items-center justify-between gap-1 mt-3 font-label-sm text-label-sm text-[#605E5A]">
+<span class="tracking-widest uppercase">REGISTRATION SEAL APPLIED // ED.2026 // SKILLRADAR DEPLOYMENT</span>
+<span class="text-[#D9411E] font-bold uppercase">[STATUS: PROVISIONAL]</span>
+</div>
+</div>
+</form>
+</div>
+</div>
+<script>
+  (function() {
+    // 1. Domain Specializations Toggle
+    const domainButtons = document.querySelectorAll('.domain-chip');
+    domainButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const box = btn.querySelector('.status-box');
+        const isChecked = box.textContent.trim() === '✕';
+        if (isChecked) {
+          box.textContent = '';
+          box.classList.remove('bg-[#D9411E]', 'text-[#F1EBDD]');
+          box.classList.add('bg-[#F1EBDD]', 'text-[#1B1A17]');
+        } else {
+          box.textContent = '✕';
+          box.classList.remove('bg-[#F1EBDD]', 'text-[#1B1A17]');
+          box.classList.add('bg-[#D9411E]', 'text-[#F1EBDD]');
+        }
+      });
+    });
+
+    // 2. Add New Skill
+    const skillInput = document.getElementById('new-skill-input');
+    const addSkillBtn = document.getElementById('add-skill-btn');
+    const skillsContainer = document.getElementById('skills-container');
+
+    function addSkill() {
+      const val = skillInput.value.trim();
+      if (!val) return;
+      
+      const tag = document.createElement('span');
+      tag.className = 'inline-flex items-center gap-1.5 px-2 py-1 bg-[#E8E2D4] border border-[#1B1A17] font-label-sm text-label-sm text-[#1B1A17]';
+      tag.innerHTML = `[ ${val} ] <button type="button" class="text-[#D9411E] font-bold hover:text-[#1B1A17] leading-none" aria-label="Remove skill">✕</button>`;
+      
+      tag.querySelector('button').addEventListener('click', () => tag.remove());
+      skillsContainer.appendChild(tag);
+      skillInput.value = '';
+    }
+
+    addSkillBtn.addEventListener('click', addSkill);
+    skillInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addSkill();
+      }
+    });
+
+    // 3. Experience Level Rubber-Stamp Selector
+    const stampCards = document.querySelectorAll('.stamp-card');
+    stampCards.forEach(card => {
+      card.addEventListener('click', () => {
+        stampCards.forEach(c => {
+          c.classList.remove('border-4', 'border-[#D9411E]', 'bg-[#D9411E]', 'text-[#F1EBDD]', 'shadow-[3px_3px_0px_#1B1A17]');
+          c.classList.add('bg-[#F1EBDD]', 'text-[#1B1A17]');
+          const tagSpan = c.querySelector('.font-label-sm');
+          if (tagSpan && tagSpan.textContent.includes('★')) {
+            tagSpan.textContent = 'STAMP #' + (c.dataset.rank === 'surveyor' ? '02' : '01');
+            tagSpan.classList.remove('text-[#FFDAD2]', 'font-bold');
+            tagSpan.classList.add('text-[#605E5A]');
+          }
+        });
+
+        // Activate selected
+        card.classList.remove('bg-[#F1EBDD]', 'text-[#1B1A17]');
+        card.classList.add('border-4', 'border-[#D9411E]', 'bg-[#D9411E]', 'text-[#F1EBDD]', 'shadow-[3px_3px_0px_#1B1A17]');
+        const activeTopSpan = card.querySelector('.font-label-sm');
+        if (activeTopSpan) {
+          activeTopSpan.textContent = '★ SEAL VERIFIED ★';
+          activeTopSpan.classList.add('text-[#FFDAD2]', 'font-bold');
+        }
+      });
+    });
+
+    // 4. Hours Slider live readout
+    const slider = document.getElementById('hours-slider');
+    const readout = document.getElementById('hours-readout');
+    const rateReadout = document.getElementById('rate-readout');
+
+    slider.addEventListener('input', () => {
+      const val = parseFloat(slider.value).toFixed(1);
+      readout.textContent = `[ ${val} HOURS / WEEK ]`;
+      const daily = (val / 5).toFixed(1);
+      rateReadout.textContent = `~${daily} specimens analyzed daily`;
+    });
+
+    // 5. Submit Micro-Interaction
+    const submitBtn = document.getElementById('submit-survey-btn');
+    submitBtn.addEventListener('click', () => {
+      submitBtn.innerHTML = `<span>RECORDED IN SURVEY LEDGER ✓</span><span class="material-symbols-outlined text-[18px]">verified</span>`;
+      submitBtn.classList.remove('bg-[#D9411E]');
+      submitBtn.classList.add('bg-[#4F6B4A]');
+      setTimeout(() => {
+        submitBtn.innerHTML = `<span>INSCRIBE &amp; INITIALIZE RADAR TELEMETRY</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span>`;
+        submitBtn.classList.remove('bg-[#4F6B4A]');
+        submitBtn.classList.add('bg-[#D9411E]');
+      }, 2500);
+    });
+  })();
+</script></main><footer class="fixed bottom-0 w-full z-40 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]"><div class="h-12 px-margin flex items-center justify-between"><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-[14px]">verified</span><span class="tracking-widest uppercase">REG-CODE // #SR-800-42</span></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="uppercase tracking-wider">LEDGER PAGE</span><span class="text-primary font-bold">01</span><span class="text-on-surface-variant/50">/</span><span>04</span></div></div></footer></body></html>

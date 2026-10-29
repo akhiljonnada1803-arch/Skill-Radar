@@ -1,0 +1,26 @@
+{
+  "slug": "observability-monitoring",
+  "name": "Observability: Metrics, Logs & Traces",
+  "domain_slug": "cloud-devops",
+  "domain_tier": "advanced",
+  "prerequisites": [
+    "docker-containers"
+  ],
+  "overview": "Implement the three pillars of observability using Prometheus metrics, structured log shipping, OpenTelemetry distributed tracing, and Grafana.",
+  "outline": [
+    "The Three Pillars: Metrics, Logs, and Distributed Tracing",
+    "Prometheus pull-based scraping and PromQL alerting rules",
+    "Structured JSON logging and centralized aggregation",
+    "OpenTelemetry spans and distributed trace propagation"
+  ],
+  "mini_project": "Instrument a Python API with Prometheus metrics exposing request latency histograms and error rate counters.",
+  "videos": [
+    {
+      "youtube_id": "qJj300fUaM4",
+      "title": "Prometheus & Grafana in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

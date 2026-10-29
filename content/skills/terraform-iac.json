@@ -1,0 +1,26 @@
+{
+  "slug": "terraform-iac",
+  "name": "Infrastructure as Code with Terraform",
+  "domain_slug": "cloud-devops",
+  "domain_tier": "advanced",
+  "prerequisites": [
+    "cloud-compute-networking"
+  ],
+  "overview": "Provision reproducible cloud infrastructure declaratively using HashiCorp Configuration Language (HCL) and state management.",
+  "outline": [
+    "IaC principles: idempotency and declarative state",
+    "Providers, resources, data sources, and variables",
+    "Terraform state file, remote locking, and drift detection",
+    "Reusable infrastructure modules"
+  ],
+  "mini_project": "Write a Terraform module that provisions a VPC, security groups, and an Ubuntu compute instance.",
+  "videos": [
+    {
+      "youtube_id": "tomUWcQ0P3k",
+      "title": "Terraform in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

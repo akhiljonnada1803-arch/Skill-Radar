@@ -1,0 +1,26 @@
+{
+  "slug": "evals-and-guardrails",
+  "name": "Evals & Guardrails",
+  "domain_slug": "ai-engineering",
+  "domain_tier": "advanced",
+  "prerequisites": [
+    "agentic-architectures"
+  ],
+  "overview": "Systematically evaluate AI outputs using ground-truth benchmarks, LLM-as-a-judge rubrics, latency tracking, and safety guardrails.",
+  "outline": [
+    "Deterministic metrics: BLEU, ROUGE, and exact match",
+    "LLM-as-a-judge: scoring rubrics, position bias, and alignment",
+    "Input/output guardrails: PII redaction and toxic content filters",
+    "Continuous automated regression testing in CI/CD"
+  ],
+  "mini_project": "Build an automated eval suite evaluating 50 test cases for faithfulness, hallucination, and schema compliance.",
+  "videos": [
+    {
+      "youtube_id": "84rOQyL29vI",
+      "title": "AI Safety & Guardrails Overview",
+      "channel": "Google Cloud Tech",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

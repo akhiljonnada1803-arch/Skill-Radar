@@ -1,0 +1,26 @@
+{
+  "slug": "embeddings-vector-dbs",
+  "name": "Embeddings & Vector Databases",
+  "domain_slug": "ai-engineering",
+  "domain_tier": "intermediate",
+  "prerequisites": [
+    "python-for-ai"
+  ],
+  "overview": "Learn how dense vector representations encode semantic similarity, and how vector indices like HNSW power high-scale similarity search.",
+  "outline": [
+    "Dense vector embeddings vs sparse lexical search",
+    "Distance metrics: Cosine similarity, Dot product, Euclidean distance",
+    "Approximate Nearest Neighbor (ANN) algorithms and HNSW indexing",
+    "Vector databases: pgvector, Chroma, and Qdrant integration"
+  ],
+  "mini_project": "Set up a local pgvector table and index 1,000 document chunks, querying nearest neighbors with cosine distance.",
+  "videos": [
+    {
+      "youtube_id": "wjZofJX0v4M",
+      "title": "Vector Databases Explained",
+      "channel": "IBM Technology",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

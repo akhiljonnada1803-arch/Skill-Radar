@@ -1,0 +1,31 @@
+{
+  "slug": "git-and-github",
+  "name": "Git & GitHub Workflows",
+  "domain_slug": "cloud-devops",
+  "domain_tier": "beginner",
+  "prerequisites": [],
+  "overview": "Understand content-addressable storage, Git commit trees, branch merging, interactive rebasing, and GitHub PR reviews.",
+  "outline": [
+    "Git object model: blobs, trees, commits, and tags",
+    "Branching models: trunk-based development vs feature branches",
+    "Resolving merge conflicts and interactive rebase",
+    "Signing commits and configuring branch protection rules"
+  ],
+  "mini_project": "Set up a repository with branch protection rules, requiring signed commits and PR reviews before merge.",
+  "videos": [
+    {
+      "youtube_id": "SccSCuHhOw0",
+      "title": "Git in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    },
+    {
+      "youtube_id": "RGOj5yH7evk",
+      "title": "Git and GitHub for Beginners - Crash Course",
+      "channel": "freeCodeCamp",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

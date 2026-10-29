@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "ai-engineering",
+    "name": "AI Engineering",
+    "description": "Foundational LLMs, embeddings, RAG architectures, evaluations, prompt engineering, and agent orchestration.",
+    "icon": "brain"
+  },
+  {
+    "slug": "fullstack-mobile",
+    "name": "Full-Stack & Mobile",
+    "description": "TypeScript, React Native, Expo, client state management, resilient REST APIs, and offline synchronization.",
+    "icon": "smartphone"
+  },
+  {
+    "slug": "cloud-devops",
+    "name": "Cloud & DevOps",
+    "description": "Linux fundamentals, Docker containerization, CI/CD pipelines, Kubernetes orchestration, and observability.",
+    "icon": "cloud"
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "slug": "expo-react-native",
+  "name": "Expo & React Native",
+  "domain_slug": "fullstack-mobile",
+  "domain_tier": "intermediate",
+  "prerequisites": [
+    "react-fundamentals"
+  ],
+  "overview": "Build cross-platform mobile apps using React Native and Expo Router, targeting native Android and iOS devices.",
+  "outline": [
+    "Native primitives: View, Text, FlatList, ScrollView",
+    "Flexbox layout system and platform differences",
+    "File-based navigation with Expo Router",
+    "Hardware sensor access and secure device storage"
+  ],
+  "mini_project": "Build a responsive mobile list with pull-to-refresh, haptic feedback, and modal navigation.",
+  "videos": [
+    {
+      "youtube_id": "gvkqT_UoVDw",
+      "title": "React Native in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

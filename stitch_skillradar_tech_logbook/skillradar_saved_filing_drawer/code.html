@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,600&amp;family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary": "#605e5a", "secondary-fixed-dim": "#cac6c1", "surface-tint": "#b52703", "on-primary-fixed-variant": "#8b1a00", "error-container": "#ffdad6", "inverse-primary": "#ffb4a3", "on-secondary-fixed-variant": "#484743", "primary": "#b12401", "primary-fixed": "#ffdad2", "on-secondary": "#ffffff", "surface-container-high": "#eee8da", "on-secondary-fixed": "#1d1b18", "on-secondary-container": "#666460", "surface-container": "#f3eddf", "on-tertiary-fixed": "#072107", "surface-container-low": "#f9f3e5", "secondary-container": "#e6e2dc", "surface-container-highest": "#e8e2d4", "surface-variant": "#e8e2d4", "on-error": "#ffffff", "surface-dim": "#dfdacc", "outline-variant": "#e3beb6", "outline": "#8f7069", "surface-bright": "#fff9eb", "primary-container": "#d53e1b", "inverse-on-surface": "#f6f0e2", "surface": "#fff9eb", "on-error-container": "#93000a", "surface-container-lowest": "#ffffff", "inverse-surface": "#333027", "on-surface-variant": "#5b403a", "secondary-fixed": "#e6e2dc", "tertiary-fixed": "#cbebc2", "on-primary-fixed": "#3d0600", "tertiary": "#476343", "on-background": "#1d1c13", "on-tertiary": "#ffffff", "tertiary-container": "#5f7c5a", "on-primary": "#ffffff", "background": "#fff9eb", "on-surface": "#1d1c13", "error": "#ba1a1a", "on-primary-container": "#fffbff", "tertiary-fixed-dim": "#b0cfa7", "on-tertiary-container": "#f7fff0", "primary-fixed-dim": "#ffb4a3", "on-tertiary-fixed-variant": "#334d2f" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "0.75rem", "margin": "1rem", "space-lg": "1.25rem", "space-xs": "0.25rem", "gutter": "0.75rem", "space-sm": "0.5rem", "space-xl": "2rem" }, "fontFamily": { "headline-lg": ["Newsreader"], "body-md": ["Newsreader"], "headline-xl-mobile": ["Newsreader"], "headline-sm": ["Newsreader"], "label-sm": ["Space Mono"], "label-lg": ["Space Mono"], "body-lg": ["Newsreader"], "label-md": ["Space Mono"], "body-sm": ["Newsreader"], "headline-xl": ["Newsreader"] }, "fontSize": { "headline-lg": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-xl-mobile": ["28px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "headline-sm": ["20px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "600" }], "label-sm": ["9px", { "lineHeight": "12px", "letterSpacing": "0.12em", "fontWeight": "400" }], "label-lg": ["13px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700" }], "body-lg": ["18px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }], "label-md": ["11px", { "lineHeight": "14px", "letterSpacing": "0.1em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-xl": ["36px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#fff9eb;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background text-on-background font-body-md text-body-md min-h-screen flex flex-col relative antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-[#F1EBDD] border-b border-[#1B1A17] relative select-none"><div class="absolute -bottom-1 -left-1 text-[#1B1A17] font-['IBM_Plex_Mono'] text-[10px] leading-none select-none z-10">+</div><div class="absolute -bottom-1 -right-1 text-[#1B1A17] font-['IBM_Plex_Mono'] text-[10px] leading-none select-none z-10">+</div><div class="h-16 px-4 flex items-center justify-between gap-3"><div class="flex flex-col justify-center"><div class="flex items-center gap-2"><h1 class="font-['Fraunces'] font-extrabold text-[24px] tracking-tight text-[#1B1A17] leading-none">SkillRadar</h1><svg class="w-5 h-5 text-[#1B1A17] shrink-0" fill="none" stroke="#1B1A17" stroke-width="1.5" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9.5" stroke-dasharray="2 2"></circle><circle cx="12" cy="12" r="5.5"></circle><circle cx="12" cy="12" fill="#1B1A17" r="1.5"></circle><path d="M12 12 L19.5 7"></path><path d="M12 2.5 A9.5 9.5 0 0 1 20 8.5" stroke="#D9411E" stroke-width="1.75"></path></svg></div><div class="flex items-center gap-2 mt-0.5"><span class="font-['IBM_Plex_Mono'] text-[10px] uppercase tracking-wider text-[#605e5a]">LOGGED TODAY: <strong class="text-[#1B1A17] font-semibold">12 ENTRIES</strong></span><span class="text-[#CFC6B0] text-[9px]">//</span><span class="font-['IBM_Plex_Mono'] text-[9px] uppercase tracking-wider text-[#D9411E] font-medium">ED.26</span></div></div><div class="flex items-center gap-2 shrink-0"><button aria-label="Search Archive" class="w-9 h-9 border border-[#1B1A17] bg-[#F7F2E7] shadow-[1px_1px_0px_#1B1A17] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] flex items-center justify-center text-[#1B1A17]"><span class="material-symbols-outlined text-[18px]">search</span></button><button aria-label="Filter Index" class="w-9 h-9 border border-[#1B1A17] bg-[#F7F2E7] shadow-[1px_1px_0px_#1B1A17] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] flex items-center justify-center text-[#1B1A17]"><span class="material-symbols-outlined text-[18px]">tune</span></button><div class="w-9 h-9 border border-[#1B1A17] bg-[#1B1A17] flex items-center justify-center text-[#F1EBDD] font-['IBM_Plex_Mono'] text-[11px] font-bold">SR</div></div></div></header><main class="flex-1 w-full bg-background pt-16 pb-24 px-margin relative"><div class="flex flex-col w-full text-on-surface select-none pb-8">
+<script>
+    (function() {
+      const savedTab = document.querySelector('nav a[data-path="saved"]');
+      const allTabs = document.querySelectorAll('nav a');
+      if (savedTab && allTabs.length) {
+        allTabs.forEach(tab => {
+          const indicator = tab.querySelector('span.bg-\\[\\#D9411E\\], span.bg-primary');
+          if (indicator) indicator.remove();
+          tab.classList.remove('text-[#1B1A17]', 'font-bold');
+          tab.classList.add('text-[#605e5a]');
+        });
+        savedTab.classList.remove('text-[#605e5a]');
+        savedTab.classList.add('text-[#1B1A17]', 'font-bold');
+        const activeBar = document.createElement('span');
+        activeBar.className = 'absolute top-0 w-10 h-[3px] bg-primary';
+        savedTab.prepend(activeBar);
+      }
+    })();
+  </script>
+<!-- Physical Top Drawer Header Plate -->
+<div class="bg-surface-container border border-on-surface p-3 mb-4 shadow-[3px_3px_0px_#1B1A17] relative">
+<div class="absolute -top-1.5 -left-1.5 font-label-sm text-label-sm text-on-surface leading-none">+</div>
+<div class="absolute -top-1.5 -right-1.5 font-label-sm text-label-sm text-on-surface leading-none">+</div>
+<div class="absolute -bottom-1.5 -left-1.5 font-label-sm text-label-sm text-on-surface leading-none">+</div>
+<div class="absolute -bottom-1.5 -right-1.5 font-label-sm text-label-sm text-on-surface leading-none">+</div>
+<div class="flex items-center justify-between border-b border-surface-variant pb-2 mb-2">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 bg-primary"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant font-bold">CABINET NO. 04 // LATERAL TRAY</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase px-1.5 py-0.5 bg-secondary-container border border-on-surface text-on-secondary-fixed font-bold">SLOT: B-02</span>
+</div>
+<div class="flex items-baseline justify-between">
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Index Archive</h2>
+<span class="font-label-md text-label-md text-primary font-bold tracking-wider">FILED: 05</span>
+</div>
+<!-- Telemetry status strip -->
+<div class="mt-2 pt-2 border-t border-dashed border-outline-variant flex items-center justify-between text-on-surface-variant">
+<span class="font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-tertiary">lock</span>
+        LATERAL MECH ENGAGED
+      </span>
+<span class="font-label-sm text-label-sm text-secondary">ARCHIVE REV: 2026.10</span>
+</div>
+</div>
+<!-- Drawer Index Divider Tabs (Filter Navigation) -->
+<div class="mb-4 overflow-x-auto pb-1 -mx-margin px-margin">
+<div class="flex items-end gap-1 min-w-max border-b border-on-surface pb-0">
+<button class="filter-tab active-tab bg-surface-container-lowest border-t border-x border-on-surface px-3 py-1.5 text-on-surface font-label-md text-label-md uppercase shadow-[2px_-2px_0px_#1B1A17] flex items-center gap-1.5 font-bold" data-category="all">
+<span class="w-1.5 h-1.5 bg-primary inline-block"></span>
+        ALL (5)
+      </button>
+<button class="filter-tab bg-surface-container-high border-t border-x border-on-surface px-2.5 py-1 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm uppercase flex items-center gap-1" data-category="ai">
+<span class="w-1 h-3 bg-primary inline-block"></span>
+        AI &amp; COMPUTE (3)
+      </button>
+<button class="filter-tab bg-surface-container-high border-t border-x border-on-surface px-2.5 py-1 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm uppercase flex items-center gap-1" data-category="kernel">
+<span class="w-1 h-3 bg-tertiary inline-block"></span>
+        KERNEL / OS (1)
+      </button>
+<button class="filter-tab bg-surface-container-high border-t border-x border-on-surface px-2.5 py-1 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm uppercase flex items-center gap-1" data-category="languages">
+<span class="w-1 h-3 bg-outline inline-block"></span>
+        LANGUAGES (1)
+      </button>
+</div>
+</div>
+<!-- Archive Controls / Micro Telemetry Action Bar -->
+<div class="flex items-center justify-between mb-3 px-1">
+<button class="bg-surface-container border border-on-surface px-2 py-1 shadow-[1px_1px_0px_#1B1A17] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] font-label-sm text-label-sm uppercase flex items-center gap-1 text-on-surface" id="sortToggleBtn">
+<span class="material-symbols-outlined text-[13px]">swap_vert</span>
+<span id="sortLabel">SORT: DATE FILED ↓</span>
+</button>
+<div class="flex items-center gap-2">
+<button class="bg-surface-container border border-on-surface px-2 py-1 shadow-[1px_1px_0px_#1B1A17] active:shadow-none active:translate-x-[1px] active:translate-y-[1px] font-label-sm text-label-sm uppercase text-on-surface flex items-center gap-1" id="viewToggleBtn" title="Toggle Empty Drawer View">
+<span class="material-symbols-outlined text-[13px]">visibility</span>
+<span>TEST EMPTY</span>
+</button>
+<button class="bg-primary text-on-primary border border-on-surface px-2.5 py-1 shadow-[2px_2px_0px_#1B1A17] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] font-label-sm text-label-sm font-bold uppercase flex items-center gap-1" id="pullAllBtn">
+<span class="material-symbols-outlined text-[13px]">drive_file_move</span>
+<span>STAGE ROADMAP</span>
+</button>
+</div>
+</div>
+<!-- Notification Toast Strip (Hidden by default) -->
+<div class="hidden mb-3 p-2 bg-secondary-container border border-on-surface shadow-[2px_2px_0px_#1B1A17] flex items-center justify-between text-on-surface font-label-sm text-label-sm" id="actionToast">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary">check_circle</span>
+<span id="toastMsg">SPECIMEN PULLED TO ROADMAP TRAY</span>
+</span>
+<span class="font-bold text-primary">// OK</span>
+</div>
+<!-- Card Catalog Drawer Rows Container -->
+<div class="flex flex-col gap-3" id="drawerList">
+<!-- Card 1: vLLM PagedAttention -->
+<article class="specimen-card bg-surface-container-lowest border border-on-surface shadow-[3px_3px_0px_#1B1A17] relative flex flex-col transition-transform" data-category="ai">
+<div class="flex items-stretch border-b border-surface-variant">
+<div class="w-2.5 bg-primary shrink-0" title="Emerging / AI"></div>
+<div class="flex-1 p-2.5 flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold text-on-surface bg-surface-container px-1 border border-on-surface">#048</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">AI • CS.ARXIV.2309</span>
+</div>
+<!-- Tactile Stamp Badge -->
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 border-2 border-primary text-primary font-bold uppercase rotate-[-2deg] tracking-wider">EMERGING</span>
+</div>
+</div>
+<div class="p-3">
+<div class="flex items-start justify-between gap-2">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug">vLLM PagedAttention Architecture</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Non-contiguous memory allocation protocol for key-value caches under dynamic sequence batching constraints.</p>
+<div class="mt-2.5 pt-2 border-t border-dashed border-outline-variant flex items-center justify-between">
+<div class="font-label-sm text-label-sm text-secondary">
+            FILED: 24 OCT 2026 // CS.AI
+          </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-6 h-6 border border-on-surface bg-surface-container hover:bg-error-container text-on-surface hover:text-on-error-container flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Remove from Filing Drawer">
+<span class="material-symbols-outlined text-[14px]">archive</span>
+</button>
+<button class="w-6 h-6 border border-on-surface bg-primary text-on-primary flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Add to Active Roadmap">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2: eBPF-Driven Observability -->
+<article class="specimen-card bg-surface-container-lowest border border-on-surface shadow-[3px_3px_0px_#1B1A17] relative flex flex-col transition-transform" data-category="kernel">
+<div class="flex items-stretch border-b border-surface-variant">
+<div class="w-2.5 bg-tertiary shrink-0" title="Verified / Kernel"></div>
+<div class="flex-1 p-2.5 flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold text-on-surface bg-surface-container px-1 border border-on-surface">#042</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">SYS.IO • LINUX.ORG</span>
+</div>
+<!-- Verified Moss Stamp -->
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 border-2 border-tertiary text-tertiary font-bold uppercase rotate-[1.5deg] tracking-wider">VERIFIED</span>
+</div>
+</div>
+<div class="p-3">
+<div class="flex items-start justify-between gap-2">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug">eBPF-Driven Observability &amp; Kernel Probing</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">In-kernel bytecode sandboxing for low-overhead syscall tracing without recompiling or loading third-party LKM.</p>
+<div class="mt-2.5 pt-2 border-t border-dashed border-outline-variant flex items-center justify-between">
+<div class="font-label-sm text-label-sm text-secondary">
+            FILED: 22 OCT 2026 // KERNEL.SRC
+          </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-6 h-6 border border-on-surface bg-surface-container hover:bg-error-container text-on-surface hover:text-on-error-container flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Remove from Filing Drawer">
+<span class="material-symbols-outlined text-[14px]">archive</span>
+</button>
+<button class="w-6 h-6 border border-on-surface bg-primary text-on-primary flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Add to Active Roadmap">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3: State Space Models (Mamba) -->
+<article class="specimen-card bg-surface-container-lowest border border-on-surface shadow-[3px_3px_0px_#1B1A17] relative flex flex-col transition-transform" data-category="ai">
+<div class="flex items-stretch border-b border-surface-variant">
+<div class="w-2.5 bg-primary shrink-0" title="Emerging / AI"></div>
+<div class="flex-1 p-2.5 flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold text-on-surface bg-surface-container px-1 border border-on-surface">#039</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">AI • CORNELL.EDU</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 border border-on-surface text-on-surface font-bold uppercase tracking-wider">BENCHMARK</span>
+</div>
+</div>
+<div class="p-3">
+<div class="flex items-start justify-between gap-2">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug">State Space Models (Mamba) vs Transformers</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Sub-quadratic linear-time context scaling across 1M tokens through continuous-time parameter selection.</p>
+<div class="mt-2.5 pt-2 border-t border-dashed border-outline-variant flex items-center justify-between">
+<div class="font-label-sm text-label-sm text-secondary">
+            FILED: 19 OCT 2026 // CS.LG
+          </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-6 h-6 border border-on-surface bg-surface-container hover:bg-error-container text-on-surface hover:text-on-error-container flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Remove from Filing Drawer">
+<span class="material-symbols-outlined text-[14px]">archive</span>
+</button>
+<button class="w-6 h-6 border border-on-surface bg-primary text-on-primary flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Add to Active Roadmap">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 4: WebAssembly Component Model -->
+<article class="specimen-card bg-surface-container-lowest border border-on-surface shadow-[3px_3px_0px_#1B1A17] relative flex flex-col transition-transform" data-category="languages">
+<div class="flex items-stretch border-b border-surface-variant">
+<div class="w-2.5 bg-outline shrink-0" title="Experimental / Draft"></div>
+<div class="flex-1 p-2.5 flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold text-on-surface bg-surface-container px-1 border border-on-surface">#033</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">W3C • SPEC.DOC</span>
+</div>
+<!-- Ochre Stamped Label -->
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 border-2 border-outline text-outline font-bold uppercase rotate-[-1deg] tracking-wider">DRAFT V2</span>
+</div>
+</div>
+<div class="p-3">
+<div class="flex items-start justify-between gap-2">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug">WebAssembly Component Model Spec</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Cross-language module linking via canonical ABI interfaces for polyglot microservice boundaries.</p>
+<div class="mt-2.5 pt-2 border-t border-dashed border-outline-variant flex items-center justify-between">
+<div class="font-label-sm text-label-sm text-secondary">
+            FILED: 16 OCT 2026 // WASM.ORG
+          </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-6 h-6 border border-on-surface bg-surface-container hover:bg-error-container text-on-surface hover:text-on-error-container flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Remove from Filing Drawer">
+<span class="material-symbols-outlined text-[14px]">archive</span>
+</button>
+<button class="w-6 h-6 border border-on-surface bg-primary text-on-primary flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Add to Active Roadmap">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 5: FlashAttention-3 FP8 -->
+<article class="specimen-card bg-surface-container-lowest border border-on-surface shadow-[3px_3px_0px_#1B1A17] relative flex flex-col transition-transform" data-category="ai">
+<div class="flex items-stretch border-b border-surface-variant">
+<div class="w-2.5 bg-primary shrink-0" title="Emerging / AI"></div>
+<div class="flex-1 p-2.5 flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold text-on-surface bg-surface-container px-1 border border-on-surface">#027</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">GPU.HW • NVIDIA.COM</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 border-2 border-primary text-primary font-bold uppercase rotate-[1deg] tracking-wider">ACCELERATED</span>
+</div>
+</div>
+<div class="p-3">
+<div class="flex items-start justify-between gap-2">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface leading-snug">FlashAttention-3 FP8 Kernels</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Asynchronous hardware tensor-core pipelining with warp-specialization on Hopper H100 architectures.</p>
+<div class="mt-2.5 pt-2 border-t border-dashed border-outline-variant flex items-center justify-between">
+<div class="font-label-sm text-label-sm text-secondary">
+            FILED: 12 OCT 2026 // CUDA.ARCH
+          </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-6 h-6 border border-on-surface bg-surface-container hover:bg-error-container text-on-surface hover:text-on-error-container flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Remove from Filing Drawer">
+<span class="material-symbols-outlined text-[14px]">archive</span>
+</button>
+<button class="w-6 h-6 border border-on-surface bg-primary text-on-primary flex items-center justify-center shadow-[1px_1px_0px_#1B1A17] active:shadow-none" title="Add to Active Roadmap">
+<span class="material-symbols-outlined text-[14px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Physical Tactile Empty Drawer Section (Shown when empty or toggled) -->
+<div class="hidden mt-2 flex-col items-center justify-center p-6 bg-surface-container-low border border-on-surface shadow-[3px_3px_0px_#1B1A17] text-center relative" id="emptyDrawerState">
+<div class="absolute top-2 left-2 font-label-sm text-label-sm text-secondary font-bold">CABINET 04 // TRAY B-02</div>
+<div class="absolute top-2 right-2 font-label-sm text-label-sm text-primary font-bold">EMPTY STATUS</div>
+<!-- Editorial Risograph/Wireframe Hand-Drawn Open Filing Drawer Graphic -->
+<div class="w-48 h-36 my-3 relative flex items-center justify-center">
+<svg class="w-full h-full text-on-surface" fill="none" stroke="currentColor" stroke-width="1.75" viewbox="0 0 200 140">
+<!-- Mechanical registration marks -->
+<path d="M 8 10 L 8 20 M 3 15 L 13 15" stroke="#D9411E" stroke-width="1.2"></path>
+<path d="M 192 10 L 192 20 M 187 15 L 197 15" stroke="#D9411E" stroke-width="1.2"></path>
+<!-- Drawer Cavity Outer Body -->
+<polygon fill="#E8E2D4" points="30,35 170,35 185,115 15,115" stroke="#1B1A17" stroke-width="2"></polygon>
+<!-- Drawer Interior Cavity Lines (3D Depth) -->
+<polygon fill="#DFDACC" points="38,42 162,42 174,105 26,105" stroke="#1B1A17" stroke-width="1.5"></polygon>
+<!-- Halftone / Mechanical Hatch pattern on drawer floor -->
+<line stroke="#CFC6B0" stroke-dasharray="2 3" x1="45" x2="155" y1="55" y2="55"></line>
+<line stroke="#CFC6B0" stroke-dasharray="2 3" x1="40" x2="160" y1="70" y2="70"></line>
+<line stroke="#CFC6B0" stroke-dasharray="2 3" x1="35" x2="165" y1="85" y2="85"></line>
+<line stroke="#CFC6B0" stroke-dasharray="2 3" x1="30" x2="170" y1="100" y2="100"></line>
+<!-- Empty Divider Ridge Guides -->
+<path d="M 50 45 L 42 102" stroke="#1B1A17" stroke-dasharray="4 2" stroke-width="1.2"></path>
+<path d="M 75 45 L 70 102" stroke="#1B1A17" stroke-dasharray="4 2" stroke-width="1.2"></path>
+<path d="M 100 45 L 100 102" stroke="#D9411E" stroke-width="1.5"></path>
+<path d="M 125 45 L 130 102" stroke="#1B1A17" stroke-dasharray="4 2" stroke-width="1.2"></path>
+<path d="M 150 45 L 158 102" stroke="#1B1A17" stroke-dasharray="4 2" stroke-width="1.2"></path>
+<!-- Front Metal Pull Handle & Label Holder Frame -->
+<rect fill="#F1EBDD" height="16" stroke="#1B1A17" stroke-width="1.75" width="50" x="75" y="118"></rect>
+<rect fill="#DFDACC" height="8" stroke="#1B1A17" stroke-width="1" width="34" x="83" y="122"></rect>
+<circle cx="70" cy="126" fill="#1B1A17" r="2.5"></circle>
+<circle cx="130" cy="126" fill="#1B1A17" r="2.5"></circle>
+</svg>
+</div>
+<!-- Exact Required Empty State Text Copy -->
+<p class="font-headline-sm text-headline-sm text-on-surface font-semibold max-w-[280px] leading-snug">
+      Nothing filed yet. Save a discovery to keep it here.
+    </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1.5 max-w-[240px]">
+      Tag radar nodes during exploration to index papers, RFCs, and architecture specimens.
+    </p>
+<!-- Secondary mono action -->
+<a class="mt-4 inline-flex items-center gap-2 bg-surface-container border border-on-surface px-4 py-2 text-on-surface font-label-md text-label-md uppercase shadow-[2px_2px_0px_#1B1A17] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] font-bold" href="#">
+<span>[BROWSE RADAR FEED →]</span>
+</a>
+</div>
+<!-- Physical Archival Index Footer Stamp Section -->
+<div class="mt-6 pt-3 border-t border-dashed border-outline-variant flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full border border-on-surface bg-tertiary"></span>
+<span>INDEX SYSTEM EN-41</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary">ARCHIVE STORAGE // ROOM 3B</span>
+</div>
+<!-- Interactive Logic for Drawer Actions -->
+<script>
+    (function initFilingDrawer() {
+      const drawerList = document.getElementById('drawerList');
+      const emptyState = document.getElementById('emptyDrawerState');
+      const viewToggle = document.getElementById('viewToggleBtn');
+      const sortBtn = document.getElementById('sortToggleBtn');
+      const sortLabel = document.getElementById('sortLabel');
+      const pullAllBtn = document.getElementById('pullAllBtn');
+      const toast = document.getElementById('actionToast');
+      const toastMsg = document.getElementById('toastMsg');
+      const filterTabs = document.querySelectorAll('.filter-tab');
+      
+      let isExplicitEmpty = false;
+      let sortDesc = true;
+
+      // Filter category switcher
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          filterTabs.forEach(t => {
+            t.classList.remove('bg-surface-container-lowest', 'shadow-[2px_-2px_0px_#1B1A17]', 'font-bold', 'text-on-surface');
+            t.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+          });
+          tab.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+          tab.classList.add('bg-surface-container-lowest', 'shadow-[2px_-2px_0px_#1B1A17]', 'font-bold', 'text-on-surface');
+
+          const category = tab.getAttribute('data-category');
+          const cards = drawerList.querySelectorAll('.specimen-card');
+          let visibleCount = 0;
+
+          cards.forEach(card => {
+            const cardCat = card.getAttribute('data-category');
+            if (category === 'all' || cardCat === category) {
+              card.style.display = 'flex';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          if (visibleCount === 0 && !isExplicitEmpty) {
+            emptyState.classList.remove('hidden');
+            emptyState.classList.add('flex');
+          } else if (!isExplicitEmpty) {
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+          }
+        });
+      });
+
+      // Individual Card Unfile / Dismiss
+      drawerList.addEventListener('click', (e) => {
+        const removeBtn = e.target.closest('.remove-card-btn');
+        if (removeBtn) {
+          const card = removeBtn.closest('.specimen-card');
+          if (card) {
+            card.style.opacity = '0';
+            card.style.transform = 'translateX(20px)';
+            setTimeout(() => {
+              card.remove();
+              const remainingCards = drawerList.querySelectorAll('.specimen-card');
+              if (remainingCards.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+              }
+            }, 180);
+          }
+        }
+      });
+
+      // Toggle Empty state preview
+      if (viewToggle) {
+        viewToggle.addEventListener('click', () => {
+          isExplicitEmpty = !isExplicitEmpty;
+          if (isExplicitEmpty) {
+            drawerList.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            emptyState.classList.add('flex');
+            viewToggle.querySelector('span:last-child').textContent = 'RESTORE CARDS';
+          } else {
+            drawerList.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+            viewToggle.querySelector('span:last-child').textContent = 'TEST EMPTY';
+          }
+        });
+      }
+
+      // Sort Toggle
+      if (sortBtn && sortLabel) {
+        sortBtn.addEventListener('click', () => {
+          sortDesc = !sortDesc;
+          sortLabel.innerHTML = sortDesc ? 'SORT: DATE FILED &darr;' : 'SORT: ID # &uarr;';
+          const cards = Array.from(drawerList.querySelectorAll('.specimen-card'));
+          cards.reverse().forEach(c => drawerList.appendChild(c));
+        });
+      }
+
+      // Pull All to Roadmap
+      if (pullAllBtn) {
+        pullAllBtn.addEventListener('click', () => {
+          if (toast) {
+            toastMsg.textContent = 'ALL 5 SPECIMENS DISPATCHED TO ROADMAP';
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+              toast.classList.add('hidden');
+            }, 3000);
+          }
+        });
+      }
+    })();
+  </script>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-[#F1EBDD] border-t-2 border-[#1B1A17] select-none" data-active-classes="text-[#D9411E] font-bold"><div class="h-16 px-2 grid grid-cols-4 items-center"><a class="flex flex-col items-center justify-center h-full min-h-[44px] text-[#605e5a] hover:text-[#1B1A17] transition-colors relative" data-path="discover" href="#"><span class="absolute top-0 w-10 h-[3px] bg-[#D9411E]"></span><span class="material-symbols-outlined text-[20px]">radar</span><span class="font-['IBM_Plex_Mono'] text-[9px] tracking-wider uppercase mt-1">Discover</span></a><a class="flex flex-col items-center justify-center h-full min-h-[44px] text-[#605e5a] hover:text-[#1B1A17] transition-colors relative" data-path="roadmap" href="#"><span class="material-symbols-outlined text-[20px]">explore</span><span class="font-['IBM_Plex_Mono'] text-[9px] tracking-wider uppercase mt-1">Roadmap</span></a><a class="flex flex-col items-center justify-center h-full min-h-[44px] text-[#605e5a] hover:text-[#1B1A17] transition-colors relative" data-path="saved" href="#"><span class="material-symbols-outlined text-[20px]">bookmark</span><span class="font-['IBM_Plex_Mono'] text-[9px] tracking-wider uppercase mt-1">Saved</span></a><a class="flex flex-col items-center justify-center h-full min-h-[44px] text-[#605e5a] hover:text-[#1B1A17] transition-colors relative" data-path="profile" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span class="font-['IBM_Plex_Mono'] text-[9px] tracking-wider uppercase mt-1">Profile</span></a></div></nav>
+</body></html>

@@ -1,0 +1,26 @@
+{
+  "slug": "state-management-tanstack",
+  "name": "Server State & TanStack Query",
+  "domain_slug": "fullstack-mobile",
+  "domain_tier": "intermediate",
+  "prerequisites": [
+    "react-fundamentals"
+  ],
+  "overview": "Eliminate redundant client state using TanStack Query for declarative caching, background refetching, and optimistic mutations.",
+  "outline": [
+    "Client state vs asynchronous server cache",
+    "Query keys, stale time, and cache garbage collection",
+    "Optimistic updates with rollback on network error",
+    "Infinite scrolling and pagination queries"
+  ],
+  "mini_project": "Implement an offline-capable bookmarking manager with optimistic toggle mutations.",
+  "videos": [
+    {
+      "youtube_id": "novnyCaa7To",
+      "title": "TanStack Query in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "slug": "python-for-ai",
+  "name": "Python for AI",
+  "domain_slug": "ai-engineering",
+  "domain_tier": "beginner",
+  "prerequisites": [],
+  "overview": "Master core Python syntax, NumPy array vectorization, and data processing pipelines required for modern AI workloads.",
+  "outline": [
+    "Data structures and list comprehensions",
+    "NumPy n-dimensional arrays and vector math",
+    "AsyncIO for high-concurrency API calls",
+    "Type hints and Pydantic validation"
+  ],
+  "mini_project": "Build an async token batcher that processes text streams and computes vector dimensions with NumPy.",
+  "videos": [
+    {
+      "youtube_id": "0sOvCWFmrtA",
+      "title": "Python for Beginners - Full Course",
+      "channel": "freeCodeCamp",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

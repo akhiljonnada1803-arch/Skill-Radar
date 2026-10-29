@@ -1,0 +1,125 @@
+SkillRadar AI — Product Requirements Document
+Discover What's Next. Learn What Matters.
+Version / status: v1.1 — Updated draft for review · MVP timeline: 4 days · Platform: Android demo (Expo)
+Planning document only. No implementation or test completion is implied.
+1. Executive Summary
+SkillRadar AI is a personalized mobile application that discovers technology developments, explains why they may matter, identifies associated skills, and helps students turn selected discoveries into a practical learning roadmap. Its core value chain is technology discovery → relevant skills → personalized learning roadmap.
+The four-day MVP prioritizes a reliable end-to-end journey over breadth: ingest real public-source items, enrich them with Gemini, show evidence-backed discoveries in the mobile app, let a student save or dismiss an item, and add a related skill to a persistent roadmap.
+Product statement: Build SkillRadar AI, a mobile app that uses Gemini to discover emerging technologies, explain relevant skills with source evidence, and generate personalized learning roadmaps for technology students.
+1.1 Product principles
+Evidence first: source records and links are preserved; AI interpretation is clearly distinguishable from source facts.
+Personalized, not generic: ranking uses declared interests, career goals, experience and known skills.
+Actionable: discoveries should lead to skills, prerequisites, resources and a mini-project.
+Small, reliable MVP: no multi-agent orchestration, vector database or learned ranking in the four-day build.
+Honest status: live source-backed items and seeded demonstration data must be labelled distinctly.
+2. Problem, Users and Goals
+2.1 Problem statement
+Students who want to stay current manually track research papers, technology news, repositories and release announcements. This is time-consuming and noisy. Even after discovering a tool or idea, they may not know which prerequisites to learn or how to practise it.
+2.2 Target users
+Primary audience: technology students, including engineering and computer-science students interested in AI/ML, full-stack and mobile development, data science, cloud/DevOps, cybersecurity and open-source software. The app must not assume every student has the same career goal.
+Example persona: a second-year student interested in AI agents, comfortable with basic Python, aiming for an AI engineering role, with five hours per week available for learning.
+2.3 MVP goals
+Show a feed of real, source-backed technology discoveries.
+Provide a Gemini-generated plain-language explanation and practical applications.
+Expose original evidence links and publication dates.
+Allow saving and dismissing discoveries.
+Allow a student to add a related skill to a persistent roadmap with prerequisites and a mini-project.
+Rank discoveries with an explainable relevance score.
+2.4 Non-goals
+Push notifications, social features and gamification.
+Vector search, RAG infrastructure and multi-agent workflows.
+A trained or learned ranking model.
+Advanced trend forecasting or claims of statistically validated trend prediction.
+Guaranteed app-store publication within the four-day sprint.
+3. MVP Scope and Priorities
+Source scope: the launch path is arXiv plus one selected technology RSS/Atom feed. GitHub and official release blogs are stretch goals, not launch dependencies.
+Discovery-count rule: aim for at least 30 processed records for a useful demo if time and source availability allow. Report counts separately as live source-backed records and seeded demo records. Never label seeded data as live.
+4. User Stories and Functional Requirements
+4.1 Ingestion requirements
+A background command/worker fetches items from configured sources; ingestion does not run as a side effect of opening the feed.
+Initial sources are arXiv categories selected for relevance (e.g. cs.AI, cs.LG, cs.CL) and one chosen technology RSS/Atom feed.
+Store title, source, canonical URL, publisher/author where available, published date where available, raw abstract/summary, fetch timestamp, and content hash.
+Ingestion is idempotent: repeating a run does not create duplicate source records.
+Track source-run status, failures and timestamps. Use bounded retries and respect source/API policies.
+GitHub and official release feeds are added only after the P0 path works.
+4.2 Gemini requirements
+Enrich new source items at ingestion time, not during a feed request.
+In one structured call, request a 2–3 sentence summary, category, practical applications, normalized skill names and a short why-it-matters explanation.
+Use only supplied source content for claims about the item; if evidence is insufficient, say so.
+Validate model output against a Pydantic schema. Retry once on invalid output, then mark the item failed and exclude it from the enriched feed.
+Treat source text as untrusted data and never follow instructions embedded in source content.
+Attach source IDs and URLs in backend code; do not allow Gemini to invent URLs or evidence identifiers.
+If Gemini is unavailable, keep source data and show an explicitly labelled fallback/unprocessed card where appropriate.
+4.3 Labels: New vs Emerging
+Default every single-source item to "New." Use "Emerging" only when a configured evidence rule is met, such as multiple independent sources or a clear, attributable release/repository signal. A newly published article alone does not establish an emerging trend. Copied reports are not independent corroboration.
+4.4 Personalization requirements
+Profile stores declared interests, current skills, experience level, career goal and weekly study time.
+Rank using transparent components: interest/career skill overlap (largest weight), experience/prerequisite fit, recency and evidence strength.
+Show a short score explanation, such as "Matches your interest in AI agents; Python is already in your skills."
+Hide dismissed items and optionally down-weight related items. Keep this behavior deterministic and testable.
+4.5 Roadmap requirements
+Use a curated map of about 15–20 skills. Suggested examples include Python, REST APIs, LLM basics, prompt engineering, RAG, agent frameworks, React Native and FastAPI. Each curated skill should have prerequisite links, 2–3 checked learning resources and one mini-project. Match extracted skills to the curated map; unmatched skills may be added as standalone items without invented prerequisites.
+Order roadmap skills by prerequisites; prevent cycles. Mark skills the student already knows as complete. Persist roadmap status across sessions.
+5. Non-Functional Requirements
+6. Architecture
+Mobile app (React Native + Expo + TypeScript) ⇄ REST API (Python + FastAPI) ⇄ PostgreSQL. A separate ingestion worker/command fetches source items, deduplicates them, calls Gemini, validates structured output and stores results.
+6.1 Pipeline
+Fetch source records and normalize metadata.
+Canonicalize URLs where safe; compute hashes and deduplicate.
+Persist source records before AI enrichment.
+Call Gemini for structured classification and explanation.
+Validate output; store enrichment status and errors.
+Link one or more source records to a canonical discovery.
+Calculate deterministic relevance and expose the feed through the API.
+Persist user actions and roadmap changes.
+7. Data Model
+Important modeling rule: source items and canonical discoveries are separate entities. One technology development can be supported by several source records. This avoids treating every duplicate announcement as a new discovery.
+For a single-device demo, user authentication can be simplified, but the mode must be explicit. If real accounts are supported, never authorize access by trusting a user_id supplied in a query string; derive identity from the authenticated session/token.
+8. API Endpoints (MVP Draft)
+Internal ingestion should be triggered by a scheduled worker or a protected developer/admin command, not an unrestricted public endpoint. Use consistent errors, validation and pagination.
+9. Mobile Screens
+Suggested bottom navigation: Discover · Roadmap · Saved · Profile. Provide loading, empty, retry and offline/error states.
+10. Acceptance Criteria and Testing
+10.1 Definition of done
+Android app launches and retrieves discoveries from the API.
+At least one configured real source contributes actual source-backed content.
+Gemini-generated explanations are stored and retrieved; fallback items are clearly marked.
+Original URLs and available publication dates are preserved accurately.
+Repeated ingestion creates no duplicate source records.
+Student can save a discovery and add its related skill to a roadmap.
+Roadmap status persists after app restart.
+Feed exposes an explainable relevance score or reason.
+At least 30 processed discovery records are available if source volume and time allow; live and seeded counts are reported separately.
+The demo can be reproduced from documented setup instructions.
+10.2 Minimum test matrix
+10.3 Quality targets
+Manually review a sample of 20 summaries; target at least 90% judged faithful to their supplied source text.
+No item is labelled Emerging unless the configured evidence rule is met.
+Every displayed discovery has at least one working source link; seeded records must be visibly identified as demo/sample data.
+Test on two Android devices or emulators if available.
+11. Risks and Mitigations
+12. Success Metrics
+Demo success
+The complete discovery → explanation/evidence → save → roadmap journey runs without manual database edits.
+The ranking reason and the New/Emerging label of any item can be explained.
+Source-backed and seeded records are clearly distinguished.
+The app remains usable when a source or Gemini is temporarily unavailable.
+Quality metrics
+At least 90% of a manually reviewed sample of 20 summaries is faithful to the source.
+100% of displayed discoveries have a valid source URL or are explicitly labelled as seeded demo data.
+No Emerging label without the evidence rule.
+Track saves, roadmap additions and completed roadmap items for later product evaluation.
+13. Future Scope
+Push notifications for high-relevance discoveries.
+More GitHub and official release-blog integrations.
+Longitudinal trend detection after sufficient historical data is collected.
+Semantic matching/vector search when keyword and relational matching prove insufficient.
+Learned ranking after meaningful user-feedback data exists.
+Richer roadmap analytics, collaboration and multi-agent research workflows.
+14. Open Decisions Before Build Starts
+Select the initial arXiv categories and the exact first RSS feed.
+Choose local-network backend vs hosted backend for the Android demo.
+Choose authentication mode: real accounts or a clearly scoped single-device demo profile.
+Agree on the exact definition of a canonical discovery and the evidence threshold for Emerging.
+15. Final Recommendation
+Proceed with a tightly scoped four-day MVP. First deliver one real source-to-mobile path using arXiv and one RSS feed, with stored Gemini enrichment and original evidence. Then add save/dismiss, profile-aware ranking and a persistent curated roadmap. Add GitHub and official release blogs only after the core journey passes its acceptance tests. This document describes intended requirements and does not imply implementation or test completion.

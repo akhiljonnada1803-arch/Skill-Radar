@@ -1,0 +1,27 @@
+{
+  "slug": "ci-cd-github-actions",
+  "name": "CI/CD with GitHub Actions",
+  "domain_slug": "cloud-devops",
+  "domain_tier": "intermediate",
+  "prerequisites": [
+    "git-and-github",
+    "docker-containers"
+  ],
+  "overview": "Automate continuous integration pipelines that run tests, lint code, build Docker images, and deploy on merge.",
+  "outline": [
+    "Workflows, jobs, steps, and runners",
+    "Trigger events: push, pull_request, release, and cron",
+    "Secret management and repository environment protection",
+    "Matrix builds and caching dependencies"
+  ],
+  "mini_project": "Create a GitHub Actions pipeline that lints, runs pytest, builds a Docker image, and tests the container health.",
+  "videos": [
+    {
+      "youtube_id": "R8_veQiYBjI",
+      "title": "GitHub Actions in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

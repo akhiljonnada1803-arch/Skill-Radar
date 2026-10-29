@@ -1,0 +1,26 @@
+{
+  "slug": "prompt-engineering",
+  "name": "Prompt Engineering & In-Context Learning",
+  "domain_slug": "ai-engineering",
+  "domain_tier": "beginner",
+  "prerequisites": [
+    "llm-foundations"
+  ],
+  "overview": "Learn systematic prompt design, few-shot conditioning, chain-of-thought elicitation, and structured JSON output schema enforcement.",
+  "outline": [
+    "Zero-shot vs few-shot in-context demonstration",
+    "Chain-of-thought (CoT) and step-by-step reasoning",
+    "Structured outputs using Pydantic JSON schemas",
+    "Preventing prompt injection with data delimiters"
+  ],
+  "mini_project": "Build a prompt-based entity extraction pipeline that parses medical case reports into strictly typed JSON schemas.",
+  "videos": [
+    {
+      "youtube_id": "jC4v5AS4RIM",
+      "title": "Prompt Engineering Tutorial - How to Engineer Prompts",
+      "channel": "freeCodeCamp",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "slug": "kubernetes-fundamentals",
+  "name": "Kubernetes Fundamentals",
+  "domain_slug": "cloud-devops",
+  "domain_tier": "advanced",
+  "prerequisites": [
+    "docker-containers",
+    "cloud-compute-networking"
+  ],
+  "overview": "Orchestrate containerized services at scale with Kubernetes Pods, Deployments, Services, ConfigMaps, and Ingress controllers.",
+  "outline": [
+    "Kubernetes control plane vs worker nodes architecture",
+    "Workload primitives: Pods, ReplicaSets, and Deployments",
+    "Networking: ClusterIP, NodePort, LoadBalancer, and Ingress",
+    "Declarative manifests, rolling updates, and self-healing"
+  ],
+  "mini_project": "Deploy a high-availability web service in Minikube/K3s with 3 replicas, health probes, and an Ingress route.",
+  "videos": [
+    {
+      "youtube_id": "d5x0JCwuAms",
+      "title": "Kubernetes in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    },
+    {
+      "youtube_id": "FQPlEnK81dg",
+      "title": "Docker and Kubernetes Full Course",
+      "channel": "freeCodeCamp",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

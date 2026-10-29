@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "SkillRadar AI",
+    "slug": "skillradar-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#0F172A"
+    },
+    "scheme": "skillradar",
+    "plugins": [
+      "expo-router"
+    ],
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0F172A"
+      },
+      "package": "com.skillradar.ai"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

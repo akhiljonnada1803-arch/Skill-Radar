@@ -1,0 +1,26 @@
+{
+  "slug": "cloud-compute-networking",
+  "name": "Cloud Compute & Networking",
+  "domain_slug": "cloud-devops",
+  "domain_tier": "intermediate",
+  "prerequisites": [
+    "linux-shell-scripting"
+  ],
+  "overview": "Understand core cloud primitives: virtual machines, VPC subnets, route tables, security groups, and load balancers.",
+  "outline": [
+    "Cloud architecture: Regions and Availability Zones",
+    "Virtual Private Clouds (VPC), public vs private subnets, NAT gateways",
+    "Security groups and Network Access Control Lists (NACLs)",
+    "Application Load Balancers (ALB) and SSL/TLS termination"
+  ],
+  "mini_project": "Design and document a high-availability cloud architecture with dual-AZ subnets and an autoscaled compute tier.",
+  "videos": [
+    {
+      "youtube_id": "M988_VALKmE",
+      "title": "Cloud Computing in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

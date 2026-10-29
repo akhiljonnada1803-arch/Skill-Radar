@@ -1,0 +1,26 @@
+{
+  "slug": "rest-api-design",
+  "name": "REST API Architecture",
+  "domain_slug": "fullstack-mobile",
+  "domain_tier": "intermediate",
+  "prerequisites": [
+    "typescript-core"
+  ],
+  "overview": "Design robust, versioned RESTful APIs with predictable status codes, pagination, rate limiting, and standard error envelopes.",
+  "outline": [
+    "HTTP methods (GET, POST, PUT, PATCH, DELETE) semantics",
+    "URL resource naming and nesting rules",
+    "Cursor-based vs offset-based pagination",
+    "Error handling with RFC 7807 Problem Details"
+  ],
+  "mini_project": "Build a versioned REST API in FastAPI with cursor pagination and Pydantic schema validation.",
+  "videos": [
+    {
+      "youtube_id": "-MTSQjw5DrM",
+      "title": "REST APIs in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

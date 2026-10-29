@@ -1,0 +1,24 @@
+{
+  "slug": "modern-javascript",
+  "name": "Modern JavaScript (ES6+)",
+  "domain_slug": "fullstack-mobile",
+  "domain_tier": "beginner",
+  "prerequisites": [],
+  "overview": "Deep dive into ESNext features, functional array methods, promises, event loop asynchronous execution, and modern module packaging.",
+  "outline": [
+    "Arrow functions, destructuring, and spread operator",
+    "Promises, async/await, and error handling",
+    "Event loop, microtasks, and macrotasks",
+    "ES Modules vs CommonJS"
+  ],
+  "mini_project": "Write a lightweight promise-based task queue with concurrency throttling.",
+  "videos": [
+    {
+      "youtube_id": "DHjqpvDnNGE",
+      "title": "JavaScript in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

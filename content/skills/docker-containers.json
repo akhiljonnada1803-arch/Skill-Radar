@@ -1,0 +1,26 @@
+{
+  "slug": "docker-containers",
+  "name": "Docker & Containerization",
+  "domain_slug": "cloud-devops",
+  "domain_tier": "beginner",
+  "prerequisites": [
+    "linux-shell-scripting"
+  ],
+  "overview": "Package applications and dependencies into deterministic, isolated container images using Dockerfiles and multi-stage builds.",
+  "outline": [
+    "Linux namespaces and cgroups foundation",
+    "Dockerfile best practices: layers, caching, and multi-stage builds",
+    "Docker networks, volume persistence, and port mapping",
+    "Compose orchestration for multi-container local stacks"
+  ],
+  "mini_project": "Dockerize a FastAPI application and PostgreSQL database with persistent volume mounts and multi-stage optimization.",
+  "videos": [
+    {
+      "youtube_id": "jG8rSmsZ1oI",
+      "title": "Docker in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

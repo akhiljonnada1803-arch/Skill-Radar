@@ -1,0 +1,26 @@
+{
+  "slug": "typescript-core",
+  "name": "TypeScript Core",
+  "domain_slug": "fullstack-mobile",
+  "domain_tier": "beginner",
+  "prerequisites": [
+    "modern-javascript"
+  ],
+  "overview": "Master static typing, generics, discriminated unions, utility types, and strict compiler configurations.",
+  "outline": [
+    "Type annotations, interfaces, and type aliases",
+    "Discriminated unions and pattern matching",
+    "Generics: functions, classes, and constraints",
+    "Utility types: Partial, Pick, Omit, and Record"
+  ],
+  "mini_project": "Construct a strictly typed API client SDK with automatic endpoint response type inference.",
+  "videos": [
+    {
+      "youtube_id": "zQnBQ4tB3ZA",
+      "title": "TypeScript in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

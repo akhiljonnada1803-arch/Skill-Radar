@@ -1,0 +1,27 @@
+{
+  "slug": "rag-basics",
+  "name": "RAG Basics",
+  "domain_slug": "ai-engineering",
+  "domain_tier": "intermediate",
+  "prerequisites": [
+    "llm-foundations",
+    "embeddings-vector-dbs"
+  ],
+  "overview": "Build Retrieval-Augmented Generation systems connecting foundation models to dynamic external document corpora with citations.",
+  "outline": [
+    "Document chunking strategies: recursive, semantic, and markdown-aware",
+    "Bi-encoder retrieval and cross-encoder re-ranking",
+    "Context window injection and citation attribution",
+    "Handling retrieval hallucinations and empty-context fallbacks"
+  ],
+  "mini_project": "Implement an end-to-end question answering pipeline over technical markdown specs with strict evidence citations.",
+  "videos": [
+    {
+      "youtube_id": "tcqE5442fAA",
+      "title": "Retrieval Augmented Generation (RAG) Explained",
+      "channel": "IBM Technology",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

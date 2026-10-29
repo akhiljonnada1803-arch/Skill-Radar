@@ -1,0 +1,27 @@
+{
+  "slug": "offline-first-sync",
+  "name": "Offline-First Synchronization",
+  "domain_slug": "fullstack-mobile",
+  "domain_tier": "advanced",
+  "prerequisites": [
+    "expo-react-native",
+    "state-management-tanstack"
+  ],
+  "overview": "Architect mobile applications that function seamlessly without an internet connection using local SQLite and conflict resolution.",
+  "outline": [
+    "Local storage engines: SQLite vs MMKV",
+    "Outbox pattern for queuing offline actions",
+    "Conflict resolution strategies: Last-Write-Wins and CRDTs",
+    "Network reachability listeners and sync reconciliation"
+  ],
+  "mini_project": "Implement an offline note-taking app that queues edits in SQLite and syncs when connection returns.",
+  "videos": [
+    {
+      "youtube_id": "W2Z7tX26S30",
+      "title": "Offline First Architecture Explained",
+      "channel": "Firebase",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

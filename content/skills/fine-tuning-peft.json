@@ -1,0 +1,26 @@
+{
+  "slug": "fine-tuning-peft",
+  "name": "Fine-Tuning & PEFT",
+  "domain_slug": "ai-engineering",
+  "domain_tier": "intermediate",
+  "prerequisites": [
+    "llm-foundations"
+  ],
+  "overview": "Adapt open-source models to specialised domain tasks using Parameter-Efficient Fine-Tuning (LoRA, QLoRA) without full weight recomputation.",
+  "outline": [
+    "Full parameter fine-tuning vs parameter-efficient fine-tuning (PEFT)",
+    "Low-Rank Adaptation (LoRA) mathematics and rank matrices",
+    "Quantization: 4-bit and 8-bit QLoRA weight representation",
+    "Dataset preparation: instruction tuning and chat formatting"
+  ],
+  "mini_project": "Fine-tune a 1B parameter model on domain-specific support tickets using LoRA adapters.",
+  "videos": [
+    {
+      "youtube_id": "eC6Hd1hFvos",
+      "title": "Fine-Tuning Large Language Models",
+      "channel": "DeepLearning.AI",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

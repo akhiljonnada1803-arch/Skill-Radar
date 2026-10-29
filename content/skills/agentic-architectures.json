@@ -1,0 +1,26 @@
+{
+  "slug": "agentic-architectures",
+  "name": "Agentic Architectures",
+  "domain_slug": "ai-engineering",
+  "domain_tier": "advanced",
+  "prerequisites": [
+    "rag-basics"
+  ],
+  "overview": "Design autonomous LLM agents that execute multi-step planning, tool invocation, reflective self-correction, and state management.",
+  "outline": [
+    "ReAct loop: Reasoning, Action, and Observation cycles",
+    "Function calling and tool invocation interfaces",
+    "Agent memory: short-term scratchpads vs persistent session stores",
+    "Handling execution errors and retry limits"
+  ],
+  "mini_project": "Create a Python agent that queries a database, runs Python sandbox code, and verifies the solution before answering.",
+  "videos": [
+    {
+      "youtube_id": "T-D1OfcDW1M",
+      "title": "What is an AI Agent?",
+      "channel": "IBM Technology",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

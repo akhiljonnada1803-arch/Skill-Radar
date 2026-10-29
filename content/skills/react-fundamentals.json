@@ -1,0 +1,33 @@
+{
+  "slug": "react-fundamentals",
+  "name": "React Fundamentals",
+  "domain_slug": "fullstack-mobile",
+  "domain_tier": "beginner",
+  "prerequisites": [
+    "typescript-core"
+  ],
+  "overview": "Master React component composition, JSX rendering cycles, hooks (useState, useEffect, useMemo), and unidirectional data flow.",
+  "outline": [
+    "Component lifecycle and virtual DOM reconciliation",
+    "Hooks: useState, useEffect, useCallback, useMemo",
+    "Controlled vs uncontrolled inputs",
+    "Lifting state up and custom hook abstraction"
+  ],
+  "mini_project": "Build an interactive multi-step data survey with form validation and custom hooks.",
+  "videos": [
+    {
+      "youtube_id": "TNhaISOUy6Q",
+      "title": "React in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    },
+    {
+      "youtube_id": "bMknfKXIFA8",
+      "title": "React Course - Beginner's Tutorial",
+      "channel": "freeCodeCamp",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}

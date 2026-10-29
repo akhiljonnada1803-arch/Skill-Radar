@@ -1,0 +1,24 @@
+{
+  "slug": "linux-shell-scripting",
+  "name": "Linux & Shell Scripting",
+  "domain_slug": "cloud-devops",
+  "domain_tier": "beginner",
+  "prerequisites": [],
+  "overview": "Master the Linux command line, POSIX file permissions, process inspection, pipeline composition, and Bash automation.",
+  "outline": [
+    "File hierarchy standard, navigation, and file permissions (chmod, chown)",
+    "Standard I/O redirection, pipes, and text filtering (grep, sed, awk)",
+    "Process management: ps, top, kill, systemd services",
+    "Bash scripting: variables, exit codes, conditionals, loops"
+  ],
+  "mini_project": "Write a bash script that monitors server disk and CPU usage, alerting when thresholds exceed 85%.",
+  "videos": [
+    {
+      "youtube_id": "fM4_p2Jv43A",
+      "title": "Linux in 100 Seconds",
+      "channel": "Fireship",
+      "verified": true,
+      "verified_on": "2026-10-25"
+    }
+  ]
+}
