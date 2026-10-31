@@ -1,61 +1,72 @@
-// Field Survey Expedition Log / Tech Logbook Design Tokens
-// Derived from stitch_skillradar_tech_logbook/field_survey_expedition_log/DESIGN.md
+// SkillRadar AI — Crimson Monolith & Pure Swiss Modernist Design Tokens
+// Derived from Stitch Project: SkillRadar Tech Logbook (ID: 14087928612744813052)
 
 export const Colors = {
-  // Physical Paper Grounds & Surfaces
-  background: '#FFF9EB',             // Global canvas ground (unbleached rag paper)
-  canvas: '#F1EBDD',                 // Masthead / Page ground
-  surface: '#F7F2E7',                // Specimen card surface slip
-  surfaceElevated: '#F7F2E7',
-  surfaceContainer: '#EAE3D2',       // Telemetry & reason highlight box
-  surfaceContainerLow: '#F9F3E5',
-  surfaceContainerHigh: '#EEE8DA',
-  surfaceContainerHighest: '#E8E2D4',
-  surfaceContainerLowest: '#FFFFFF',
+  // Grounds & Surfaces (Pure Swiss Modernist Warm Ground)
+  background: '#FFF8F7',             // Global canvas ground
+  canvas: '#FFF8F7',                 // Header & Screen ground
+  surface: '#FFF8F7',                // Base surface
+  surfaceElevated: '#FFFFFF',        // Card slip / elevated component
+  surfaceContainerLowest: '#FFFFFF', // Pure white card surfaces
+  surfaceContainerLow: '#FFF0EF',    // Telemetry & reason highlight box
+  surfaceContainer: '#FFE9E8',       // Subtle tint container
+  surfaceContainerHigh: '#FFE1E0',   // High container
+  surfaceContainerHighest: '#FFDAD8',// Pill background / badge container
+  surfaceVariant: '#FFDAD8',
+  surfaceDim: '#FFCECC',
 
-  // Structural Carbon Ink
-  ink: '#1B1A17',                    // Solid carbon ink for borders, primary text, hard shadows
-  border: '#1B1A17',
-  borderLight: '#CFC6B0',            // Faded ruled lines & guidelines
-  rule: '#CFC6B0',
+  // Monolith Inks & Borders
+  ink: '#3C070B',                    // Obsidian crimson-black for primary text
+  text: '#3C070B',                   // Primary body text
+  textSecondary: '#58413F',          // Secondary label / description ink
+  secondaryText: '#58413F',
+  textMuted: '#8B716E',              // Outlines / placeholders
+  outline: '#8B716E',
+  outlineVariant: '#DFBFBB',         // Crisp modernist hair-line border
+  border: '#DFBFBB',                 // Card border
+  borderLight: '#FFE9E8',            // Subtle divider border
+  rule: '#DFBFBB',
 
-  // Spot Inks & Accents
-  primary: '#D9411E',                // Signal Vermilion (primary action stamps, active blips)
-  primaryDark: '#B12401',
-  primaryMuted: 'rgba(217, 65, 30, 0.12)',
-  primaryHover: '#B12401',
+  // Crimson Accents
+  primary: '#440001',                // Deep Crimson (buttons, active tabs, header logo)
+  primaryDeep: '#440001',
+  primaryContainer: '#690707',       // Container crimson
+  primaryHover: '#690707',
+  primaryMuted: '#FFE9E8',
+  primaryFixedDim: '#FFB4AA',
+  primaryFixed: '#FFDAD5',
 
-  moss: '#4F6B4A',                   // Field Moss (verified, live, mastered competencies)
-  emerald: '#4F6B4A',
-  emeraldMuted: 'rgba(79, 107, 74, 0.15)',
+  // Signal & Telemetry Inks
+  surfaceTint: '#A8372E',            // Radar ping / signal red
+  secondary: '#944747',              // Secondary crimson
+  secondaryContainer: '#FF9E9C',
+  onSecondaryContainer: '#7A3233',
 
-  ochre: '#C99A2E',                  // Expedition Ochre (marginalia, draft/demo stamps)
-  amber: '#C99A2E',
-  amberMuted: 'rgba(201, 154, 46, 0.15)',
-
-  rose: '#BA1A1A',                   // Warning / Dismiss / Error
-  roseMuted: 'rgba(186, 26, 26, 0.12)',
-
-  cyan: '#D9411E',                   // Replaced electric cyan with Signal Vermilion
-
-  // Typography Inks
-  text: '#1B1A17',                   // High contrast carbon text
-  textSecondary: '#605E5A',          // Metadata, labels, secondary inscriptions
-  secondaryText: '#605E5A',          // Alias for secondary inscriptions
-  textMuted: '#8F7069',              // Marginalia, placeholders
+  // Verification & Status Inks
+  emerald: '#2D6A4F',                // Verified / green
+  emeraldMuted: 'rgba(45, 106, 79, 0.12)',
+  moss: '#2D6A4F',
+  amber: '#B57614',                  // Seeded / caution
+  amberMuted: 'rgba(181, 118, 20, 0.12)',
+  ochre: '#B57614',
+  rose: '#BA1A1A',                   // Error / warning
+  roseMuted: '#FFDAD6',
+  cyan: '#A8372E',
 
   // Rubber-Stamp Badges
-  badgeLive: '#4F6B4A',
-  badgeLiveBg: 'transparent',
-  badgeDemo: '#C99A2E',
-  badgeDemoBg: 'transparent',
-  badgeNew: '#1B1A17',
-  badgeNewBg: 'transparent',
-  badgeEmerging: '#D9411E',
-  badgeEmergingBg: '#D9411E',
+  badgeLive: '#2D6A4F',
+  badgeLiveBg: '#E8F5E9',
+  badgeDemo: '#B57614',
+  badgeDemoBg: '#FFF8E1',
+  badgeNew: '#690707',
+  badgeNewBg: '#690707',
+  badgeEmerging: '#440001',
+  badgeEmergingBg: '#440001',
 };
 
 export const Fonts = {
-  serif: 'serif',
+  headline: 'sans-serif',
+  body: 'sans-serif',
+  label: 'sans-serif',
   mono: 'monospace',
 };

@@ -36,6 +36,7 @@ class DomainResponse(BaseModel):
     description: Optional[str] = None
     icon: str = "book"
     skill_count: int = 0
+    completed_count: int = 0
     model_config = ConfigDict(from_attributes=True)
 
 # --- Profile ---
@@ -95,7 +96,15 @@ class RelatedSkillItem(BaseModel):
     difficulty: str = "beginner"
     is_in_roadmap: bool = False
 
+class KeyTermItem(BaseModel):
+    term: str
+    simple_explanation: str
+    analogy: Optional[str] = None
+
 # --- Discoveries (v1 compat) ---
+class IngestLiveRequest(BaseModel):
+    input: str
+
 class DiscoveryCard(BaseModel):
     id: uuid.UUID
     title: str
@@ -107,7 +116,12 @@ class DiscoveryCard(BaseModel):
     score_reason: Optional[str] = None
     is_seeded: bool = False
     source: Optional[SourceInfo] = None
+    primary_source: Optional[SourceInfo] = None
+    why_it_matters: Optional[str] = None
+    applications: List[str] = Field(default_factory=list)
+    key_terms: List[KeyTermItem] = Field(default_factory=list)
     related_skills: List[RelatedSkillItem] = Field(default_factory=list)
+    user_state: Optional[str] = None
     created_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
@@ -127,6 +141,7 @@ class DiscoveryDetail(BaseModel):
     discovery_type: Optional[str] = None
     applications: List[str] = Field(default_factory=list)
     why_it_matters: Optional[str] = None
+    key_terms: List[KeyTermItem] = Field(default_factory=list)
     evidence_level: str = "New"
     score: Optional[float] = None
     score_reason: Optional[str] = None
@@ -136,6 +151,7 @@ class DiscoveryDetail(BaseModel):
     evidence: List[EvidenceDetail] = Field(default_factory=list)
     skills: List[RelatedSkillItem] = Field(default_factory=list)
     related_skills: List[RelatedSkillItem] = Field(default_factory=list)
+    primary_source: Optional[SourceInfo] = None
     user_state: Optional[str] = None
     model_config = ConfigDict(from_attributes=True)
 
@@ -210,6 +226,58 @@ class SuggestionsResponse(BaseModel):
     suggestions: List[SuggestionItem] = Field(default_factory=list)
 
 # --- Learn Experience & Personal Notes (v2) ---
+class FAQItem(BaseModel):
+    question: str
+    answer: str
+
+class GlossaryTerm(BaseModel):
+    term: str
+    definition: str
+
+class VideoKeyMoment(BaseModel):
+    timestamp: str
+    seconds: int
+    title: str
+    summary: str
+
+class MindmapSubtopic(BaseModel):
+    name: str
+    summary: str
+    key_rule: Optional[str] = None
+    code_pattern: Optional[str] = None
+    citation: Optional[str] = None
+
+class StudyReport(BaseModel):
+    title: str
+    summary: str
+    key_takeaways: List[str] = Field(default_factory=list)
+    architecture_notes: Optional[str] = None
+    common_pitfalls: List[str] = Field(default_factory=list)
+    faq: List[FAQItem] = Field(default_factory=list)
+    glossary: List[GlossaryTerm] = Field(default_factory=list)
+    sources_count: int = 4
+    synthesized_at: Optional[datetime] = None
+    model_version: str = "NotebookLM Synthesis Engine"
+    lecture_title: Optional[str] = None
+    lecture_channel: Optional[str] = None
+    lecture_youtube_id: Optional[str] = None
+    video_key_moments: List[VideoKeyMoment] = Field(default_factory=list)
+
+class MindmapNode(BaseModel):
+    id: str
+    label: str
+    category: str
+    description: Optional[str] = None
+    subtopics: List[str] = Field(default_factory=list)
+    detailed_subtopics: List[MindmapSubtopic] = Field(default_factory=list)
+
+class FlashcardItem(BaseModel):
+    id: str
+    question: str
+    answer: str
+    code_example: Optional[str] = None
+    concept: str
+
 class LessonVideoResponse(BaseModel):
     id: uuid.UUID
     youtube_id: str
@@ -238,6 +306,9 @@ class SkillLearnResponse(BaseModel):
     mini_project: Optional[str] = None
     videos: List[LessonVideoResponse] = Field(default_factory=list)
     study_notes: Optional[SkillNoteResponse] = None
+    report: Optional[StudyReport] = None
+    mindmap: List[MindmapNode] = Field(default_factory=list)
+    flashcards: List[FlashcardItem] = Field(default_factory=list)
     is_curated: bool = True
     model_config = ConfigDict(from_attributes=True)
 
@@ -322,3 +393,46 @@ class RoadmapSummary(BaseModel):
     completed_skills: int = 0
     in_progress_skills: int = 0
     model_config = ConfigDict(from_attributes=True)
+
+# --- Chapter Tasks & AI Diagnostics (Byju's Mastery Model) ---
+class RubricItem(BaseModel):
+    criterion: str
+    weight: int = 25
+    description: Optional[str] = None
+
+class RemediationItem(BaseModel):
+    topic: str
+    action: str
+    target_video_timestamp: Optional[str] = None
+    note_reference: Optional[str] = None
+
+class TaskSubmissionResponse(BaseModel):
+    id: uuid.UUID
+    task_id: uuid.UUID
+    user_id: uuid.UUID
+    submission_code: str
+    score: int
+    status: Literal["passed", "remediation_required"]
+    summary: Optional[str] = None
+    strengths: List[str] = Field(default_factory=list)
+    gaps: List[str] = Field(default_factory=list)
+    remediation: List[RemediationItem] = Field(default_factory=list)
+    created_at: datetime
+    model_config = ConfigDict(from_attributes=True)
+
+class ChapterTaskResponse(BaseModel):
+    id: uuid.UUID
+    skill_id: uuid.UUID
+    skill_slug: str
+    skill_name: str
+    title: str
+    description: str
+    instructions_md: str
+    starter_code: Optional[str] = None
+    rubric: List[RubricItem] = Field(default_factory=list)
+    difficulty: str = "intermediate"
+    latest_submission: Optional[TaskSubmissionResponse] = None
+    model_config = ConfigDict(from_attributes=True)
+
+class TaskSubmissionRequest(BaseModel):
+    submission_code: str

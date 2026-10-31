@@ -1,6 +1,9 @@
 import uuid
+import re
 from datetime import datetime, timezone
 from typing import Optional, List
+import httpx
+from bs4 import BeautifulSoup
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 from sqlalchemy import func
@@ -14,9 +17,11 @@ from app.models import (
 from app.schemas import (
     DiscoveriesFeedResponse, DiscoveryCard, DiscoveryDetail,
     DiscoveryActionRequest, DiscoveryActionResponse, SourceInfo,
-    EvidenceDetail, RelatedSkillItem
+    EvidenceDetail, RelatedSkillItem, IngestLiveRequest
 )
 from app.services.ranking import calculate_relevance
+from app.services.ingestion.canonicalize import canonicalize_url, compute_content_hash
+from app.services.enrichment.gemini import GeminiEnrichmentService
 
 router = APIRouter(tags=["Discoveries"])
 
@@ -102,6 +107,7 @@ def get_discoveries(
             discovery_type=disc.discovery_type or "paper",
             applications=disc.applications or [],
             why_it_matters=disc.why_it_matters,
+            key_terms=disc.key_terms or [],
             evidence_level=disc.evidence_level,
             is_seeded=disc.is_seeded,
             score=score,
@@ -112,7 +118,7 @@ def get_discoveries(
         )
         scored_items.append((score, card))
 
-    # Deterministic ranking by score descending, then created_at descending
+    # Deterministic ranking by score descending, then created_at descending (T3.3)
     scored_items.sort(key=lambda x: (x[0], x[1].created_at), reverse=True)
 
     # Paginate
@@ -175,6 +181,16 @@ def get_discovery_detail(
         UserDiscoveryState.discovery_id == id
     ).scalar()
 
+    primary_source_info = None
+    if evidence_list:
+        prim_ev = next((e for e in evidence_list if e.evidence_role == "primary"), evidence_list[0])
+        primary_source_info = SourceInfo(
+            source_name=prim_ev.source_name,
+            canonical_url=prim_ev.canonical_url,
+            published_at=prim_ev.published_at,
+            author_publisher=prim_ev.author_publisher
+        )
+
     return DiscoveryDetail(
         id=disc.id,
         title=disc.title,
@@ -183,11 +199,15 @@ def get_discovery_detail(
         discovery_type=disc.discovery_type or "paper",
         applications=disc.applications or [],
         why_it_matters=disc.why_it_matters,
+        key_terms=disc.key_terms or [],
         evidence_level=disc.evidence_level,
         is_seeded=disc.is_seeded,
         created_at=disc.created_at,
         evidence=evidence_list,
+        sources=evidence_list,
+        skills=skills_list,
         related_skills=skills_list,
+        primary_source=primary_source_info,
         user_state=user_state
     )
 
@@ -272,6 +292,7 @@ def get_saved_discoveries(
             discovery_type=disc.discovery_type or "paper",
             applications=disc.applications or [],
             why_it_matters=disc.why_it_matters,
+            key_terms=disc.key_terms or [],
             evidence_level=disc.evidence_level,
             is_seeded=disc.is_seeded,
             score=0.90,
@@ -282,3 +303,177 @@ def get_saved_discoveries(
         ))
 
     return results
+
+@router.post("/discoveries/ingest-live", response_model=DiscoveryCard)
+def ingest_live_news(
+    payload: IngestLiveRequest,
+    db: Session = Depends(get_db),
+    user_id: uuid.UUID = Depends(get_current_user_id)
+):
+    raw_input = (payload.input or "").strip()
+    if not raw_input:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Input URL or topic name is required.")
+
+    is_url = raw_input.startswith("http://") or raw_input.startswith("https://")
+    extracted_title = raw_input
+    content_text = ""
+    canonical_url = raw_input
+    source_name = "Live Ingestion Telemetry"
+
+    if is_url:
+        canonical_url = canonicalize_url(raw_input)
+        try:
+            with httpx.Client(timeout=10.0, follow_redirects=True) as client:
+                resp = client.get(
+                    canonical_url,
+                    headers={"User-Agent": "Mozilla/5.0 (SkillRadar Autonomous AI Ingestion Engine; +https://skillradar.ai)"}
+                )
+                if resp.status_code == 200:
+                    soup = BeautifulSoup(resp.text, "html.parser")
+                    if soup.title and soup.title.string:
+                        extracted_title = soup.title.string.strip()
+                    
+                    meta_desc = soup.find("meta", attrs={"name": "description"}) or soup.find("meta", attrs={"property": "og:description"})
+                    if meta_desc and meta_desc.get("content"):
+                        content_text = meta_desc["content"].strip()
+                    else:
+                        paragraphs = [p.get_text() for p in soup.find_all("p")[:8]]
+                        content_text = " ".join(paragraphs).strip()
+                    
+                    netloc = canonical_url.split("//")[-1].split("/")[0]
+                    source_name = netloc.replace("www.", "")
+        except Exception:
+            extracted_title = canonical_url.split("/")[-1].replace("-", " ").replace("_", " ").title() or canonical_url
+            content_text = f"Frontier telemetry captured from {canonical_url}."
+    else:
+        slug = re.sub(r"[^a-zA-Z0-9]+", "-", raw_input.lower()).strip("-")
+        canonical_url = f"https://skillradar.ai/frontier/{slug}"
+        content_text = f"Technical announcement and engineering telemetry for {raw_input}."
+        source_name = "Frontier Industry Telemetry"
+
+    # AI Enrichment
+    enricher = GeminiEnrichmentService()
+    enrichment = enricher.enrich_item(title=extracted_title, content=content_text or extracted_title)
+
+    # Find or create source
+    source = db.query(Source).filter(Source.name == source_name).first()
+    if not source:
+        source = Source(
+            id=uuid.uuid4(),
+            name=source_name,
+            source_type="release_feed",
+            base_url=canonical_url,
+            is_active=True
+        )
+        db.add(source)
+        db.flush()
+
+    # Pre-persist SourceItem (AGENTS.md Rule 16)
+    content_hash = compute_content_hash(extracted_title, content_text or extracted_title)
+    existing_item = db.query(SourceItem).filter(
+        (SourceItem.canonical_url == canonical_url) | (SourceItem.content_hash == content_hash)
+    ).first()
+
+    if not existing_item:
+        existing_item = SourceItem(
+            source_id=source.id,
+            external_id=canonical_url,
+            title=extracted_title,
+            canonical_url=canonical_url,
+            author_publisher=source_name,
+            published_at=datetime.now(timezone.utc),
+            fetched_at=datetime.now(timezone.utc),
+            content_text=content_text or enrichment.summary,
+            content_hash=content_hash,
+            raw_metadata={"ingest_type": "on_demand_live"},
+            is_seeded=False,
+            processing_status="enriched"
+        )
+        db.add(existing_item)
+        db.flush()
+
+    # Create or update Discovery
+    existing_disc = db.query(Discovery).filter(Discovery.title == extracted_title).first()
+    if not existing_disc:
+        discovery = Discovery(
+            title=extracted_title,
+            summary=enrichment.summary,
+            category=enrichment.category,
+            discovery_type=enrichment.discovery_type,
+            applications=enrichment.applications,
+            why_it_matters=enrichment.why_it_matters,
+            key_terms=getattr(enrichment, 'key_terms', []) or [],
+            evidence_level="Emerging",
+            is_seeded=False,
+            status="enriched"
+        )
+        db.add(discovery)
+        db.flush()
+
+        ev = DiscoveryEvidence(
+            discovery_id=discovery.id,
+            source_item_id=existing_item.id,
+            evidence_role="primary"
+        )
+        db.add(ev)
+    else:
+        discovery = existing_disc
+
+    # Map / create skills
+    curated_skills = {s.slug: s for s in db.query(Skill).all()}
+    curated_skills.update({s.name.lower(): s for s in db.query(Skill).all()})
+    
+    for sk_name in enrichment.skills:
+        slug = sk_name.strip().lower().replace(" ", "-")
+        skill = curated_skills.get(slug) or curated_skills.get(sk_name.lower())
+        if not skill:
+            skill = Skill(
+                id=uuid.uuid4(),
+                slug=slug,
+                name=sk_name.replace("-", " ").title(),
+                category=discovery.category,
+                difficulty="intermediate",
+                description=f"Competency derived from {discovery.title}."
+            )
+            db.add(skill)
+            db.flush()
+            curated_skills[slug] = skill
+
+        existing_link = db.query(DiscoverySkill).filter(
+            DiscoverySkill.discovery_id == discovery.id,
+            DiscoverySkill.skill_id == skill.id
+        ).first()
+        if not existing_link:
+            db.add(DiscoverySkill(
+                discovery_id=discovery.id,
+                skill_id=skill.id,
+                relevance=0.95,
+                relationship_type="core"
+            ))
+
+    db.commit()
+
+    source_info = SourceInfo(
+        source_name=source_name,
+        canonical_url=canonical_url,
+        published_at=datetime.now(timezone.utc),
+        author_publisher=source_name
+    )
+
+    return DiscoveryCard(
+        id=discovery.id,
+        title=discovery.title,
+        summary=discovery.summary,
+        category=discovery.category,
+        discovery_type=discovery.discovery_type or "article",
+        applications=discovery.applications or [],
+        why_it_matters=discovery.why_it_matters,
+        key_terms=discovery.key_terms or [],
+        evidence_level=discovery.evidence_level,
+        is_seeded=False,
+        score=0.99,
+        score_reason="Live on-demand ingested telemetry",
+        created_at=discovery.created_at,
+        primary_source=source_info,
+        user_state=None
+    )

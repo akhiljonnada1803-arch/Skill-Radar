@@ -13,31 +13,30 @@ export default function TabLayout() {
           elevation: 0,
           shadowOpacity: 0,
           borderBottomWidth: 1,
-          borderBottomColor: Colors.ink,
+          borderBottomColor: Colors.outlineVariant,
         },
         headerTitleStyle: {
-          fontFamily: 'serif',
-          fontWeight: '800',
+          fontWeight: '900',
           color: Colors.ink,
           fontSize: 18,
-          letterSpacing: -0.5,
+          letterSpacing: -0.3,
+          textTransform: 'uppercase',
         },
         tabBarStyle: {
           backgroundColor: Colors.canvas,
-          borderTopColor: Colors.ink,
-          borderTopWidth: 2,
-          height: 62,
-          paddingBottom: 6,
-          paddingTop: 4,
+          borderTopColor: Colors.outlineVariant,
+          borderTopWidth: 1,
+          height: 64,
+          paddingBottom: 8,
+          paddingTop: 6,
           elevation: 0,
           shadowOpacity: 0,
         },
         tabBarLabelStyle: {
-          fontFamily: 'monospace',
-          fontSize: 10,
+          fontSize: 11,
           fontWeight: '700',
-          textTransform: 'uppercase',
-          letterSpacing: 0.8,
+          letterSpacing: -0.2,
+          marginTop: 2,
         },
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.secondaryText,
@@ -47,11 +46,11 @@ export default function TabLayout() {
         name="index"
         options={{
           headerShown: false,
-          title: 'Roadmap',
+          title: 'Discover',
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.iconContainer}>
               {focused && <View style={styles.activeTopIndicator} />}
-              <Ionicons name={focused ? 'map' : 'map-outline'} size={20} color={color} />
+              <Ionicons name={focused ? 'compass' : 'compass-outline'} size={21} color={color} />
             </View>
           ),
         }}
@@ -59,31 +58,12 @@ export default function TabLayout() {
       <Tabs.Screen
         name="roadmap"
         options={{
-          href: null, // alias for index tab
-        }}
-      />
-      <Tabs.Screen
-        name="learn"
-        options={{
-          title: 'Learn',
           headerShown: false,
+          title: 'Roadmap',
           tabBarIcon: ({ color, focused }) => (
             <View style={styles.iconContainer}>
               {focused && <View style={styles.activeTopIndicator} />}
-              <Ionicons name={focused ? 'book' : 'book-outline'} size={20} color={color} />
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="saved"
-        options={{
-          title: 'Saved',
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <View style={styles.iconContainer}>
-              {focused && <View style={styles.activeTopIndicator} />}
-              <Ionicons name={focused ? 'archive' : 'archive-outline'} size={20} color={color} />
+              <Ionicons name={focused ? 'git-network' : 'git-network-outline'} size={20} color={color} />
             </View>
           ),
         }}
@@ -101,6 +81,12 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="learn"
+        options={{
+          href: null, // Aux curriculum view accessible via skill links
+        }}
+      />
     </Tabs>
   );
 }
@@ -116,8 +102,9 @@ const styles = StyleSheet.create({
   activeTopIndicator: {
     position: 'absolute',
     top: -6,
-    width: 24,
-    height: 3,
+    width: 20,
+    height: 2.5,
+    borderRadius: 2,
     backgroundColor: Colors.primary,
   },
 });

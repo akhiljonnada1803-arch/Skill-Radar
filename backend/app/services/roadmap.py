@@ -70,7 +70,10 @@ def create_roadmap_from_domain(db: Session, user_id: uuid.UUID, domain_id: uuid.
     if not domain:
         raise ValueError(f"Domain {domain_id} not found")
 
-    roadmap = db.query(Roadmap).filter(Roadmap.user_id == user_id).first()
+    roadmap = db.query(Roadmap).filter(
+        Roadmap.user_id == user_id,
+        Roadmap.domain_id == domain.id
+    ).first()
     if not roadmap:
         roadmap = Roadmap(
             user_id=user_id,
@@ -79,9 +82,11 @@ def create_roadmap_from_domain(db: Session, user_id: uuid.UUID, domain_id: uuid.
         )
         db.add(roadmap)
         db.flush()
-    else:
-        roadmap.domain_id = domain.id
-        roadmap.title = f"{domain.name} Roadmap"
+
+    # Update active profile domain if student profile exists
+    profile = db.query(StudentProfile).filter(StudentProfile.user_id == user_id).first()
+    if profile:
+        profile.selected_domain_id = domain.id
 
     # Fetch domain skills
     domain_skills = db.query(DomainSkill).filter(
@@ -146,6 +151,10 @@ def insert_accepted_skill(
         RoadmapItem.skill_id == skill.id
     ).first()
     if existing_item:
+        existing_item.source = "suggested"
+        existing_item.added_from_discovery_id = discovery_id
+        db.commit()
+        db.refresh(existing_item)
         return existing_item
 
     # Find prerequisites of this skill that are already in the roadmap

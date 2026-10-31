@@ -109,24 +109,39 @@ def get_user_roadmaps(
 
 @router.get("/current", response_model=RoadmapDetailResponse)
 def get_current_roadmap(
+    domain_id: Optional[str] = None,
     db: Session = Depends(get_db),
     user_id: uuid.UUID = Depends(get_current_user_id)
 ):
-    roadmap = db.query(Roadmap).filter(Roadmap.user_id == user_id).first()
-    if not roadmap:
-        # Check student profile for selected domain
-        profile = db.query(StudentProfile).filter(StudentProfile.user_id == user_id).first()
-        domain_id = profile.selected_domain_id if profile and profile.selected_domain_id else None
-        if not domain_id:
-            default_domain = db.query(Domain).filter(Domain.slug == "ai-engineering").first()
-            if not default_domain:
-                default_domain = db.query(Domain).first()
-            if default_domain:
-                domain_id = default_domain.id
+    profile = db.query(StudentProfile).filter(StudentProfile.user_id == user_id).first()
 
-        if domain_id:
-            roadmap = create_roadmap_from_domain(db, user_id, domain_id)
-        else:
+    target_domain = None
+    if domain_id:
+        try:
+            val_uuid = uuid.UUID(domain_id)
+            target_domain = db.query(Domain).filter((Domain.id == val_uuid) | (Domain.slug == domain_id)).first()
+        except ValueError:
+            target_domain = db.query(Domain).filter(Domain.slug == domain_id).first()
+
+    if not target_domain:
+        if profile and profile.selected_domain_id:
+            target_domain = db.query(Domain).filter(Domain.id == profile.selected_domain_id).first()
+        if not target_domain:
+            target_domain = db.query(Domain).filter(Domain.slug == "fullstack-mobile").first() or db.query(Domain).first()
+
+    if target_domain:
+        if profile and profile.selected_domain_id != target_domain.id:
+            profile.selected_domain_id = target_domain.id
+            db.commit()
+        roadmap = db.query(Roadmap).filter(
+            Roadmap.user_id == user_id,
+            Roadmap.domain_id == target_domain.id
+        ).first()
+        if not roadmap:
+            roadmap = create_roadmap_from_domain(db, user_id, target_domain.id)
+    else:
+        roadmap = db.query(Roadmap).filter(Roadmap.user_id == user_id).first()
+        if not roadmap:
             roadmap = Roadmap(user_id=user_id, title="My Roadmap")
             db.add(roadmap)
             db.commit()
@@ -279,11 +294,20 @@ def accept_suggestion(
     if not discovery:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Discovery not found")
 
-    # Find skill linked to discovery, or create/link a standalone skill
-    disc_skill = db.query(DiscoverySkill).filter(DiscoverySkill.discovery_id == discovery.id).first()
-    if disc_skill:
-        skill = disc_skill.skill
-    else:
+    # Find skill linked to discovery that is not yet in roadmap, or fallback to first
+    roadmap_skill_ids = set(
+        row.skill_id for row in db.query(RoadmapItem.skill_id).filter(RoadmapItem.roadmap_id == roadmap.id).all()
+    )
+    disc_skills = db.query(DiscoverySkill).filter(DiscoverySkill.discovery_id == discovery.id).all()
+    skill = None
+    for ds in disc_skills:
+        if ds.skill_id not in roadmap_skill_ids and ds.skill:
+            skill = ds.skill
+            break
+    if not skill and disc_skills and disc_skills[0].skill:
+        skill = disc_skills[0].skill
+    
+    if not skill:
         # Check if skill with slug exists
         slug = discovery.title.lower().replace(" ", "-")[:40]
         skill = db.query(Skill).filter(Skill.slug == slug).first()

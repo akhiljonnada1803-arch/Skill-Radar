@@ -1,20 +1,31 @@
 import {
   StudentProfile, DomainItem, RoadmapDetail, RoadmapItemDetail,
   SuggestionItem, SuggestionsResponse, SkillLearn, UserNote,
-  AuthResponse, UserMe
+  AuthResponse, UserMe, ChapterTask, TaskSubmission
 } from '../types';
 import {
   mockDomains, mockProfile, mockRoadmapDetail, mockSuggestions,
-  mockSkillLearnMap, mockUserNotesMap
+  mockSkillLearnMap, mockUserNotesMap, mockDiscoveries, mockDiscoveryDetails
 } from './mockData';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://10.0.2.2:8000';
 const USE_MOCK = process.env.EXPO_PUBLIC_USE_MOCK === 'true';
 
+export class ApiError extends Error {
+  isHttpError: boolean = true;
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+  }
+}
+
 let authToken: string | null = null;
 let currentProfileState = { ...mockProfile };
 let activeRoadmapState = JSON.parse(JSON.stringify(mockRoadmapDetail)) as RoadmapDetail;
 let activeSuggestions = [...mockSuggestions];
+let activeDiscoveriesState = JSON.parse(JSON.stringify(mockDiscoveries));
 let userNotesState: Record<string, string> = {
   'skill-05': 'Key takeaway from field practice: Chunk overlap of 15% is essential when code blocks span multiple paragraphs.',
 };
@@ -40,10 +51,31 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     headers['Authorization'] = `Bearer ${authToken}`;
   }
 
-  const response = await fetch(url, { ...options, headers });
+  let response: Response;
+  try {
+    response = await fetch(url, { ...options, headers });
+  } catch (err: any) {
+    throw err;
+  }
+
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`API error ${response.status}: ${errorText}`);
+    let errorDetail = `API error ${response.status}`;
+    try {
+      const rawText = await response.text();
+      try {
+        const errorJson = JSON.parse(rawText);
+        if (errorJson && errorJson.detail) {
+          errorDetail = typeof errorJson.detail === 'string' ? errorJson.detail : JSON.stringify(errorJson.detail);
+        } else if (rawText) {
+          errorDetail = rawText;
+        }
+      } catch {
+        if (rawText) errorDetail = rawText;
+      }
+    } catch {
+      // ignore
+    }
+    throw new ApiError(errorDetail, response.status);
   }
   return response.json();
 }
@@ -58,14 +90,20 @@ export const api = {
       });
       setAuthToken(res.access_token);
       return res;
-    } catch {
-      const mockRes: AuthResponse = {
-        access_token: 'mock-jwt-token-expedition-2026',
-        token_type: 'bearer',
-        user: { id: '00000000-0000-0000-0000-000000000001', email },
-      };
-      setAuthToken(mockRes.access_token);
-      return mockRes;
+    } catch (err: any) {
+      if (err instanceof ApiError || err?.isHttpError) {
+        throw err;
+      }
+      if (USE_MOCK || err?.name === 'TypeError' || err?.message?.includes('fetch') || err?.message?.includes('Network')) {
+        const mockRes: AuthResponse = {
+          access_token: 'mock-jwt-token-expedition-2026',
+          token_type: 'bearer',
+          user: { id: '00000000-0000-0000-0000-000000000001', email },
+        };
+        setAuthToken(mockRes.access_token);
+        return mockRes;
+      }
+      throw err;
     }
   },
 
@@ -77,14 +115,20 @@ export const api = {
       });
       setAuthToken(res.access_token);
       return res;
-    } catch {
-      const mockRes: AuthResponse = {
-        access_token: 'mock-jwt-token-expedition-2026',
-        token_type: 'bearer',
-        user: { id: '00000000-0000-0000-0000-000000000001', email },
-      };
-      setAuthToken(mockRes.access_token);
-      return mockRes;
+    } catch (err: any) {
+      if (err instanceof ApiError || err?.isHttpError) {
+        throw err;
+      }
+      if (USE_MOCK || err?.name === 'TypeError' || err?.message?.includes('fetch') || err?.message?.includes('Network')) {
+        const mockRes: AuthResponse = {
+          access_token: 'mock-jwt-token-expedition-2026',
+          token_type: 'bearer',
+          user: { id: '00000000-0000-0000-0000-000000000001', email },
+        };
+        setAuthToken(mockRes.access_token);
+        return mockRes;
+      }
+      throw err;
     }
   },
 
@@ -135,9 +179,10 @@ export const api = {
   },
 
   // Roadmaps
-  getCurrentRoadmap: async (): Promise<RoadmapDetail> => {
+  getCurrentRoadmap: async (domainId?: string): Promise<RoadmapDetail> => {
     try {
-      return await request<RoadmapDetail>('/roadmaps/current');
+      const q = domainId ? `?domain_id=${encodeURIComponent(domainId)}` : '';
+      return await request<RoadmapDetail>(`/roadmaps/current${q}`);
     } catch {
       return activeRoadmapState;
     }
@@ -288,12 +333,22 @@ export const api = {
     }
   },
 
-  // Legacy compatibility helpers
+  synthesizeChapterMaterials: async (skillId: string): Promise<SkillLearn> => {
+    try {
+      return await request<SkillLearn>(`/skills/${skillId}/synthesize`, {
+        method: 'POST',
+      });
+    } catch {
+      return api.getSkillLearn(skillId);
+    }
+  },
+
+  // Discoveries & Saved
   getSaved: async (): Promise<any[]> => {
     try {
       return await request<any[]>('/discoveries/saved');
     } catch {
-      return activeSuggestions.filter(s => s.is_seeded);
+      return activeDiscoveriesState.filter((d: any) => d.user_state === 'saved');
     }
   },
 
@@ -304,23 +359,81 @@ export const api = {
         body: JSON.stringify({ action }),
       });
     } catch {
-      return { success: true };
+      const item = activeDiscoveriesState.find((d: any) => d.id === discoveryId);
+      if (item) {
+        item.user_state = action === 'none' ? null : action;
+      }
+      return { success: true, action };
     }
   },
 
-  getDiscoveries: async (): Promise<any> => {
+  getDiscoveries: async (filter?: string): Promise<any> => {
     try {
-      return await request<any>('/discoveries');
+      const query = filter && filter !== 'all' ? `?filter=${filter}` : '';
+      return await request<any>(`/discoveries${query}`);
     } catch {
-      return { items: [], total: 0, live_count: 0, seeded_count: 0 };
+      let filtered = activeDiscoveriesState.filter((d: any) => d.user_state !== 'dismissed');
+      if (filter === 'live') {
+        filtered = filtered.filter((d: any) => !d.is_seeded);
+      } else if (filter === 'seeded') {
+        filtered = filtered.filter((d: any) => d.is_seeded);
+      }
+      return {
+        items: filtered,
+        total: filtered.length,
+        live_count: activeDiscoveriesState.filter((d: any) => !d.is_seeded && d.user_state !== 'dismissed').length,
+        seeded_count: activeDiscoveriesState.filter((d: any) => d.is_seeded && d.user_state !== 'dismissed').length,
+      };
     }
   },
 
   getDiscoveryDetail: async (id: string): Promise<any> => {
     try {
-      return await request<any>(`/discoveries/${id}`);
+      const data = await request<any>(`/discoveries/${id}`);
+      if (data && !data.primary_source && data.evidence && data.evidence.length > 0) {
+        const prim = data.evidence.find((e: any) => e.evidence_role === 'primary') || data.evidence[0];
+        data.primary_source = {
+          source_name: prim.source_name,
+          canonical_url: prim.canonical_url,
+          published_at: prim.published_at,
+          author_publisher: prim.author_publisher,
+        };
+      }
+      return data;
     } catch {
-      return null;
+      return mockDiscoveryDetails[id] || activeDiscoveriesState.find((d: any) => d.id === id) || null;
+    }
+  },
+
+  ingestLiveDiscovery: async (input: string): Promise<any> => {
+    try {
+      return await request<any>('/discoveries/ingest-live', {
+        method: 'POST',
+        body: JSON.stringify({ input }),
+      });
+    } catch {
+      const cleanTitle = input.startsWith('http')
+        ? (input.split('/').filter(Boolean).pop()?.replace(/[-_]/g, ' ') || input)
+        : input;
+      const newDisc: any = {
+        id: `live-${Date.now()}`,
+        title: cleanTitle.charAt(0).toUpperCase() + cleanTitle.slice(1),
+        summary: `Autonomous live telemetry and technical breakdown for ${input}.`,
+        category: 'AI Agents & Autonomous Systems',
+        discovery_type: 'article',
+        evidence_level: 'Emerging',
+        score: 0.99,
+        score_reason: 'Live on-demand ingested telemetry',
+        is_seeded: false,
+        primary_source: {
+          source_name: 'Frontier Industry Telemetry',
+          canonical_url: input.startsWith('http') ? input : `https://skillradar.ai/frontier/${encodeURIComponent(input)}`,
+        },
+        why_it_matters: 'Directly impacts standard software engineering architecture and current production AI deployments.',
+        created_at: new Date().toISOString(),
+      };
+      activeDiscoveriesState.unshift(newDisc);
+      return newDisc;
     }
   },
 
@@ -344,6 +457,92 @@ export const api = {
   },
 
   addSkillToRoadmap: async (roadmapId: string, skillId: string, discoveryId?: string): Promise<any> => {
-    return api.acceptSuggestion(roadmapId, discoveryId || skillId);
+    try {
+      return await request<any>(`/roadmaps/${roadmapId}/items`, {
+        method: 'POST',
+        body: JSON.stringify({ skill_id: skillId, discovery_id: discoveryId }),
+      });
+    } catch {
+      const existing = activeRoadmapState.items.find(i => i.skill_id === skillId);
+      if (!existing) {
+        const newItem: RoadmapItemDetail = {
+          id: `item-${Date.now()}`,
+          skill_id: skillId,
+          name: skillId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          slug: skillId,
+          difficulty: 'intermediate',
+          status: 'todo',
+          position: activeRoadmapState.items.length,
+          source: 'suggested',
+          added_from_discovery_id: discoveryId,
+          prerequisites: [],
+          resources: [],
+        };
+        activeRoadmapState.items.push(newItem);
+        activeRoadmapState.total_skills = activeRoadmapState.items.length;
+        return newItem;
+      }
+      return existing;
+    }
+  },
+
+  // Chapter Mastery Tasks & AI Evaluator
+  getChapterTask: async (skillId: string): Promise<ChapterTask> => {
+    try {
+      return await request<ChapterTask>(`/skills/${skillId}/task`);
+    } catch {
+      return {
+        id: `task-${skillId}`,
+        skill_id: skillId,
+        skill_slug: skillId,
+        skill_name: skillId.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
+        title: `Mission: ${skillId.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())} Applied Mastery`,
+        description: `Implement and demonstrate core practical mechanics for ${skillId}.`,
+        instructions_md: `### Objective\nBuild a verified practical module demonstrating hands-on mastery.\n\n### Acceptance Criteria\n1. Implement the required functions or components with clean modular syntax.\n2. Ensure proper exception trapping and defensive boundaries.\n3. Align with production engineering best practices.`,
+        starter_code: `// Chapter Mission: ${skillId}\n// Implement your solution below:\n\n`,
+        rubric: [
+          { criterion: 'Core Mechanics & Correctness', weight: 40, description: 'Accurate functional implementation' },
+          { criterion: 'Defensive Trapping & Reliability', weight: 30, description: 'Error handling and edge case resilience' },
+          { criterion: 'Code Quality & Modularity', weight: 30, description: 'Clean architecture and style' },
+        ],
+        difficulty: 'intermediate',
+        latest_submission: null,
+      };
+    }
+  },
+
+  submitChapterTask: async (skillId: string, submissionCode: string): Promise<TaskSubmission> => {
+    try {
+      return await request<TaskSubmission>(`/skills/${skillId}/task/submit`, {
+        method: 'POST',
+        body: JSON.stringify({ submission_code: submissionCode }),
+      });
+    } catch {
+      const isGood = submissionCode.length > 50;
+      return {
+        id: `sub-${Date.now()}`,
+        task_id: `task-${skillId}`,
+        user_id: '00000000-0000-0000-0000-000000000001',
+        submission_code: submissionCode,
+        score: isGood ? 85 : 65,
+        status: isGood ? 'passed' : 'remediation_required',
+        summary: isGood
+          ? 'Solid implementation. Demonstrated core competency with defensive error handling.'
+          : 'Submission is brief and requires additional error handling to reach chapter certification.',
+        strengths: ['Effective functional decomposition', 'Clean syntax formatting'],
+        gaps: isGood ? [] : ['Lacks explicit error boundaries and failure recovery.'],
+        remediation: isGood
+          ? []
+          : [
+              {
+                topic: 'Defensive State & Error Trapping',
+                action: 'Review the chapter study notes on exception boundaries.',
+                target_video_timestamp: '03:45',
+                note_reference: 'Section: Error Trapping & Recovery',
+              },
+            ],
+        created_at: new Date().toISOString(),
+      };
+    }
   },
 };

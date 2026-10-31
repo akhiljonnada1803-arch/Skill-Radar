@@ -12,6 +12,7 @@ class EnrichmentOutput(BaseModel):
     discovery_type: str = Field(default="paper", description="One of: paper, article, repository, release, other")
     applications: List[str] = Field(default_factory=list, description="2-4 practical applications.")
     why_it_matters: str = Field(description="Short explanation of why this technology matters to a student.")
+    key_terms: List[dict] = Field(default_factory=list, description="Key technical terms explained simply with analogies.")
     skills: List[str] = Field(default_factory=list, description="List of normalized skill keywords (e.g. ['python', 'llm-basics', 'fastapi']).")
     insufficient_evidence: bool = Field(default=False, description="Set to true if source text contains insufficient details to evaluate claims.")
 

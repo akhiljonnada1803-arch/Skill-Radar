@@ -14,7 +14,7 @@ def clean_html_summary(html_or_text: Optional[str]) -> str:
     text = soup.get_text(separator=" ")
     return re.sub(r"\s+", " ", text).strip()
 
-def fetch_rss(feed_url: str, source_name: str = "RSS", timeout: float = 15.0) -> List[Dict[str, Any]]:
+def fetch_rss(feed_url: str, source_name: str = "RSS", timeout: float = 15.0, max_items: int = 15) -> List[Dict[str, Any]]:
     """
     Fetches RSS/Atom feeds with bounded timeout and normalized fields (T2.2).
     AGENTS.md Rule 1: Unknown date stays NULL and is never invented.
@@ -30,7 +30,7 @@ def fetch_rss(feed_url: str, source_name: str = "RSS", timeout: float = 15.0) ->
     feed = feedparser.parse(raw_xml)
     items: List[Dict[str, Any]] = []
 
-    for entry in feed.entries:
+    for entry in feed.entries[:max_items]:
         title = re.sub(r"\s+", " ", entry.get("title", "")).strip()
         link = entry.get("link", "")
         if not title or not link:
@@ -40,10 +40,20 @@ def fetch_rss(feed_url: str, source_name: str = "RSS", timeout: float = 15.0) ->
         raw_summary = entry.get("summary", "") or entry.get("description", "")
         summary_text = clean_html_summary(raw_summary)
 
-        external_id = entry.get("id") or entry.get("guid") or canonical_link
+        raw_id = entry.get("id") or entry.get("guid") or canonical_link
+        external_id = str(raw_id)[:250]
 
         # Author / Publisher
-        author = entry.get("author") or source_name
+        author = entry.get("author")
+        if not author and isinstance(entry.get("source"), dict) and entry["source"].get("title"):
+            author = entry["source"]["title"]
+        if not author:
+            author = source_name
+
+        # Clean title if it has publisher suffix like " - The Wall Street Journal"
+        clean_title = title
+        if author and author != source_name and title.endswith(f" - {author}"):
+            clean_title = title[:-len(f" - {author}")].strip()
 
         # Published date parsing (Rule 1: NULL if absent, never invent)
         published_at = None
@@ -54,11 +64,11 @@ def fetch_rss(feed_url: str, source_name: str = "RSS", timeout: float = 15.0) ->
             except Exception:
                 published_at = None
 
-        content_hash = compute_content_hash(title, summary_text)
+        content_hash = compute_content_hash(clean_title, summary_text)
 
         items.append({
             "external_id": str(external_id),
-            "title": title,
+            "title": clean_title,
             "canonical_url": canonical_link,
             "author_publisher": author,
             "published_at": published_at,

@@ -10,6 +10,7 @@ export interface DomainItem {
   description: string;
   icon: string;
   skill_count: number;
+  completed_count?: number;
 }
 
 export interface StudentProfile {
@@ -68,6 +69,64 @@ export interface SkillNote {
   label: string;
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface GlossaryTerm {
+  term: string;
+  definition: string;
+}
+
+export interface MindmapSubtopic {
+  name: string;
+  summary: string;
+  key_rule?: string | null;
+  code_pattern?: string | null;
+  citation?: string | null;
+}
+
+export interface VideoKeyMoment {
+  timestamp: string;
+  seconds: number;
+  title: string;
+  summary: string;
+}
+
+export interface StudyReport {
+  title: string;
+  summary: string;
+  key_takeaways: string[];
+  architecture_notes?: string | null;
+  common_pitfalls: string[];
+  faq?: FAQItem[];
+  glossary?: GlossaryTerm[];
+  sources_count?: number;
+  model_version?: string;
+  lecture_title?: string | null;
+  lecture_channel?: string | null;
+  lecture_youtube_id?: string | null;
+  video_key_moments?: VideoKeyMoment[];
+}
+
+export interface MindmapNode {
+  id: string;
+  label: string;
+  category: string;
+  description?: string | null;
+  subtopics: string[];
+  detailed_subtopics?: MindmapSubtopic[];
+}
+
+export interface FlashcardItem {
+  id: string;
+  question: string;
+  answer: string;
+  code_example?: string | null;
+  concept: string;
+}
+
 export interface SkillLearn {
   skill_id: string;
   slug: string;
@@ -78,6 +137,9 @@ export interface SkillLearn {
   mini_project?: string | null;
   videos: LessonVideo[];
   study_notes?: SkillNote | null;
+  report?: StudyReport | null;
+  mindmap?: MindmapNode[];
+  flashcards?: FlashcardItem[];
   is_curated: boolean;
 }
 
@@ -174,6 +236,12 @@ export interface RelatedSkillItem {
   is_in_roadmap: boolean;
 }
 
+export interface KeyTermItem {
+  term: string;
+  simple_explanation: string;
+  analogy?: string;
+}
+
 export interface DiscoveryCardItem {
   id: string;
   title: string;
@@ -182,6 +250,7 @@ export interface DiscoveryCardItem {
   discovery_type: string;
   applications: string[];
   why_it_matters: string;
+  key_terms?: KeyTermItem[];
   evidence_level: EvidenceLevel;
   is_seeded: boolean;
   score: number;
@@ -203,4 +272,45 @@ export interface FeedResponse {
   limit: number;
   live_count: number;
   seeded_count: number;
+}
+
+export interface RubricItem {
+  criterion: string;
+  weight: number;
+  description?: string | null;
+}
+
+export interface RemediationItem {
+  topic: string;
+  action: string;
+  target_video_timestamp?: string | null;
+  note_reference?: string | null;
+}
+
+export interface TaskSubmission {
+  id: string;
+  task_id: string;
+  user_id: string;
+  submission_code: string;
+  score: number;
+  status: 'passed' | 'remediation_required';
+  summary?: string | null;
+  strengths: string[];
+  gaps: string[];
+  remediation: RemediationItem[];
+  created_at: string;
+}
+
+export interface ChapterTask {
+  id: string;
+  skill_id: string;
+  skill_slug: string;
+  skill_name: string;
+  title: string;
+  description: string;
+  instructions_md: string;
+  starter_code?: string | null;
+  rubric: RubricItem[];
+  difficulty: ExperienceLevel;
+  latest_submission?: TaskSubmission | null;
 }

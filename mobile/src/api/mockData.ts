@@ -278,9 +278,193 @@ export const mockUserNotesMap: Record<string, UserNote> = {
   },
 };
 
-// Legacy mock collections for compatibility
-export const mockDiscoveries: DiscoveryCardItem[] = [];
-export const mockDiscoveryDetails: Record<string, DiscoveryDetailItem> = {};
+// Curated mock discoveries matching Stitch Tech Logbook
+export const mockDiscoveries: DiscoveryCardItem[] = [
+  {
+    id: 'disc-vllm',
+    title: 'vLLM PagedAttention Architecture',
+    summary: 'High-throughput LLM serving engine eliminating KV-cache memory fragmentation via virtual memory page tables across production clusters.',
+    category: 'AI AGENTS',
+    discovery_type: 'architecture',
+    applications: [
+      'Multi-Tenant High-Density APIs: Dynamic continuous request batching without pre-allocating worst-case sequence buffers.',
+      'Speculative Parallel Sampling: Shared prefix prompt KV-cache references without copying memory pages across sampled candidates.',
+      'Constrained Edge Nodes: Deploying dense 70B parameter models onto unified architectures with minimal headroom.',
+    ],
+    why_it_matters: 'By removing the physical fragmentation bottleneck, PagedAttention provides a 2x to 4x throughput multiplier without requiring parameter reduction. It has redefined open-source inference infrastructure.',
+    evidence_level: 'Emerging',
+    is_seeded: false,
+    score: 0.96,
+    score_reason: 'Matches your interest in AI agents. Python & CUDA already in your active skills radar.',
+    created_at: '2026-10-24T00:00:00Z',
+    primary_source: {
+      source_name: 'arXiv',
+      canonical_url: 'https://arxiv.org/abs/2309.06180',
+      published_at: '2026-10-24T00:00:00Z',
+      author_publisher: 'Woosuk Kwon et al. (UC Berkeley)',
+    },
+    user_state: 'saved',
+  },
+  {
+    id: 'disc-ebpf',
+    title: 'eBPF-Driven Observability & Kernel Probing',
+    summary: 'Sandboxed bytecode running directly in Linux kernel space without kernel module rebuilding, replacing daemon monitoring across hyperscalers.',
+    category: 'SYSTEMS',
+    discovery_type: 'systems',
+    applications: [
+      'Zero-Overhead Tracing: Profiling production kernel and user-space symbols without invasive instrumentation.',
+      'Low-Latency Packet Filtering: XDP packet steering at network card driver boundary before socket buffer allocation.',
+      'Runtime Security Enforcement: Catching privilege escalations and unauthorized syscall sequences in real time.',
+    ],
+    why_it_matters: 'eBPF turns the Linux kernel into a programmable runtime, eliminating unsafe kernel modules and heavy user-space monitoring daemons.',
+    evidence_level: 'New',
+    is_seeded: false,
+    score: 0.91,
+    score_reason: 'Identified from your Linux systems roadmap. High industry adoption in 2026 telemetry surveys.',
+    created_at: '2026-10-22T00:00:00Z',
+    primary_source: {
+      source_name: 'GitHub',
+      canonical_url: 'https://github.com/iovisor/bcc',
+      published_at: '2026-10-22T00:00:00Z',
+      author_publisher: 'IOVisor / Linux Foundation',
+    },
+    user_state: 'saved',
+  },
+  {
+    id: 'disc-mamba',
+    title: 'State Space Models (Mamba) vs Transformers',
+    summary: 'Linear-time sequence modeling addressing quadratic attention bottlenecks for context windows scaling up to 1M tokens.',
+    category: 'AI AGENTS',
+    discovery_type: 'paper',
+    applications: [
+      'Ultra-Long Document Synthesis: Processing 1M+ token legal and code corpora with sub-quadratic memory complexity.',
+      'Edge Sequential Processing: Continuous sensor streaming without memory saturation.',
+      'Hybrid SSM-Transformer Topologies: Fast prefill with selective state-space layers combined with localized dense attention.',
+    ],
+    why_it_matters: 'Provides linear O(N) scaling in sequence length while maintaining transformer-grade associative recall.',
+    evidence_level: 'New',
+    is_seeded: true, // Demo data label
+    score: 0.88,
+    score_reason: 'Correlated with your LLM architecture research path. 5x inference latency benchmarks recorded.',
+    created_at: '2026-10-19T00:00:00Z',
+    primary_source: {
+      source_name: 'Princeton Lab',
+      canonical_url: 'https://arxiv.org/abs/2312.00752',
+      published_at: null, // Unknown date stays NULL, fulfilling Rule 1!
+      author_publisher: 'Albert Gu & Tri Dao',
+    },
+    user_state: 'saved',
+  },
+  {
+    id: 'disc-wasm',
+    title: 'WebAssembly Component Model Specification',
+    summary: 'Polyglot module composition allowing zero-overhead cross-language invocation between Rust, Python, and C++ runtimes at the edge.',
+    category: 'CLOUD',
+    discovery_type: 'specification',
+    applications: [
+      'Polyglot Microservice Composition: Linking Rust data filters directly into Python AI runtimes with zero serialization overhead.',
+      'Sandboxed Plugin Ecosystems: Safe third-party extension execution inside enterprise SaaS platforms.',
+      'Edge Compute Runtimes: Sub-millisecond cold starts across geo-distributed CDN workers.',
+    ],
+    why_it_matters: 'Enables true language interoperability via canonical ABI types without RPC overhead.',
+    evidence_level: 'New',
+    is_seeded: false,
+    score: 0.85,
+    score_reason: 'Linked to your Edge Computing & Serverless exploration. Spec ratified this quarter.',
+    created_at: '2026-10-18T00:00:00Z',
+    primary_source: {
+      source_name: 'W3C Working Group',
+      canonical_url: 'https://github.com/WebAssembly/component-model',
+      published_at: '2026-10-18T00:00:00Z',
+      author_publisher: 'Bytecode Alliance / W3C',
+    },
+    user_state: 'saved',
+  },
+  {
+    id: 'disc-flashattention',
+    title: 'FlashAttention-3 FP8 Kernels',
+    summary: 'Asynchronous hardware tensor-core pipelining with warp-specialization on Hopper H100 architectures.',
+    category: 'AI AGENTS',
+    discovery_type: 'hardware',
+    applications: [
+      'Hopper Architecture Acceleration: Maximizing FP8 tensor core utilization on modern H100/H200 clusters.',
+      'Long-Context Training: Slashes memory traffic between SRAM and HBM by 3x.',
+      'Low-Latency Prefill Phase: Unlocks 800+ TFLOPs throughput on server-grade GPUs.',
+    ],
+    why_it_matters: 'Overlaps asynchronous data movement with computation to reach near theoretical peak FLOPS on NVIDIA Hopper GPUs.',
+    evidence_level: 'Emerging',
+    is_seeded: true,
+    score: 0.93,
+    score_reason: 'High impact on your GPU Memory & CUDA acceleration learning track.',
+    created_at: '2026-10-12T00:00:00Z',
+    primary_source: {
+      source_name: 'NVIDIA Research',
+      canonical_url: 'https://github.com/Dao-AILab/flash-attention',
+      published_at: '2026-10-12T00:00:00Z',
+      author_publisher: 'Tri Dao et al.',
+    },
+    user_state: 'saved',
+  },
+];
+
+export const mockDiscoveryDetails: Record<string, DiscoveryDetailItem> = {
+  'disc-vllm': {
+    ...mockDiscoveries[0],
+    related_skills: [
+      { id: 'skill-cuda', slug: 'cuda', name: 'CUDA', relevance: 0.95, relationship_type: 'prerequisite', difficulty: 'advanced', is_in_roadmap: false },
+      { id: 'skill-python-internals', slug: 'python-internals', name: 'Python Internals', relevance: 0.9, relationship_type: 'core', difficulty: 'intermediate', is_in_roadmap: true },
+      { id: 'skill-gpu-memory', slug: 'gpu-memory-hierarchy', name: 'GPU Memory Hierarchy', relevance: 0.92, relationship_type: 'core', difficulty: 'advanced', is_in_roadmap: false },
+      { id: 'skill-distributed-serving', slug: 'distributed-serving', name: 'Distributed Serving', relevance: 0.88, relationship_type: 'application', difficulty: 'advanced', is_in_roadmap: false },
+      { id: 'skill-paged-attention', slug: 'paged-attention-kernels', name: 'Paged Attention Kernels', relevance: 0.98, relationship_type: 'specialization', difficulty: 'advanced', is_in_roadmap: false },
+    ],
+    evidence: [
+      { source_item_id: 'ev-01', source_name: 'arXiv', canonical_url: 'https://arxiv.org/abs/2309.06180', title: 'Kwon et al., "Efficient Memory Management for Large Language Model Serving with PagedAttention" (SOSP \'23)', author_publisher: 'UC Berkeley Sky Computing Lab', published_at: '2026-10-24T00:00:00Z', evidence_role: 'primary' },
+      { source_item_id: 'ev-02', source_name: 'GitHub', canonical_url: 'https://github.com/vllm-project/vllm', title: 'vLLM Project Repository & Architecture RFC (v0.6.3 Telemetry)', author_publisher: 'vLLM Authors', published_at: '2026-10-24T00:00:00Z', evidence_role: 'corroborating' },
+      { source_item_id: 'ev-03', source_name: 'Berkeley Sky', canonical_url: 'https://sky.cs.berkeley.edu', title: 'UC Berkeley Sky Computing Lab Benchmarks (4x Throughput Baseline)', author_publisher: 'Sky Computing Lab', published_at: '2026-10-24T00:00:00Z', evidence_role: 'corroborating' },
+    ],
+  },
+  'disc-ebpf': {
+    ...mockDiscoveries[1],
+    related_skills: [
+      { id: 'skill-linux', slug: 'linux-kernel', name: 'Linux Kernel Space', relevance: 0.96, relationship_type: 'prerequisite', difficulty: 'advanced', is_in_roadmap: false },
+      { id: 'skill-bpf', slug: 'bpf-bytecode', name: 'BPF Bytecode & JIT', relevance: 0.94, relationship_type: 'core', difficulty: 'advanced', is_in_roadmap: false },
+      { id: 'skill-observability', slug: 'systems-telemetry', name: 'Systems Telemetry', relevance: 0.89, relationship_type: 'application', difficulty: 'intermediate', is_in_roadmap: false },
+    ],
+    evidence: [
+      { source_item_id: 'ev-ebpf-1', source_name: 'GitHub', canonical_url: 'https://github.com/iovisor/bcc', title: 'BPF Compiler Collection (BCC) Architecture Spec', author_publisher: 'Linux Foundation', published_at: '2026-10-22T00:00:00Z', evidence_role: 'primary' },
+    ],
+  },
+  'disc-mamba': {
+    ...mockDiscoveries[2],
+    related_skills: [
+      { id: 'skill-linear-algebra', slug: 'linear-algebra', name: 'Linear Algebra & Recurrence', relevance: 0.92, relationship_type: 'prerequisite', difficulty: 'intermediate', is_in_roadmap: true },
+      { id: 'skill-ssm', slug: 'state-space-models', name: 'State Space Models', relevance: 0.97, relationship_type: 'core', difficulty: 'advanced', is_in_roadmap: false },
+    ],
+    evidence: [
+      { source_item_id: 'ev-mamba-1', source_name: 'Princeton Lab', canonical_url: 'https://arxiv.org/abs/2312.00752', title: 'Mamba: Linear-Time Sequence Modeling with Selective State Spaces', author_publisher: 'Gu & Dao', published_at: null, evidence_role: 'primary' },
+    ],
+  },
+  'disc-wasm': {
+    ...mockDiscoveries[3],
+    related_skills: [
+      { id: 'skill-wasm-abi', slug: 'wasm-abi', name: 'Canonical WASM ABI', relevance: 0.95, relationship_type: 'core', difficulty: 'intermediate', is_in_roadmap: false },
+      { id: 'skill-rust', slug: 'rust-foundations', name: 'Rust Foundations', relevance: 0.90, relationship_type: 'prerequisite', difficulty: 'intermediate', is_in_roadmap: true },
+    ],
+    evidence: [
+      { source_item_id: 'ev-wasm-1', source_name: 'W3C Working Group', canonical_url: 'https://github.com/WebAssembly/component-model', title: 'W3C WebAssembly Component Model Standard', author_publisher: 'W3C / Bytecode Alliance', published_at: '2026-10-18T00:00:00Z', evidence_role: 'primary' },
+    ],
+  },
+  'disc-flashattention': {
+    ...mockDiscoveries[4],
+    related_skills: [
+      { id: 'skill-cuda', slug: 'cuda', name: 'CUDA C++', relevance: 0.97, relationship_type: 'prerequisite', difficulty: 'advanced', is_in_roadmap: false },
+      { id: 'skill-tensor-cores', slug: 'tensor-cores-fp8', name: 'Tensor Core FP8 Math', relevance: 0.95, relationship_type: 'core', difficulty: 'advanced', is_in_roadmap: false },
+    ],
+    evidence: [
+      { source_item_id: 'ev-fa3-1', source_name: 'NVIDIA Research', canonical_url: 'https://github.com/Dao-AILab/flash-attention', title: 'FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-Precision', author_publisher: 'Tri Dao', published_at: '2026-10-12T00:00:00Z', evidence_role: 'primary' },
+    ],
+  },
+};
 export const mockRoadmaps: RoadmapSummary[] = [
   {
     id: 'roadmap-00000000-0000-0000-0000-000000000001',

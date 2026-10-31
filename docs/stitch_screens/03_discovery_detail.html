@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_tab" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,300..900;1,300..900&amp;family=Arimo:ital,wght@0,400..700;1,400..700&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400..700;1,400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-surface-variant": "#58413f",
+          "tertiary-container": "#440006",
+          "surface-container-high": "#ffe1e0",
+          "surface-container": "#ffe9e8",
+          "on-secondary-container": "#7a3233",
+          "primary": "#440001",
+          "error-container": "#ffdad6",
+          "on-secondary": "#ffffff",
+          "on-tertiary-fixed-variant": "#7e2a2a",
+          "surface-variant": "#ffdad8",
+          "tertiary-fixed-dim": "#ffb3b0",
+          "tertiary": "#0e0000",
+          "surface-bright": "#fff8f7",
+          "tertiary-fixed": "#ffdad8",
+          "on-secondary-fixed-variant": "#773031",
+          "primary-fixed-dim": "#ffb4aa",
+          "error": "#ba1a1a",
+          "secondary-fixed-dim": "#ffb3b1",
+          "on-primary-fixed": "#410001",
+          "inverse-surface": "#581c1e",
+          "inverse-on-surface": "#ffedeb",
+          "surface-tint": "#a8372e",
+          "on-primary": "#ffffff",
+          "on-surface": "#3c070b",
+          "inverse-primary": "#ffb4aa",
+          "on-background": "#3c070b",
+          "on-secondary-fixed": "#3d050a",
+          "on-primary-fixed-variant": "#7f2a21",
+          "on-tertiary-fixed": "#410006",
+          "on-error-container": "#93000a",
+          "primary-deep": "#440001",
+          "primary-container": "#690707",
+          "primary-fixed": "#ffdad5",
+          "secondary-container": "#ff9e9c",
+          "surface-container-lowest": "#ffffff",
+          "background": "#fff8f7",
+          "surface": "#fff8f7",
+          "on-primary-container": "#cf6659",
+          "outline-variant": "#dfbfbb",
+          "on-tertiary-container": "#cd6664",
+          "on-tertiary": "#ffffff",
+          "secondary": "#944747",
+          "surface-dim": "#ffcecc",
+          "secondary-fixed": "#ffdad8",
+          "surface-container-low": "#fff0ef",
+          "surface-container-highest": "#ffdad8",
+          "on-error": "#ffffff",
+          "outline": "#8b716e"
+        },
+        fontFamily: {
+          headline: ["Anybody", "sans-serif"],
+          body: ["Atkinson Hyperlegible Next", "sans-serif"],
+          label: ["Arimo", "sans-serif"],
+          sans: ["Atkinson Hyperlegible Next", "sans-serif"]
+        },
+        borderRadius: {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        }
+      }
+    }
+  };
+</script>
+<style>
+  @layer base {
+    html, body {
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      background-color: #fff8f7;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      color: #3c070b;
+    }
+    body {
+      overscroll-behavior: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    .pb-safe {
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .pt-safe {
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col relative antialiased selection:bg-surface-tint selection:text-white font-body">
+<!-- Header: International Typographic Crimson Bar -->
+<header class="fixed top-0 w-full z-50 pt-safe bg-surface/95 backdrop-blur-md border-b border-outline-variant">
+<div class="h-14 px-4 flex items-center justify-between">
+<!-- Minimal Back Button -->
+<button aria-label="Go Back" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container active:bg-surface-variant transition-colors -ml-1" onclick="history.back()">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<!-- Clean Title: SKILLRADAR / SPECIMEN 048-A -->
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-xs bg-surface-tint shrink-0"></span>
+<h1 class="font-headline text-[13px] font-bold tracking-[0.14em] uppercase text-on-surface">
+        SKILLRADAR <span class="text-outline-variant font-normal mx-0.5">/</span> SPECIMEN 048-A
+      </h1>
+</div>
+<!-- Share Action -->
+<button aria-label="Share" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container active:bg-surface-variant transition-colors -mr-1">
+<span class="material-symbols-outlined text-[19px]">ios_share</span>
+</button>
+</div>
+</header>
+<!-- Main Container -->
+<main class="flex-1 w-full bg-background pt-16 pb-36 px-5 relative">
+<div class="max-w-xl mx-auto flex flex-col">
+<!-- Meta / Classification Row -->
+<div class="pt-6 pb-4 border-b border-outline-variant flex items-center justify-between text-[11px] font-semibold tracking-wider font-label uppercase">
+<div class="flex items-center gap-2">
+<span class="bg-primary-deep text-white px-2.5 py-0.5 text-[10px] font-bold rounded-md">SYSTEM ML</span>
+<span class="text-on-surface-variant font-medium">ARXIV 2309.06180</span>
+</div>
+<div class="flex items-center gap-1.5 text-surface-tint">
+<span class="w-2 h-2 rounded-full bg-surface-tint"></span>
+<span class="font-bold tracking-wider">HIGH IMPACT</span>
+</div>
+</div>
+<!-- Editorial Hero: Bold Grotesque Typography -->
+<header class="py-6 border-b border-outline-variant">
+<h2 class="font-headline text-[32px] sm:text-[36px] font-bold tracking-tight leading-[1.08] text-on-surface mb-3">
+        vLLM PagedAttention Architecture
+      </h2>
+<p class="font-body text-[15px] leading-relaxed text-on-surface-variant font-normal max-w-lg">
+        High-throughput LLM serving engine eliminating KV-cache memory fragmentation via virtual memory pagination.
+      </p>
+</header>
+<!-- Key Metrics Grid -->
+<div class="grid grid-cols-3 border-b border-outline-variant divide-x divide-outline-variant py-0">
+<div class="py-3 pr-2">
+<div class="font-label text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">Throughput</div>
+<div class="font-headline text-[20px] font-bold text-on-surface tracking-tight mt-0.5">2× – 4×</div>
+</div>
+<div class="py-3 px-3">
+<div class="font-label text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">VRAM Waste</div>
+<div class="font-headline text-[20px] font-bold text-surface-tint tracking-tight mt-0.5">&lt; 4%</div>
+</div>
+<div class="py-3 pl-3">
+<div class="font-label text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">Verification</div>
+<div class="font-headline text-[20px] font-bold text-on-surface tracking-tight mt-0.5">99.4%</div>
+</div>
+</div>
+<!-- Section 01: Architecture Overview -->
+<section class="py-6 border-b border-outline-variant">
+<div class="flex items-baseline justify-between mb-3">
+<h3 class="font-headline text-[13px] font-bold tracking-[0.16em] uppercase text-on-surface">
+          01. Architecture Overview
+        </h3>
+<span class="font-label text-[11px] text-on-surface-variant font-medium">KERNEL / VM</span>
+</div>
+<p class="font-body text-[14px] leading-[1.65] text-on-surface font-normal">
+        Standard LLM inference traditionally wastes between 60% and 80% of accelerator VRAM through rigid, contiguous static memory allocations for request key-value (KV) caches. PagedAttention transposes classic operating system virtual memory paging into GPU kernel execution, dividing sequential attention tokens into non-contiguous physical memory blocks. This mechanical decoupling reduces dynamic internal allocation overhead to near-zero and permits immediate cross-request page sharing.
+      </p>
+</section>
+<!-- Technical Diagram: Crimson Block Pagination Mapping -->
+<section class="py-6 border-b border-outline-variant">
+<div class="flex items-baseline justify-between mb-3">
+<h4 class="font-label text-[11px] font-bold tracking-[0.16em] uppercase text-on-surface-variant">
+          FIG 1.0 — Memory Block Pagination Mapping
+        </h4>
+<span class="font-label text-[10px] font-bold text-surface-tint tracking-wider uppercase">DYNAMIC ALLOC</span>
+</div>
+<div class="border border-outline-variant rounded-xl p-4 bg-surface-container-low shadow-sm">
+<!-- Logical Blocks -->
+<div class="font-label text-[10px] font-bold tracking-wider uppercase text-on-surface-variant mb-2">Virtual Address Tokens</div>
+<div class="grid grid-cols-4 gap-2 mb-3">
+<div class="border border-outline-variant bg-surface-container-lowest rounded-lg p-2 text-center shadow-xs">
+<span class="font-label block text-[9px] font-medium text-on-surface-variant uppercase">Token 0–3</span>
+<span class="font-headline block text-[12px] font-bold text-on-surface mt-0.5">Block 0</span>
+</div>
+<div class="border border-outline-variant bg-surface-container-lowest rounded-lg p-2 text-center shadow-xs">
+<span class="font-label block text-[9px] font-medium text-on-surface-variant uppercase">Token 4–7</span>
+<span class="font-headline block text-[12px] font-bold text-on-surface mt-0.5">Block 1</span>
+</div>
+<div class="border border-outline-variant bg-surface-container-lowest rounded-lg p-2 text-center shadow-xs">
+<span class="font-label block text-[9px] font-medium text-on-surface-variant uppercase">Token 8–11</span>
+<span class="font-headline block text-[12px] font-bold text-on-surface mt-0.5">Block 2</span>
+</div>
+<div class="border border-surface-tint/30 bg-surface-container-high rounded-lg p-2 text-center shadow-xs">
+<span class="font-label block text-[9px] font-medium text-surface-tint uppercase">Shared</span>
+<span class="font-headline block text-[12px] font-bold text-primary mt-0.5">Block S</span>
+</div>
+</div>
+<div class="flex items-center justify-center my-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">south</span>
+</div>
+<!-- Physical Pages -->
+<div class="font-label text-[10px] font-bold tracking-wider uppercase text-on-surface-variant mb-2">Physical GPU Allocation</div>
+<div class="grid grid-cols-4 gap-2">
+<div class="border border-primary-container bg-primary-container text-white rounded-lg p-2 text-center shadow-sm">
+<span class="font-label block text-[9px] font-medium text-white/75 uppercase">PAGE 07</span>
+<span class="font-headline block text-[12px] font-bold mt-0.5">Physical #1</span>
+</div>
+<div class="border border-primary-container bg-primary-container text-white rounded-lg p-2 text-center shadow-sm">
+<span class="font-label block text-[9px] font-medium text-white/75 uppercase">PAGE 12</span>
+<span class="font-headline block text-[12px] font-bold mt-0.5">Physical #2</span>
+</div>
+<div class="border border-outline-variant bg-surface-container-lowest text-on-surface rounded-lg p-2 text-center shadow-xs">
+<span class="font-label block text-[9px] font-medium text-on-surface-variant uppercase">PAGE 03</span>
+<span class="font-headline block text-[12px] font-bold mt-0.5">Physical #3</span>
+</div>
+<div class="border border-tertiary-container bg-tertiary-container text-white rounded-lg p-2 text-center shadow-sm">
+<span class="font-label block text-[9px] font-medium text-white/75 uppercase">SHARED</span>
+<span class="font-headline block text-[12px] font-bold mt-0.5">Zero-Copy</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 02: Practical Applications -->
+<section class="py-6 border-b border-outline-variant">
+<div class="flex items-baseline justify-between mb-4">
+<h3 class="font-headline text-[13px] font-bold tracking-[0.16em] uppercase text-on-surface">
+          02. Practical Applications
+        </h3>
+<span class="font-label text-[11px] text-on-surface-variant font-medium">3 USE CASES</span>
+</div>
+<div class="space-y-3">
+<div class="p-4 border border-outline-variant bg-surface-container-low rounded-xl">
+<div class="font-label text-[10px] font-bold tracking-widest text-surface-tint uppercase mb-1">Application A</div>
+<h4 class="font-headline text-[13px] font-bold text-on-surface mb-1">Multi-Tenant High-Density Serving</h4>
+<p class="font-body text-[13px] text-on-surface-variant leading-snug">
+            Enables dynamic continuous request batching without pre-allocating worst-case sequence buffers, saturating hardware capacity.
+          </p>
+</div>
+<div class="p-4 border border-outline-variant bg-surface-container-low rounded-xl">
+<div class="font-label text-[10px] font-bold tracking-widest text-surface-tint uppercase mb-1">Application B</div>
+<h4 class="font-headline text-[13px] font-bold text-on-surface mb-1">Speculative &amp; Parallel Sampling</h4>
+<p class="font-body text-[13px] text-on-surface-variant leading-snug">
+            Shares prefix prompt KV-cache references simultaneously across multiple candidates without copying memory pages.
+          </p>
+</div>
+<div class="p-4 border border-outline-variant bg-surface-container-low rounded-xl">
+<div class="font-label text-[10px] font-bold tracking-widest text-surface-tint uppercase mb-1">Application C</div>
+<h4 class="font-headline text-[13px] font-bold text-on-surface mb-1">Constrained Hardware Deployments</h4>
+<p class="font-body text-[13px] text-on-surface-variant leading-snug">
+            Runs dense 70B parameter models on unified memory workstations and edge setups with minimal allocation headroom.
+          </p>
+</div>
+</div>
+</section>
+<!-- Section 03: Core Impact -->
+<section class="py-6 border-b border-outline-variant">
+<div class="flex items-baseline justify-between mb-3">
+<h3 class="font-headline text-[13px] font-bold tracking-[0.16em] uppercase text-on-surface">
+          03. Core Impact
+        </h3>
+<span class="font-label text-[11px] text-on-surface-variant font-medium">INFRASTRUCTURE</span>
+</div>
+<p class="font-body text-[14px] leading-[1.65] text-on-surface font-normal">
+        By removing physical memory fragmentation, PagedAttention delivers a 2× to 4× throughput multiplier without requiring model parameter reduction or quantization loss. It has established non-contiguous memory management as the de facto standard across open-source and enterprise inference infrastructure.
+      </p>
+</section>
+<!-- Section 04: Technical Dependencies -->
+<section class="py-6 border-b border-outline-variant">
+<div class="flex items-baseline justify-between mb-3">
+<h3 class="font-headline text-[13px] font-bold tracking-[0.16em] uppercase text-on-surface">
+          04. Technical Dependencies
+        </h3>
+<span class="font-label text-[11px] text-on-surface-variant font-medium">PREREQUISITES</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="font-label text-[11px] font-semibold text-on-surface px-3 py-1.5 border border-outline-variant bg-surface-container-low rounded-full uppercase">CUDA Kernel Programming</span>
+<span class="font-label text-[11px] font-semibold text-on-surface px-3 py-1.5 border border-outline-variant bg-surface-container-low rounded-full uppercase">GPU Memory Hierarchy</span>
+<span class="font-label text-[11px] font-semibold text-on-surface px-3 py-1.5 border border-outline-variant bg-surface-container-low rounded-full uppercase">Continuous Batching</span>
+<span class="font-label text-[11px] font-semibold text-on-surface px-3 py-1.5 border border-outline-variant bg-surface-container-low rounded-full uppercase">Python Internals</span>
+<span class="font-label text-[11px] font-semibold text-on-surface px-3 py-1.5 border border-outline-variant bg-surface-container-low rounded-full uppercase">Distributed Inference</span>
+</div>
+</section>
+<!-- Section 05: Evidence & Citations -->
+<section class="py-6">
+<div class="flex items-baseline justify-between mb-3">
+<h3 class="font-headline text-[13px] font-bold tracking-[0.16em] uppercase text-on-surface">
+          05. Evidence &amp; Citations
+        </h3>
+<span class="font-label text-[11px] text-on-surface-variant font-medium">3 ENTRIES</span>
+</div>
+<div class="divide-y divide-outline-variant/60">
+<div class="py-2.5 flex items-start gap-3">
+<span class="font-headline text-[11px] font-bold text-surface-tint tracking-wider pt-0.5">01</span>
+<div>
+<p class="font-body text-[13px] font-medium text-on-surface leading-snug">
+              Kwon et al., "Efficient Memory Management for Large Language Model Serving with PagedAttention"
+            </p>
+<a class="font-label text-[11px] font-medium text-on-surface-variant hover:text-surface-tint transition-colors mt-0.5 inline-block" href="https://arxiv.org/abs/2309.06180">
+              SOSP '23 · arxiv.org/abs/2309.06180 →
+            </a>
+</div>
+</div>
+<div class="py-2.5 flex items-start gap-3">
+<span class="font-headline text-[11px] font-bold text-surface-tint tracking-wider pt-0.5">02</span>
+<div>
+<p class="font-body text-[13px] font-medium text-on-surface leading-snug">
+              vLLM Project Repository &amp; Architecture RFC
+            </p>
+<a class="font-label text-[11px] font-medium text-on-surface-variant hover:text-surface-tint transition-colors mt-0.5 inline-block" href="https://github.com/vllm-project/vllm">
+              github.com/vllm-project/vllm · Core Spec →
+            </a>
+</div>
+</div>
+<div class="py-2.5 flex items-start gap-3">
+<span class="font-headline text-[11px] font-bold text-surface-tint tracking-wider pt-0.5">03</span>
+<div>
+<p class="font-body text-[13px] font-medium text-on-surface leading-snug">
+              UC Berkeley Sky Computing Lab Benchmarks
+            </p>
+<a class="font-label text-[11px] font-medium text-on-surface-variant hover:text-surface-tint transition-colors mt-0.5 inline-block" href="https://sky.cs.berkeley.edu">
+              sky.cs.berkeley.edu · Baseline Studies →
+            </a>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Sticky Operational Bottom Bar -->
+<div class="fixed bottom-16 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md border-t border-outline-variant px-4 py-2.5 flex items-center gap-2.5">
+<!-- Save Button -->
+<button class="h-11 px-4 border border-outline-variant bg-surface-container-low hover:bg-surface-container text-on-surface rounded-xl flex items-center justify-center gap-1.5 transition-colors shrink-0" id="save-btn">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+<span class="font-label text-[12px] font-bold tracking-wider uppercase">Save</span>
+</button>
+<!-- Primary Crimson CTA -->
+<button class="flex-1 h-11 bg-primary hover:bg-primary-container active:bg-primary-deep text-white rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm" id="roadmap-btn">
+<span class="font-headline text-[13px] font-bold tracking-[0.08em] uppercase">Add to Roadmap</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Tab Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface border-t border-outline-variant select-none">
+<div class="h-16 px-2 grid grid-cols-4 items-center">
+<a class="flex flex-col items-center justify-center h-full text-primary transition-colors relative" data-path="discover" href="#">
+<span class="absolute top-0 w-8 h-[2px] bg-primary"></span>
+<span class="material-symbols-outlined text-[20px] text-surface-tint">radar</span>
+<span class="font-label text-[9px] tracking-widest uppercase mt-1 font-bold text-surface-tint">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center h-full text-on-surface-variant hover:text-on-surface transition-colors relative" data-path="roadmap" href="#">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+<span class="font-label text-[9px] tracking-widest uppercase mt-1 font-semibold">Roadmap</span>
+</a>
+<a class="flex flex-col items-center justify-center h-full text-on-surface-variant hover:text-on-surface transition-colors relative" data-path="saved" href="#">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+<span class="font-label text-[9px] tracking-widest uppercase mt-1 font-semibold">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center h-full text-on-surface-variant hover:text-on-surface transition-colors relative" data-path="profile" href="#">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+<span class="font-label text-[9px] tracking-widest uppercase mt-1 font-semibold">Profile</span>
+</a>
+</div>
+</nav>
+<script>
+  (function () {
+    const saveBtn = document.getElementById('save-btn');
+    if (saveBtn) {
+      let saved = false;
+      saveBtn.addEventListener('click', function () {
+        saved = !saved;
+        const icon = saveBtn.querySelector('.material-symbols-outlined');
+        const text = saveBtn.querySelector('span:last-child');
+        if (saved) {
+          icon.textContent = 'bookmark';
+          text.textContent = 'Saved';
+          saveBtn.classList.add('bg-primary-deep', 'text-white', 'border-primary-deep');
+          saveBtn.classList.remove('bg-surface-container-low', 'text-on-surface', 'border-outline-variant');
+        } else {
+          icon.textContent = 'bookmark_border';
+          text.textContent = 'Save';
+          saveBtn.classList.remove('bg-primary-deep', 'text-white', 'border-primary-deep');
+          saveBtn.classList.add('bg-surface-container-low', 'text-on-surface', 'border-outline-variant');
+        }
+      });
+    }
+
+    const roadmapBtn = document.getElementById('roadmap-btn');
+    if (roadmapBtn) {
+      roadmapBtn.addEventListener('click', function () {
+        roadmapBtn.innerHTML = '<span class="font-headline text-[13px] font-bold tracking-[0.08em] uppercase">Added to Roadmap</span><span class="material-symbols-outlined text-[18px]">check</span>';
+        roadmapBtn.classList.replace('bg-primary', 'bg-primary-container');
+        setTimeout(() => {
+          roadmapBtn.innerHTML = '<span class="font-headline text-[13px] font-bold tracking-[0.08em] uppercase">In Roadmap</span><span class="material-symbols-outlined text-[18px]">done_all</span>';
+        }, 1200);
+      });
+    }
+  })();
+</script>
+</body></html>

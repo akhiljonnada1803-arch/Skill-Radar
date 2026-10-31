@@ -26,6 +26,7 @@ class User(Base):
     roadmaps = relationship("Roadmap", back_populates="user", cascade="all, delete-orphan")
     discovery_states = relationship("UserDiscoveryState", back_populates="user", cascade="all, delete-orphan")
     user_notes = relationship("UserNote", back_populates="user", cascade="all, delete-orphan")
+    task_submissions = relationship("TaskSubmission", back_populates="user", cascade="all, delete-orphan")
 
 class Domain(Base):
     __tablename__ = "domains"
@@ -148,6 +149,7 @@ class Discovery(Base):
     discovery_type = Column(String(50), nullable=True) # 'paper', 'article', 'repository', 'release', 'other'
     applications = Column(JSONType, nullable=False, default=list)
     why_it_matters = Column(Text, nullable=True)
+    key_terms = Column(JSONType, nullable=False, default=list)
     evidence_level = Column(String(50), default="New", nullable=False) # 'New', 'Emerging'
     is_seeded = Column(Boolean, default=False, nullable=False)
     status = Column(String(50), default="pending", nullable=False)
@@ -197,6 +199,7 @@ class Skill(Base):
     resources = relationship("SkillResource", back_populates="skill", cascade="all, delete-orphan")
     discoveries = relationship("DiscoverySkill", back_populates="skill", cascade="all, delete-orphan")
     roadmap_items = relationship("RoadmapItem", back_populates="skill")
+    task = relationship("ChapterTask", back_populates="skill", uselist=False, cascade="all, delete-orphan")
 
     # Prerequisites relationship
     prerequisites = relationship(
@@ -379,4 +382,48 @@ class RoadmapItem(Base):
         CheckConstraint("status IN ('todo', 'in_progress', 'done')", name="chk_roadmap_item_status"),
         CheckConstraint("source IN ('curated', 'suggested')", name="chk_roadmap_item_source"),
         Index("idx_roadmap_items_roadmap_pos", "roadmap_id", "position"),
+    )
+
+class ChapterTask(Base):
+    __tablename__ = "chapter_tasks"
+
+    id = Column(UUIDType, primary_key=True, default=uuid.uuid4)
+    skill_id = Column(UUIDType, ForeignKey("skills.id", ondelete="CASCADE"), nullable=False, unique=True)
+    title = Column(String(255), nullable=False)
+    description = Column(Text, nullable=False)
+    instructions_md = Column(Text, nullable=False)
+    starter_code = Column(Text, nullable=True)
+    solution_criteria = Column(Text, nullable=True)
+    rubric = Column(JSONType, nullable=False, default=list)
+    difficulty = Column(String(50), default="intermediate", nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    skill = relationship("Skill", back_populates="task")
+    submissions = relationship("TaskSubmission", back_populates="task", cascade="all, delete-orphan", order_by="TaskSubmission.created_at.desc()")
+
+    __table_args__ = (
+        Index("idx_chapter_tasks_skill", "skill_id"),
+    )
+
+class TaskSubmission(Base):
+    __tablename__ = "task_submissions"
+
+    id = Column(UUIDType, primary_key=True, default=uuid.uuid4)
+    task_id = Column(UUIDType, ForeignKey("chapter_tasks.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(UUIDType, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    submission_code = Column(Text, nullable=False)
+    score = Column(Integer, nullable=False)
+    status = Column(String(50), default="remediation_required", nullable=False)
+    summary = Column(Text, nullable=True)
+    strengths = Column(JSONType, nullable=False, default=list)
+    gaps = Column(JSONType, nullable=False, default=list)
+    remediation = Column(JSONType, nullable=False, default=list)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    task = relationship("ChapterTask", back_populates="submissions")
+    user = relationship("User", back_populates="task_submissions")
+
+    __table_args__ = (
+        CheckConstraint("status IN ('passed', 'remediation_required')", name="chk_task_sub_status"),
+        Index("idx_task_submissions_user_task", "user_id", "task_id"),
     )

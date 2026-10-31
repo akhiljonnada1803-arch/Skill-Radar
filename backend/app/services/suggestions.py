@@ -95,9 +95,15 @@ def get_roadmap_suggestions(
                     url=ev.source_item.canonical_url
                 ))
 
-        # Primary skill name & slug for suggestion
+        # Primary skill name & slug for suggestion (prioritize skills NOT already in roadmap)
         target_skill = None
-        if disc_skills:
+        for ds in disc_skills:
+            if ds.skill_id not in roadmap_skill_ids:
+                found_sk = db.query(Skill).filter(Skill.id == ds.skill_id).first()
+                if found_sk:
+                    target_skill = found_sk
+                    break
+        if not target_skill and disc_skills:
             target_skill = db.query(Skill).filter(Skill.id == disc_skills[0].skill_id).first()
 
         skill_slug = target_skill.slug if target_skill else disc.title.lower().replace(" ", "-")[:40]

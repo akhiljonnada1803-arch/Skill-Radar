@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,29 +10,60 @@ import {
   RefreshControl,
   Alert,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Ionicons } from '@expo/vector-icons';
 import { api } from '../../src/api/client';
 import { useAuth } from '../../src/context/AuthContext';
 import { Colors } from '../../src/theme/colors';
-import { RoadmapItemDetail, RoadmapStatus } from '../../src/types';
+import { DomainItem, RoadmapItemDetail, RoadmapStatus } from '../../src/types';
 
 export default function RoadmapScreen() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { profile } = useAuth();
+  const params = useLocalSearchParams<{ subject?: string }>();
 
-  const { data: roadmap, isLoading, isError, refetch, isRefetching } = useQuery({
-    queryKey: ['roadmap'],
-    queryFn: () => api.getCurrentRoadmap(),
+  // State: selectedSubjectId null => show all Subjects; string => show Chapters for that subject
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(params.subject || null);
+
+  useEffect(() => {
+    if (params.subject !== undefined) {
+      setSelectedSubjectId(params.subject || null);
+    }
+  }, [params.subject]);
+
+  // 1. Fetch available subjects / domains
+  const {
+    data: domains,
+    isLoading: domainsLoading,
+    refetch: refetchDomains,
+    isRefetching: domainsRefetching,
+  } = useQuery({
+    queryKey: ['domains'],
+    queryFn: () => api.getDomains(),
   });
 
+  // 2. Fetch specific roadmap when a subject is active
+  const {
+    data: roadmap,
+    isLoading: roadmapLoading,
+    isError: roadmapError,
+    refetch: refetchRoadmap,
+    isRefetching: roadmapRefetching,
+  } = useQuery({
+    queryKey: ['roadmap', selectedSubjectId],
+    queryFn: () => api.getCurrentRoadmap(selectedSubjectId || undefined),
+    enabled: !!selectedSubjectId,
+  });
+
+  // Toggle chapter status mutation
   const updateStatusMutation = useMutation({
     mutationFn: ({ itemId, status }: { itemId: string; status: RoadmapStatus }) =>
       api.updateRoadmapItem(itemId, { status }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['roadmap'] });
+      queryClient.invalidateQueries({ queryKey: ['domains'] });
     },
     onError: (err: any) => {
       Alert.alert('Status Update Error', err?.message || 'Could not update status.');
@@ -49,170 +80,228 @@ export default function RoadmapScreen() {
     updateStatusMutation.mutate({ itemId: item.id, status: target });
   };
 
-  const completedCount = roadmap?.completed_skills || 0;
-  const totalCount = roadmap?.total_skills || 0;
-  const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  const getDomainIcon = (slug?: string): keyof typeof Ionicons.glyphMap => {
+    if (!slug) return 'book-outline';
+    if (slug.includes('ai')) return 'hardware-chip-outline';
+    if (slug.includes('fullstack') || slug.includes('mobile')) return 'code-slash-outline';
+    if (slug.includes('cloud') || slug.includes('devops')) return 'cloud-outline';
+    return 'book-outline';
+  };
 
-  const renderRoadmapItem = ({ item, index }: { item: RoadmapItemDetail; index: number }) => {
-    const isDone = item.status === 'done';
-    const isInProgress = item.status === 'in_progress';
-    const isSuggested = item.source === 'suggested';
+  // ==========================================
+  // RENDER: SUBJECT CARD (LEVEL 1)
+  // ==========================================
+  const renderSubjectCard = ({ item, index }: { item: DomainItem; index: number }) => {
+    const completed = item.completed_count || 0;
+    const total = item.skill_count || 1;
+    const percent = Math.round((completed / total) * 100);
+    const isCurrentActive = profile?.selected_domain_slug === item.slug;
 
     return (
       <TouchableOpacity
-        style={[
-          styles.itemCard,
-          isDone && styles.itemCardDone,
-          isInProgress && styles.itemCardInProgress,
-        ]}
-        onPress={() => router.push(`/skill/${item.slug || item.skill_id}`)}
-        activeOpacity={0.8}
+        style={[styles.subjectCard, isCurrentActive && styles.subjectCardActive]}
+        onPress={() => setSelectedSubjectId(item.slug)}
+        activeOpacity={0.7}
       >
-        {/* Top accession line */}
-        <View style={styles.cardHeader}>
-          <View style={styles.accessionGroup}>
-            <Text style={styles.accessionText}>
-              SPECIMEN #{String(index + 1).padStart(2, '0')} // {item.difficulty.toUpperCase()}
+        <View style={styles.subjectCardLeft}>
+          <View style={[styles.subjectIconBox, isCurrentActive && styles.subjectIconBoxActive]}>
+            <Ionicons
+              name={getDomainIcon(item.slug)}
+              size={22}
+              color={isCurrentActive ? Colors.primary : Colors.ink}
+            />
+          </View>
+        </View>
+
+        <View style={styles.subjectCardMiddle}>
+          <View style={styles.subjectTitleRow}>
+            <Text style={styles.subjectTitle} numberOfLines={1}>
+              {item.name}
             </Text>
-            {isSuggested && (
-              <View style={styles.suggestedBadge}>
-                <Text style={styles.suggestedBadgeText}>SUGGESTED DISCOVERY</Text>
+            {isCurrentActive && (
+              <View style={styles.currentBadge}>
+                <Text style={styles.currentBadgeText}>Current</Text>
               </View>
             )}
           </View>
 
-          {/* Status Badge Button */}
-          <TouchableOpacity
-            style={[
-              styles.statusPill,
-              isDone ? styles.statusDone : isInProgress ? styles.statusInProgress : styles.statusTodo,
-            ]}
-            onPress={() => handleStatusToggle(item)}
-            activeOpacity={0.7}
-          >
-            <Text
-              style={[
-                styles.statusPillText,
-                isDone ? styles.textDone : isInProgress ? styles.textInProgress : styles.textTodo,
-              ]}
-            >
-              {isDone ? 'COMPLETED' : isInProgress ? 'IN PROGRESS' : 'TO DO'}
-            </Text>
-          </TouchableOpacity>
+          <Text style={styles.subjectMetaText}>
+            {item.skill_count} chapters • {completed} mastered ({percent}%)
+          </Text>
+
+          {/* Progress bar */}
+          <View style={styles.progressBarTrack}>
+            <View style={[styles.progressBarFill, { width: `${percent}%` }]} />
+          </View>
         </View>
 
-        {/* Skill Title */}
-        <Text style={[styles.itemTitle, isDone && styles.itemTitleDone]}>{item.name}</Text>
-
-        {/* Prerequisites */}
-        {item.prerequisites && item.prerequisites.length > 0 ? (
-          <View style={styles.prereqRow}>
-            <Text style={styles.prereqLabel}>REQUIRES:</Text>
-            <Text style={styles.prereqText} numberOfLines={1}>
-              {item.prerequisites.join(', ')}
-            </Text>
-          </View>
-        ) : (
-          <View style={styles.prereqRow}>
-            <Text style={styles.prereqRoot}>[FOUNDATIONAL MILESTONE — NO PREREQUISITES]</Text>
-          </View>
-        )}
-
-        {/* Action Link Footer */}
-        <View style={styles.cardFooter}>
-          <Text style={styles.cardFooterText}>OPEN STUDY DOSSIER & VIDEOS</Text>
-          <Ionicons name="chevron-forward" size={14} color={Colors.primary} />
+        <View style={styles.subjectCardRight}>
+          <Ionicons name="chevron-forward" size={18} color={Colors.textSecondary} />
         </View>
       </TouchableOpacity>
     );
   };
 
+  // ==========================================
+  // RENDER: CHAPTER ITEM (LEVEL 2)
+  // ==========================================
+  const renderChapterItem = ({ item, index }: { item: RoadmapItemDetail; index: number }) => {
+    const isDone = item.status === 'done';
+    const isInProgress = item.status === 'in_progress';
+
+    return (
+      <TouchableOpacity
+        style={[styles.chapterCard, isDone && styles.chapterCardDone]}
+        onPress={() => router.push(`/skill/${item.slug || item.skill_id}`)}
+        activeOpacity={0.7}
+      >
+        {/* Left: Chapter Index or Checkmark */}
+        <View style={[styles.chapterNumberCircle, isDone && styles.chapterNumberCircleDone]}>
+          {isDone ? (
+            <Ionicons name="checkmark" size={16} color="#FFFFFF" />
+          ) : (
+            <Text style={styles.chapterNumberText}>{index + 1}</Text>
+          )}
+        </View>
+
+        {/* Middle: Title & Difficulty */}
+        <View style={styles.chapterCardContent}>
+          <Text style={[styles.chapterTitle, isDone && styles.chapterTitleDone]} numberOfLines={2}>
+            {item.name}
+          </Text>
+          <View style={styles.chapterSubRow}>
+            <Text style={styles.chapterDifficulty}>{item.difficulty}</Text>
+            <Text style={styles.dotSeparator}>•</Text>
+            <Text style={styles.chapterDetails}>Video, Notes & Task</Text>
+          </View>
+        </View>
+
+        {/* Right: Quick Status Button */}
+        <TouchableOpacity
+          style={[
+            styles.statusPill,
+            isDone ? styles.statusDone : isInProgress ? styles.statusInProgress : styles.statusTodo,
+          ]}
+          onPress={() => handleStatusToggle(item)}
+          activeOpacity={0.6}
+        >
+          <Text
+            style={[
+              styles.statusPillText,
+              isDone ? styles.textDone : isInProgress ? styles.textInProgress : styles.textTodo,
+            ]}
+          >
+            {isDone ? 'Done' : isInProgress ? 'In Progress' : 'Start'}
+          </Text>
+        </TouchableOpacity>
+      </TouchableOpacity>
+    );
+  };
+
+  const completedCount = roadmap?.completed_skills || 0;
+  const totalCount = roadmap?.total_skills || 0;
+  const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  const activeDomain = (domains || []).find(d => d.slug === selectedSubjectId || d.id === selectedSubjectId);
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* Top App Header */}
-      <View style={styles.topHeader}>
-        <View>
-          <Text style={styles.brandTitle}>SKILLRADAR EXPEDITION</Text>
-          <Text style={styles.domainCode}>
-            DISCIPLINE: {roadmap?.domain_name?.toUpperCase() || 'AI ENGINEERING'}
-          </Text>
-        </View>
-
-        <TouchableOpacity
-          style={styles.domainSwitchBtn}
-          onPress={() => router.push('/domain-select')}
-        >
-          <Text style={styles.domainSwitchText}>SWITCH DOMAIN</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Progress & Add Skills Bar */}
-      <View style={styles.surveyStrip}>
-        <View style={styles.progressSection}>
-          <View style={styles.progressLabelRow}>
-            <Text style={styles.progressLabel}>EXPEDITION MASTERY PROGRESS:</Text>
-            <Text style={styles.progressValues}>
-              {completedCount} / {totalCount} ({progressPercent}%)
-            </Text>
+      {!selectedSubjectId ? (
+        /* ======================================================== */
+        /* VIEW 1: CLEAN SUBJECTS DIRECTORY                         */
+        /* ======================================================== */
+        <View style={{ flex: 1 }}>
+          <View style={styles.header}>
+            <Text style={styles.screenHeading}>Subjects</Text>
+            <Text style={styles.screenSubheading}>Select a learning path to view chapters</Text>
           </View>
-          <View style={styles.progressBarContainer}>
-            <View style={[styles.progressBarFill, { width: `${progressPercent}%` }]} />
-          </View>
-        </View>
 
-        {/* "Add latest skills" Field Stamp Button */}
-        <TouchableOpacity
-          style={styles.addSkillsBtn}
-          onPress={() => router.push({ pathname: '/suggestions', params: { roadmapId: roadmap?.id } })}
-          activeOpacity={0.8}
-        >
-          <View style={styles.radarBlip} />
-          <Ionicons name="sparkles" size={14} color={Colors.surfaceElevated} style={{ marginRight: 6 }} />
-          <Text style={styles.addSkillsBtnText}>ADD LATEST SKILLS</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Content */}
-      {isLoading ? (
-        <View style={styles.centerBox}>
-          <ActivityIndicator size="large" color={Colors.primary} />
-          <Text style={styles.loadingText}>RESOLVING PREREQUISITE GRAPH...</Text>
-        </View>
-      ) : isError ? (
-        <View style={styles.centerBox}>
-          <Text style={styles.errorTitle}>GRAPH RESOLUTION FAULT</Text>
-          <Text style={styles.errorBody}>Could not load roadmap from backend.</Text>
-          <TouchableOpacity style={styles.retryBtn} onPress={() => refetch()}>
-            <Text style={styles.retryBtnText}>RETRY SYNC</Text>
-          </TouchableOpacity>
-        </View>
-      ) : (roadmap?.items || []).length === 0 ? (
-        <View style={styles.centerBox}>
-          <Text style={styles.emptyTitle}>NO ROADMAP COMPETENCIES</Text>
-          <Text style={styles.emptyBody}>
-            Tap below to initialize your curriculum for this domain.
-          </Text>
-          <TouchableOpacity
-            style={styles.initializeBtn}
-            onPress={() => router.push('/domain-select')}
-          >
-            <Text style={styles.initializeBtnText}>SELECT LAUNCH DOMAIN</Text>
-          </TouchableOpacity>
+          {domainsLoading ? (
+            <View style={styles.centerBox}>
+              <ActivityIndicator size="small" color={Colors.primary} />
+            </View>
+          ) : (
+            <FlatList
+              data={domains || []}
+              keyExtractor={(item) => item.id}
+              renderItem={renderSubjectCard}
+              contentContainerStyle={styles.listContent}
+              refreshControl={
+                <RefreshControl
+                  refreshing={domainsRefetching}
+                  onRefresh={refetchDomains}
+                  tintColor={Colors.primary}
+                />
+              }
+            />
+          )}
         </View>
       ) : (
-        <FlatList
-          data={roadmap?.items || []}
-          keyExtractor={(item) => item.id}
-          renderItem={renderRoadmapItem}
-          contentContainerStyle={styles.listContent}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefetching}
-              onRefresh={refetch}
-              tintColor={Colors.primary}
+        /* ======================================================== */
+        /* VIEW 2: CLEAN CHAPTER SYLLABUS                           */
+        /* ======================================================== */
+        <View style={{ flex: 1 }}>
+          {/* Header Navigation */}
+          <View style={styles.chapterNavHeader}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => setSelectedSubjectId(null)}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="arrow-back" size={18} color={Colors.ink} />
+              <Text style={styles.backButtonText}>Subjects</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.addSkillsButton}
+              onPress={() => router.push({ pathname: '/suggestions', params: { roadmapId: roadmap?.id } })}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="sparkles-outline" size={14} color={Colors.primary} />
+              <Text style={styles.addSkillsButtonText}>Add Skills</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Subject Title & Summary */}
+          <View style={styles.subjectSummaryHeader}>
+            <Text style={styles.selectedSubjectTitle}>
+              {roadmap?.domain_name || activeDomain?.name || 'Subject Chapters'}
+            </Text>
+            <Text style={styles.selectedSubjectProgress}>
+              {completedCount} of {totalCount} chapters completed ({progressPercent}%)
+            </Text>
+            <View style={styles.progressBarTrackLarge}>
+              <View style={[styles.progressBarFillLarge, { width: `${progressPercent}%` }]} />
+            </View>
+          </View>
+
+          {/* Chapter List */}
+          {roadmapLoading ? (
+            <View style={styles.centerBox}>
+              <ActivityIndicator size="small" color={Colors.primary} />
+            </View>
+          ) : roadmapError ? (
+            <View style={styles.centerBox}>
+              <Text style={styles.errorText}>Could not load chapters.</Text>
+              <TouchableOpacity style={styles.retryBtn} onPress={() => refetchRoadmap()}>
+                <Text style={styles.retryBtnText}>Retry</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <FlatList
+              data={roadmap?.items || []}
+              keyExtractor={(item) => item.id}
+              renderItem={renderChapterItem}
+              contentContainerStyle={styles.listContent}
+              refreshControl={
+                <RefreshControl
+                  refreshing={roadmapRefetching}
+                  onRefresh={refetchRoadmap}
+                  tintColor={Colors.primary}
+                />
+              }
             />
-          }
-        />
+          )}
+        </View>
       )}
     </SafeAreaView>
   );
@@ -221,312 +310,292 @@ export default function RoadmapScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: '#FAFAFA',
   },
-  topHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.ink,
-    backgroundColor: Colors.canvas,
-  },
-  brandTitle: {
-    fontFamily: 'serif',
-    fontSize: 18,
-    fontWeight: '800',
-    color: Colors.ink,
-  },
-  domainCode: {
-    fontFamily: 'monospace',
-    fontSize: 10,
-    fontWeight: '700',
-    color: Colors.primary,
-    letterSpacing: 0.8,
-    marginTop: 2,
-  },
-  domainSwitchBtn: {
-    borderWidth: 1,
-    borderColor: Colors.ink,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    backgroundColor: Colors.surface,
-  },
-  domainSwitchText: {
-    fontFamily: 'monospace',
-    fontSize: 9,
-    fontWeight: '700',
-    color: Colors.ink,
-  },
-  surveyStrip: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+  header: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 12,
+    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
-    backgroundColor: Colors.surface,
+    borderBottomColor: '#F0ECEB',
   },
-  progressSection: {
-    marginBottom: 10,
-  },
-  progressLabelRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 4,
-  },
-  progressLabel: {
-    fontFamily: 'monospace',
-    fontSize: 10,
-    fontWeight: '700',
-    color: Colors.textSecondary,
-    letterSpacing: 0.6,
-  },
-  progressValues: {
-    fontFamily: 'monospace',
-    fontSize: 10,
+  screenHeading: {
+    fontSize: 24,
     fontWeight: '800',
-    color: Colors.ink,
+    color: '#1A0808',
+    letterSpacing: -0.5,
   },
-  progressBarContainer: {
-    height: 8,
-    backgroundColor: Colors.canvas,
-    borderWidth: 1,
-    borderColor: Colors.ink,
-  },
-  progressBarFill: {
-    height: '100%',
-    backgroundColor: Colors.moss,
-  },
-  addSkillsBtn: {
-    flexDirection: 'row',
-    backgroundColor: Colors.primary,
-    borderWidth: 1,
-    borderColor: Colors.ink,
-    paddingVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: Colors.ink,
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    elevation: 2,
-  },
-  radarBlip: {
-    width: 6,
-    height: 6,
-    backgroundColor: Colors.surfaceElevated,
-    marginRight: 6,
-  },
-  addSkillsBtnText: {
-    fontFamily: 'monospace',
-    fontSize: 12,
-    fontWeight: '800',
-    color: Colors.surfaceElevated,
-    letterSpacing: 1,
+  screenSubheading: {
+    fontSize: 13,
+    color: '#7A6664',
+    marginTop: 2,
   },
   listContent: {
     padding: 16,
-    gap: 12,
+    gap: 10,
   },
-  itemCard: {
-    backgroundColor: Colors.surface,
-    borderWidth: 1,
-    borderColor: Colors.ink,
-    padding: 14,
-    shadowColor: Colors.ink,
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    elevation: 2,
-  },
-  itemCardDone: {
-    backgroundColor: 'rgba(79, 107, 74, 0.08)',
-    borderLeftWidth: 4,
-    borderLeftColor: Colors.moss,
-  },
-  itemCardInProgress: {
-    borderLeftWidth: 4,
-    borderLeftColor: Colors.primary,
-  },
-  cardHeader: {
+  // Subject Card Styles
+  subjectCard: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 6,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: '#ECE5E4',
   },
-  accessionGroup: {
+  subjectCardActive: {
+    borderColor: '#DFBFBB',
+    backgroundColor: '#FFFAFA',
+  },
+  subjectCardLeft: {
+    marginRight: 12,
+  },
+  subjectIconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 10,
+    backgroundColor: '#F5ECEB',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  subjectIconBoxActive: {
+    backgroundColor: '#FFE9E8',
+  },
+  subjectCardMiddle: {
+    flex: 1,
+  },
+  subjectTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
+    marginBottom: 2,
   },
-  accessionText: {
-    fontFamily: 'monospace',
-    fontSize: 9,
-    fontWeight: '700',
-    color: Colors.textSecondary,
-    letterSpacing: 0.6,
-  },
-  suggestedBadge: {
-    borderWidth: 1,
-    borderColor: Colors.primary,
-    paddingHorizontal: 4,
-    paddingVertical: 1,
-    backgroundColor: 'rgba(217, 65, 30, 0.1)',
-  },
-  suggestedBadgeText: {
-    fontFamily: 'monospace',
-    fontSize: 8,
-    fontWeight: '800',
-    color: Colors.primary,
-  },
-  statusPill: {
-    borderWidth: 1,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-  },
-  statusTodo: {
-    borderColor: Colors.ink,
-    backgroundColor: 'transparent',
-  },
-  textTodo: {
-    color: Colors.ink,
-  },
-  statusInProgress: {
-    borderColor: Colors.primary,
-    backgroundColor: 'rgba(217, 65, 30, 0.12)',
-  },
-  textInProgress: {
-    color: Colors.primary,
-  },
-  statusDone: {
-    borderColor: Colors.moss,
-    backgroundColor: Colors.moss,
-  },
-  textDone: {
-    color: Colors.surfaceElevated,
-  },
-  statusPillText: {
-    fontFamily: 'monospace',
-    fontSize: 9,
-    fontWeight: '800',
-    letterSpacing: 0.5,
-  },
-  itemTitle: {
-    fontFamily: 'serif',
+  subjectTitle: {
     fontSize: 16,
-    fontWeight: '800',
-    color: Colors.ink,
-    lineHeight: 20,
+    fontWeight: '700',
+    color: '#1A0808',
+  },
+  currentBadge: {
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 6,
+    paddingVertical: 1,
+    borderRadius: 4,
+  },
+  currentBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#2D6A4F',
+  },
+  subjectMetaText: {
+    fontSize: 12,
+    color: '#7A6664',
     marginBottom: 6,
   },
-  itemTitleDone: {
-    color: Colors.textSecondary,
+  progressBarTrack: {
+    height: 4,
+    backgroundColor: '#F0ECEB',
+    borderRadius: 2,
+    overflow: 'hidden',
   },
-  prereqRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    marginBottom: 8,
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: Colors.primary,
   },
-  prereqLabel: {
-    fontFamily: 'monospace',
-    fontSize: 9,
-    fontWeight: '700',
-    color: Colors.textSecondary,
+  subjectCardRight: {
+    marginLeft: 8,
   },
-  prereqText: {
-    fontFamily: 'monospace',
-    fontSize: 10,
-    color: Colors.ink,
-    flex: 1,
-  },
-  prereqRoot: {
-    fontFamily: 'monospace',
-    fontSize: 9,
-    color: Colors.moss,
-    fontStyle: 'italic',
-  },
-  cardFooter: {
+
+  // Chapter Header & Navigation Styles
+  chapterNavHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: Colors.borderLight,
-    paddingTop: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: '#FFFFFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0ECEB',
   },
-  cardFooterText: {
-    fontFamily: 'monospace',
-    fontSize: 9,
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 4,
+  },
+  backButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1A0808',
+  },
+  addSkillsButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 6,
+    backgroundColor: '#FFF0EF',
+  },
+  addSkillsButtonText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: Colors.primary,
+  },
+  subjectSummaryHeader: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    paddingTop: 14,
+    paddingBottom: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0ECEB',
+  },
+  selectedSubjectTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#1A0808',
+    letterSpacing: -0.3,
+  },
+  selectedSubjectProgress: {
+    fontSize: 12,
+    color: '#7A6664',
+    marginTop: 3,
+    marginBottom: 8,
+  },
+  progressBarTrackLarge: {
+    height: 6,
+    backgroundColor: '#F0ECEB',
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  progressBarFillLarge: {
+    height: '100%',
+    backgroundColor: Colors.primary,
+  },
+
+  // Chapter Card Styles
+  chapterCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#ECE5E4',
+  },
+  chapterCardDone: {
+    backgroundColor: '#FCFCFC',
+    borderColor: '#E8E8E8',
+  },
+  chapterNumberCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#F5ECEB',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  chapterNumberCircleDone: {
+    backgroundColor: '#2D6A4F',
+  },
+  chapterNumberText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#5C4342',
+  },
+  chapterCardContent: {
+    flex: 1,
+    marginRight: 8,
+  },
+  chapterTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1A0808',
+    lineHeight: 18,
+  },
+  chapterTitleDone: {
+    color: '#5C4342',
+  },
+  chapterSubRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 3,
+    gap: 4,
+  },
+  chapterDifficulty: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#944747',
+    textTransform: 'capitalize',
+  },
+  dotSeparator: {
+    fontSize: 10,
+    color: '#B0A09F',
+  },
+  chapterDetails: {
+    fontSize: 11,
+    color: '#7A6664',
+  },
+
+  // Status Pill Styles
+  statusPill: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 6,
+    minWidth: 54,
+    alignItems: 'center',
+  },
+  statusPillText: {
+    fontSize: 11,
+    letterSpacing: 0.2,
+  },
+  statusTodo: {
+    backgroundColor: '#F5ECEB',
+  },
+  textTodo: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#5C4342',
+  },
+  statusInProgress: {
+    backgroundColor: '#FFE9E8',
+  },
+  textInProgress: {
+    fontSize: 11,
     fontWeight: '700',
     color: Colors.primary,
-    letterSpacing: 0.6,
   },
+  statusDone: {
+    backgroundColor: '#E8F5E9',
+  },
+  textDone: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#2D6A4F',
+  },
+
   centerBox: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 30,
   },
-  loadingText: {
-    fontFamily: 'monospace',
-    fontSize: 11,
-    fontWeight: '700',
-    color: Colors.textSecondary,
-    marginTop: 12,
-  },
-  errorTitle: {
-    fontFamily: 'monospace',
-    fontSize: 14,
-    fontWeight: '800',
-    color: Colors.rose,
-    marginBottom: 6,
-  },
-  errorBody: {
-    fontFamily: 'serif',
+  errorText: {
     fontSize: 13,
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    marginBottom: 16,
+    color: '#7A6664',
+    marginBottom: 10,
   },
   retryBtn: {
     backgroundColor: Colors.primary,
-    borderWidth: 1,
-    borderColor: Colors.ink,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 6,
   },
   retryBtnText: {
-    fontFamily: 'monospace',
-    fontSize: 11,
-    fontWeight: '700',
-    color: Colors.surfaceElevated,
-  },
-  emptyTitle: {
-    fontFamily: 'serif',
-    fontSize: 18,
-    fontWeight: '700',
-    color: Colors.ink,
-    marginBottom: 6,
-  },
-  emptyBody: {
-    fontFamily: 'serif',
-    fontSize: 13,
-    color: Colors.textSecondary,
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-  initializeBtn: {
-    backgroundColor: Colors.primary,
-    borderWidth: 1,
-    borderColor: Colors.ink,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-  },
-  initializeBtnText: {
-    fontFamily: 'monospace',
-    fontSize: 11,
-    fontWeight: '800',
-    color: Colors.surfaceElevated,
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '600',
   },
 });

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_tab" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,400..900;1,400..900&amp;family=Arimo:ital,wght@0,400..700;1,400..700&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400..700;1,400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-surface-variant": "#58413f",
+          "tertiary-container": "#440006",
+          "surface-container-high": "#ffe1e0",
+          "surface-container": "#ffe9e8",
+          "on-secondary-container": "#7a3233",
+          "primary": "#0d0000",
+          "error-container": "#ffdad6",
+          "on-secondary": "#ffffff",
+          "on-tertiary-fixed-variant": "#7e2a2a",
+          "surface-variant": "#ffdad8",
+          "tertiary-fixed-dim": "#ffb3b0",
+          "tertiary": "#0e0000",
+          "surface-bright": "#fff8f7",
+          "tertiary-fixed": "#ffdad8",
+          "on-secondary-fixed-variant": "#773031",
+          "primary-fixed-dim": "#ffb4aa",
+          "error": "#ba1a1a",
+          "secondary-fixed-dim": "#ffb3b1",
+          "on-primary-fixed": "#410001",
+          "inverse-surface": "#581c1e",
+          "inverse-on-surface": "#ffedeb",
+          "surface-tint": "#a8372e",
+          "on-primary": "#ffffff",
+          "on-surface": "#3c070b",
+          "inverse-primary": "#ffb4aa",
+          "on-background": "#3c070b",
+          "on-secondary-fixed": "#3d050a",
+          "on-primary-fixed-variant": "#7f2a21",
+          "on-tertiary-fixed": "#410006",
+          "on-error-container": "#93000a",
+          "primary-deep": "#440001",
+          "primary-container": "#690707",
+          "primary-fixed": "#ffdad5",
+          "secondary-container": "#ff9e9c",
+          "surface-container-lowest": "#ffffff",
+          "background": "#fff8f7",
+          "surface": "#fff8f7",
+          "on-primary-container": "#cf6659",
+          "outline-variant": "#dfbfbb",
+          "on-tertiary-container": "#cd6664",
+          "on-tertiary": "#ffffff",
+          "secondary": "#944747",
+          "surface-dim": "#ffcecc",
+          "secondary-fixed": "#ffdad8",
+          "surface-container-low": "#fff0ef",
+          "surface-container-highest": "#ffdad8",
+          "on-error": "#ffffff",
+          "outline": "#8b716e"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "fontFamily": {
+          "headline-md": ["Anybody", "sans-serif"],
+          "headline-sm": ["Anybody", "sans-serif"],
+          "headline-lg": ["Anybody", "sans-serif"],
+          "body-sm": ["Atkinson Hyperlegible Next", "sans-serif"],
+          "body-md": ["Atkinson Hyperlegible Next", "sans-serif"],
+          "body-lg": ["Atkinson Hyperlegible Next", "sans-serif"],
+          "label-lg": ["Arimo", "sans-serif"],
+          "label-md": ["Arimo", "sans-serif"],
+          "label-sm": ["Arimo", "sans-serif"]
+        }
+      },
+    },
+  }
+</script>
+<style>
+    @layer base {
+      html, body {
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        background-color: #fff8f7;
+        font-family: 'Atkinson Hyperlegible Next', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      body {
+        overscroll-behavior: none;
+        min-height: max(884px, 100dvh);
+      }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="bg-[#fff8f7] text-[#3c070b] font-body-md min-h-screen flex flex-col relative antialiased selection:bg-[#440001] selection:text-white">
+<!-- Header: International Typographic Style -->
+<header class="fixed top-0 w-full z-50 pt-safe bg-[#fff8f7] border-b border-[#dfbfbb] select-none">
+<div class="h-16 px-5 flex items-center justify-between gap-3">
+<div class="flex flex-col justify-center">
+<div class="flex items-center gap-2">
+<h1 class="font-headline-lg font-black text-[20px] tracking-tight text-[#3c070b] uppercase leading-none">SkillRadar</h1>
+<span class="w-1.5 h-1.5 rounded-full bg-[#440001]"></span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-sm text-[10px] uppercase tracking-wider text-[#58413f]">LOGGED TODAY: <strong class="text-[#3c070b] font-bold">12 ENTRIES</strong></span>
+<span class="text-[#dfbfbb] text-[9px]">/</span>
+<span class="font-label-sm text-[9px] uppercase tracking-wider text-[#690707] font-bold">ED.26</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Search Archive" class="w-9 h-9 border border-[#dfbfbb] bg-white rounded-lg flex items-center justify-center text-[#3c070b] hover:bg-[#fff0ef] active:bg-[#ffe9e8] transition-colors">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</button>
+<button aria-label="Filter Index" class="w-9 h-9 border border-[#dfbfbb] bg-white rounded-lg flex items-center justify-center text-[#3c070b] hover:bg-[#fff0ef] active:bg-[#ffe9e8] transition-colors">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<div class="w-9 h-9 bg-[#440001] text-white rounded-lg flex items-center justify-center font-label-md text-[11px] font-bold tracking-wider">
+        SR
+      </div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full bg-[#fff8f7] pt-16 pb-24 px-4 sm:px-5 relative">
+<div class="flex flex-col w-full text-[#3c070b] select-none pb-6">
+<!-- Top Architecture Plate: Clean Crimson Monolith Header -->
+<section class="bg-white border border-[#dfbfbb] rounded-xl p-5 mb-4 mt-3 shadow-sm">
+<div class="flex items-center justify-between border-b border-[#fff0ef] pb-3 mb-3">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#440001]"></span>
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-[#58413f] font-semibold">SAVED SPECIMENS</span>
+</div>
+<span class="font-label-sm text-[10px] tracking-wide px-2.5 py-0.5 bg-[#fff0ef] border border-[#dfbfbb] text-[#3c070b] rounded-full font-medium">INDEX // REV 2026.10</span>
+</div>
+<div class="flex items-end justify-between gap-3">
+<div>
+<h2 class="font-headline-md text-[24px] font-black text-[#3c070b] tracking-tight uppercase leading-none">Index Archive</h2>
+<p class="font-body-sm text-[12px] text-[#58413f] mt-1.5 font-normal">Active collection of curated technical specifications &amp; architectures.</p>
+</div>
+<div class="text-right flex-shrink-0">
+<span class="font-label-sm text-[11px] uppercase tracking-wider font-bold bg-[#440001] text-white px-3 py-1.5 rounded-lg inline-block shadow-sm">
+            05 ITEMS FILED
+          </span>
+</div>
+</div>
+</section>
+<!-- Segment Pill Controls -->
+<div class="mb-4 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-none">
+<div class="flex items-center gap-1.5 min-w-max p-1.5 bg-[#fff0ef] border border-[#dfbfbb] rounded-xl shadow-sm">
+<button class="filter-tab active-tab bg-[#440001] text-white px-3.5 py-1.5 rounded-lg text-[11px] font-label-md font-semibold uppercase tracking-wide flex items-center gap-2 transition-all shadow-sm" data-category="all">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ffb4aa]"></span>
+          ALL (5)
+        </button>
+<button class="filter-tab bg-transparent text-[#58413f] hover:text-[#3c070b] px-3.5 py-1.5 rounded-lg text-[11px] font-label-md font-medium uppercase tracking-wide flex items-center gap-2 transition-all" data-category="ai">
+<span class="w-1.5 h-1.5 rounded-full bg-[#8b716e]"></span>
+          AI &amp; COMPUTE (3)
+        </button>
+<button class="filter-tab bg-transparent text-[#58413f] hover:text-[#3c070b] px-3.5 py-1.5 rounded-lg text-[11px] font-label-md font-medium uppercase tracking-wide flex items-center gap-2 transition-all" data-category="kernel">
+<span class="w-1.5 h-1.5 rounded-full bg-[#8b716e]"></span>
+          KERNEL / OS (1)
+        </button>
+<button class="filter-tab bg-transparent text-[#58413f] hover:text-[#3c070b] px-3.5 py-1.5 rounded-lg text-[11px] font-label-md font-medium uppercase tracking-wide flex items-center gap-2 transition-all" data-category="languages">
+<span class="w-1.5 h-1.5 rounded-full bg-[#8b716e]"></span>
+          LANGUAGES (1)
+        </button>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="flex items-center justify-between mb-3 px-0.5">
+<button class="bg-white border border-[#dfbfbb] rounded-lg px-3 py-1.5 hover:bg-[#fff0ef] text-[#3c070b] font-label-sm text-[10px] uppercase font-bold tracking-wider flex items-center gap-1.5 transition-colors shadow-sm" id="sortToggleBtn">
+<span class="material-symbols-outlined text-[14px]">swap_vert</span>
+<span id="sortLabel">SORT: DATE FILED ↓</span>
+</button>
+<div class="flex items-center gap-2">
+<button class="bg-white border border-[#dfbfbb] rounded-lg px-2.5 py-1.5 hover:bg-[#fff0ef] text-[#58413f] font-label-sm text-[10px] uppercase font-semibold tracking-wider flex items-center gap-1 transition-colors shadow-sm" id="viewToggleBtn" title="Toggle Empty Drawer View">
+<span class="material-symbols-outlined text-[13px]">visibility</span>
+<span>EMPTY VIEW</span>
+</button>
+<button class="bg-[#440001] hover:bg-[#690707] text-white rounded-lg px-3.5 py-1.5 font-label-sm text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors shadow-sm" id="pullAllBtn">
+<span class="material-symbols-outlined text-[14px]">drive_file_move</span>
+<span>STAGE ROADMAP</span>
+</button>
+</div>
+</div>
+<!-- Minimal Status Banner -->
+<div class="hidden mb-3 p-2.5 bg-[#fff0ef] border border-[#440001]/30 rounded-lg shadow-sm flex items-center justify-between text-[#3c070b] font-label-md text-[11px]" id="actionToast">
+<span class="flex items-center gap-2 font-medium">
+<span class="material-symbols-outlined text-[16px] text-[#690707]">check_circle</span>
+<span id="toastMsg">SPECIMEN DISPATCHED TO ROADMAP</span>
+</span>
+<span class="font-bold text-[#690707]">SUCCESS</span>
+</div>
+<!-- Archive Row Cards Container -->
+<div class="flex flex-col gap-2.5" id="drawerList">
+<!-- Card 1: vLLM PagedAttention -->
+<article class="specimen-card bg-white border border-[#dfbfbb] rounded-xl shadow-sm hover:border-[#8b716e] transition-all flex flex-col overflow-hidden" data-category="ai">
+<div class="p-3.5 sm:p-4">
+<div class="flex items-center justify-between pb-2 mb-2 border-b border-[#fff0ef]">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-[10px] font-bold text-[#3c070b] bg-[#fff0ef] border border-[#dfbfbb] px-2 py-0.5 rounded-full">#048</span>
+<span class="font-label-sm text-[10px] text-[#58413f] uppercase tracking-wide">AI • CS.ARXIV.2309</span>
+</div>
+<span class="font-label-sm text-[9px] px-2.5 py-0.5 rounded-full border border-[#440001]/25 text-[#690707] bg-[#ffe9e8] font-bold uppercase tracking-wider">
+              EMERGING
+            </span>
+</div>
+<h3 class="font-headline-sm text-[16px] font-bold text-[#3c070b] leading-snug tracking-tight">
+            vLLM PagedAttention Architecture
+          </h3>
+<p class="font-body-sm text-[13px] text-[#58413f] mt-1.5 leading-relaxed font-normal">
+            Non-contiguous memory allocation protocol for key-value caches under dynamic sequence batching constraints.
+          </p>
+<div class="mt-3.5 pt-2.5 border-t border-[#fff0ef] flex items-center justify-between">
+<div class="font-label-sm text-[10px] text-[#8b716e]">
+              FILED: 24 OCT 2026 // CS.AI
+            </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-7 h-7 border border-[#dfbfbb] bg-[#fff8f7] hover:bg-[#fff0ef] text-[#58413f] hover:text-[#3c070b] rounded-lg flex items-center justify-center transition-colors" title="Remove from Saved">
+<span class="material-symbols-outlined text-[14px]">bookmark_remove</span>
+</button>
+<button class="w-7 h-7 bg-[#440001] hover:bg-[#690707] text-white rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Add to Roadmap">
+<span class="material-symbols-outlined text-[15px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2: eBPF-Driven Observability -->
+<article class="specimen-card bg-white border border-[#dfbfbb] rounded-xl shadow-sm hover:border-[#8b716e] transition-all flex flex-col overflow-hidden" data-category="kernel">
+<div class="p-3.5 sm:p-4">
+<div class="flex items-center justify-between pb-2 mb-2 border-b border-[#fff0ef]">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-[10px] font-bold text-[#3c070b] bg-[#fff0ef] border border-[#dfbfbb] px-2 py-0.5 rounded-full">#042</span>
+<span class="font-label-sm text-[10px] text-[#58413f] uppercase tracking-wide">SYS.IO • LINUX.ORG</span>
+</div>
+<span class="font-label-sm text-[9px] px-2.5 py-0.5 rounded-full border border-[#dfbfbb] text-[#3c070b] bg-[#fff0ef] font-bold uppercase tracking-wider">
+              VERIFIED
+            </span>
+</div>
+<h3 class="font-headline-sm text-[16px] font-bold text-[#3c070b] leading-snug tracking-tight">
+            eBPF-Driven Observability &amp; Kernel Probing
+          </h3>
+<p class="font-body-sm text-[13px] text-[#58413f] mt-1.5 leading-relaxed font-normal">
+            In-kernel bytecode sandboxing for low-overhead syscall tracing without recompiling or loading third-party LKM.
+          </p>
+<div class="mt-3.5 pt-2.5 border-t border-[#fff0ef] flex items-center justify-between">
+<div class="font-label-sm text-[10px] text-[#8b716e]">
+              FILED: 22 OCT 2026 // KERNEL.SRC
+            </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-7 h-7 border border-[#dfbfbb] bg-[#fff8f7] hover:bg-[#fff0ef] text-[#58413f] hover:text-[#3c070b] rounded-lg flex items-center justify-center transition-colors" title="Remove from Saved">
+<span class="material-symbols-outlined text-[14px]">bookmark_remove</span>
+</button>
+<button class="w-7 h-7 bg-[#440001] hover:bg-[#690707] text-white rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Add to Roadmap">
+<span class="material-symbols-outlined text-[15px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3: State Space Models (Mamba) -->
+<article class="specimen-card bg-white border border-[#dfbfbb] rounded-xl shadow-sm hover:border-[#8b716e] transition-all flex flex-col overflow-hidden" data-category="ai">
+<div class="p-3.5 sm:p-4">
+<div class="flex items-center justify-between pb-2 mb-2 border-b border-[#fff0ef]">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-[10px] font-bold text-[#3c070b] bg-[#fff0ef] border border-[#dfbfbb] px-2 py-0.5 rounded-full">#039</span>
+<span class="font-label-sm text-[10px] text-[#58413f] uppercase tracking-wide">AI • CORNELL.EDU</span>
+</div>
+<span class="font-label-sm text-[9px] px-2.5 py-0.5 rounded-full border border-[#dfbfbb] text-[#3c070b] bg-[#fff0ef] font-bold uppercase tracking-wider">
+              BENCHMARK
+            </span>
+</div>
+<h3 class="font-headline-sm text-[16px] font-bold text-[#3c070b] leading-snug tracking-tight">
+            State Space Models (Mamba) vs Transformers
+          </h3>
+<p class="font-body-sm text-[13px] text-[#58413f] mt-1.5 leading-relaxed font-normal">
+            Sub-quadratic linear-time context scaling across 1M tokens through continuous-time parameter selection.
+          </p>
+<div class="mt-3.5 pt-2.5 border-t border-[#fff0ef] flex items-center justify-between">
+<div class="font-label-sm text-[10px] text-[#8b716e]">
+              FILED: 19 OCT 2026 // CS.LG
+            </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-7 h-7 border border-[#dfbfbb] bg-[#fff8f7] hover:bg-[#fff0ef] text-[#58413f] hover:text-[#3c070b] rounded-lg flex items-center justify-center transition-colors" title="Remove from Saved">
+<span class="material-symbols-outlined text-[14px]">bookmark_remove</span>
+</button>
+<button class="w-7 h-7 bg-[#440001] hover:bg-[#690707] text-white rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Add to Roadmap">
+<span class="material-symbols-outlined text-[15px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 4: WebAssembly Component Model -->
+<article class="specimen-card bg-white border border-[#dfbfbb] rounded-xl shadow-sm hover:border-[#8b716e] transition-all flex flex-col overflow-hidden" data-category="languages">
+<div class="p-3.5 sm:p-4">
+<div class="flex items-center justify-between pb-2 mb-2 border-b border-[#fff0ef]">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-[10px] font-bold text-[#3c070b] bg-[#fff0ef] border border-[#dfbfbb] px-2 py-0.5 rounded-full">#033</span>
+<span class="font-label-sm text-[10px] text-[#58413f] uppercase tracking-wide">W3C • SPEC.DOC</span>
+</div>
+<span class="font-label-sm text-[9px] px-2.5 py-0.5 rounded-full border border-[#dfbfbb] text-[#58413f] bg-[#fff0ef] font-bold uppercase tracking-wider">
+              DRAFT V2
+            </span>
+</div>
+<h3 class="font-headline-sm text-[16px] font-bold text-[#3c070b] leading-snug tracking-tight">
+            WebAssembly Component Model Spec
+          </h3>
+<p class="font-body-sm text-[13px] text-[#58413f] mt-1.5 leading-relaxed font-normal">
+            Cross-language module linking via canonical ABI interfaces for polyglot microservice boundaries.
+          </p>
+<div class="mt-3.5 pt-2.5 border-t border-[#fff0ef] flex items-center justify-between">
+<div class="font-label-sm text-[10px] text-[#8b716e]">
+              FILED: 16 OCT 2026 // WASM.ORG
+            </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-7 h-7 border border-[#dfbfbb] bg-[#fff8f7] hover:bg-[#fff0ef] text-[#58413f] hover:text-[#3c070b] rounded-lg flex items-center justify-center transition-colors" title="Remove from Saved">
+<span class="material-symbols-outlined text-[14px]">bookmark_remove</span>
+</button>
+<button class="w-7 h-7 bg-[#440001] hover:bg-[#690707] text-white rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Add to Roadmap">
+<span class="material-symbols-outlined text-[15px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 5: FlashAttention-3 FP8 -->
+<article class="specimen-card bg-white border border-[#dfbfbb] rounded-xl shadow-sm hover:border-[#8b716e] transition-all flex flex-col overflow-hidden" data-category="ai">
+<div class="p-3.5 sm:p-4">
+<div class="flex items-center justify-between pb-2 mb-2 border-b border-[#fff0ef]">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-[10px] font-bold text-[#3c070b] bg-[#fff0ef] border border-[#dfbfbb] px-2 py-0.5 rounded-full">#027</span>
+<span class="font-label-sm text-[10px] text-[#58413f] uppercase tracking-wide">GPU.HW • NVIDIA.COM</span>
+</div>
+<span class="font-label-sm text-[9px] px-2.5 py-0.5 rounded-full border border-[#440001]/25 text-[#690707] bg-[#ffe9e8] font-bold uppercase tracking-wider">
+              ACCELERATED
+            </span>
+</div>
+<h3 class="font-headline-sm text-[16px] font-bold text-[#3c070b] leading-snug tracking-tight">
+            FlashAttention-3 FP8 Kernels
+          </h3>
+<p class="font-body-sm text-[13px] text-[#58413f] mt-1.5 leading-relaxed font-normal">
+            Asynchronous hardware tensor-core pipelining with warp-specialization on Hopper H100 architectures.
+          </p>
+<div class="mt-3.5 pt-2.5 border-t border-[#fff0ef] flex items-center justify-between">
+<div class="font-label-sm text-[10px] text-[#8b716e]">
+              FILED: 12 OCT 2026 // CUDA.ARCH
+            </div>
+<div class="flex items-center gap-1.5">
+<button class="remove-card-btn w-7 h-7 border border-[#dfbfbb] bg-[#fff8f7] hover:bg-[#fff0ef] text-[#58413f] hover:text-[#3c070b] rounded-lg flex items-center justify-center transition-colors" title="Remove from Saved">
+<span class="material-symbols-outlined text-[14px]">bookmark_remove</span>
+</button>
+<button class="w-7 h-7 bg-[#440001] hover:bg-[#690707] text-white rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Add to Roadmap">
+<span class="material-symbols-outlined text-[15px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Refined Empty State -->
+<div class="hidden mt-3 flex-col items-center justify-center p-8 bg-white border border-[#dfbfbb] rounded-xl shadow-sm text-center relative" id="emptyDrawerState">
+<div class="w-12 h-12 rounded-full bg-[#fff0ef] border border-[#dfbfbb] flex items-center justify-center text-[#3c070b] mb-3">
+<span class="material-symbols-outlined text-[22px] text-[#690707]">folder_open</span>
+</div>
+<h4 class="font-headline-sm text-[16px] font-bold text-[#3c070b] tracking-tight">No specimens currently filed</h4>
+<p class="font-body-sm text-[13px] text-[#58413f] mt-1 max-w-[280px] leading-relaxed">
+        Save technologies and technical specifications from the discovery feed to keep them indexed here.
+      </p>
+<a class="mt-4 inline-flex items-center gap-2 bg-[#440001] hover:bg-[#690707] text-white rounded-lg px-4 py-2 font-label-md text-[11px] uppercase tracking-wider font-bold transition-colors shadow-sm" href="#">
+<span>Explore Discover Feed →</span>
+</a>
+</div>
+<!-- Architectural Micro Footer -->
+<footer class="mt-8 pt-4 border-t border-[#dfbfbb] flex items-center justify-between text-[#58413f] font-label-sm text-[10px]">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-[#440001]"></span>
+<span class="tracking-wide">INDEX SYSTEM EN-41</span>
+</div>
+<span class="uppercase tracking-wider text-[#8b716e]">SAVED REPOSITORY // 05 ENTRIES</span>
+</footer>
+</div>
+</main>
+<!-- Modernist Tab Navigation -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-[#fff8f7] border-t border-[#dfbfbb] select-none">
+<div class="h-16 px-2 grid grid-cols-4 items-center">
+<a class="flex flex-col items-center justify-center h-full min-h-[44px] text-[#58413f] hover:text-[#3c070b] transition-colors" data-path="discover" href="#">
+<span class="material-symbols-outlined text-[20px]">radar</span>
+<span class="font-headline-sm text-[10px] font-bold tracking-wide uppercase mt-1">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center h-full min-h-[44px] text-[#58413f] hover:text-[#3c070b] transition-colors" data-path="roadmap" href="#">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+<span class="font-headline-sm text-[10px] font-bold tracking-wide uppercase mt-1">Roadmap</span>
+</a>
+<a class="flex flex-col items-center justify-center h-full min-h-[44px] text-[#440001] font-bold transition-colors relative" data-path="saved" href="#">
+<span class="absolute top-0 w-8 h-[2px] bg-[#440001]"></span>
+<span class="material-symbols-outlined text-[20px] text-[#440001]">bookmark</span>
+<span class="font-headline-sm text-[10px] tracking-wide uppercase mt-1 font-bold text-[#440001]">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center h-full min-h-[44px] text-[#58413f] hover:text-[#3c070b] transition-colors" data-path="profile" href="#">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+<span class="font-headline-sm text-[10px] font-bold tracking-wide uppercase mt-1">Profile</span>
+</a>
+</div>
+</nav>
+<!-- Interactive Logic for Drawer Actions -->
+<script>
+  (function initFilingDrawer() {
+    const drawerList = document.getElementById('drawerList');
+    const emptyState = document.getElementById('emptyDrawerState');
+    const viewToggle = document.getElementById('viewToggleBtn');
+    const sortBtn = document.getElementById('sortToggleBtn');
+    const sortLabel = document.getElementById('sortLabel');
+    const pullAllBtn = document.getElementById('pullAllBtn');
+    const toast = document.getElementById('actionToast');
+    const toastMsg = document.getElementById('toastMsg');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    
+    let isExplicitEmpty = false;
+    let sortDesc = true;
+
+    // Filter category switcher
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => {
+          t.classList.remove('bg-[#440001]', 'text-white', 'shadow-sm');
+          t.classList.add('bg-transparent', 'text-[#58413f]');
+          const dot = t.querySelector('span');
+          if (dot) dot.classList.replace('bg-[#ffb4aa]', 'bg-[#8b716e]');
+        });
+        tab.classList.remove('bg-transparent', 'text-[#58413f]');
+        tab.classList.add('bg-[#440001]', 'text-white', 'shadow-sm');
+        const activeDot = tab.querySelector('span');
+        if (activeDot) activeDot.classList.replace('bg-[#8b716e]', 'bg-[#ffb4aa]');
+
+        const category = tab.getAttribute('data-category');
+        const cards = drawerList.querySelectorAll('.specimen-card');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+          const cardCat = card.getAttribute('data-category');
+          if (category === 'all' || cardCat === category) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (visibleCount === 0 && !isExplicitEmpty) {
+          emptyState.classList.remove('hidden');
+          emptyState.classList.add('flex');
+        } else if (!isExplicitEmpty) {
+          emptyState.classList.add('hidden');
+          emptyState.classList.remove('flex');
+        }
+      });
+    });
+
+    // Individual Card Unfile / Dismiss
+    drawerList.addEventListener('click', (e) => {
+      const removeBtn = e.target.closest('.remove-card-btn');
+      if (removeBtn) {
+        const card = removeBtn.closest('.specimen-card');
+        if (card) {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(8px)';
+          setTimeout(() => {
+            card.remove();
+            const remainingCards = drawerList.querySelectorAll('.specimen-card');
+            if (remainingCards.length === 0) {
+              emptyState.classList.remove('hidden');
+              emptyState.classList.add('flex');
+            }
+          }, 180);
+        }
+      }
+    });
+
+    // Toggle Empty state preview
+    if (viewToggle) {
+      viewToggle.addEventListener('click', () => {
+        isExplicitEmpty = !isExplicitEmpty;
+        if (isExplicitEmpty) {
+          drawerList.classList.add('hidden');
+          emptyState.classList.remove('hidden');
+          emptyState.classList.add('flex');
+          viewToggle.querySelector('span:last-child').textContent = 'RESET VIEW';
+        } else {
+          drawerList.classList.remove('hidden');
+          emptyState.classList.add('hidden');
+          emptyState.classList.remove('flex');
+          viewToggle.querySelector('span:last-child').textContent = 'EMPTY VIEW';
+        }
+      });
+    }
+
+    // Sort Toggle
+    if (sortBtn && sortLabel) {
+      sortBtn.addEventListener('click', () => {
+        sortDesc = !sortDesc;
+        sortLabel.innerHTML = sortDesc ? 'SORT: DATE FILED &darr;' : 'SORT: ID # &uarr;';
+        const cards = Array.from(drawerList.querySelectorAll('.specimen-card'));
+        cards.reverse().forEach(c => drawerList.appendChild(c));
+      });
+    }
+
+    // Pull All to Roadmap
+    if (pullAllBtn) {
+      pullAllBtn.addEventListener('click', () => {
+        if (toast) {
+          toastMsg.textContent = 'ALL 5 SPECIMENS STAGED TO ROADMAP';
+          toast.classList.remove('hidden');
+          setTimeout(() => {
+            toast.classList.add('hidden');
+          }, 3000);
+        }
+      });
+    }
+  })();
+</script>
+</body></html>

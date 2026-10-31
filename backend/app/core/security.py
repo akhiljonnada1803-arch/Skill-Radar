@@ -117,6 +117,12 @@ def get_current_user_id(request: Request) -> uuid.UUID:
         headers={"WWW-Authenticate": "Bearer"}
     )
 
+def get_optional_user_id(request: Request) -> Optional[uuid.UUID]:
+    try:
+        return get_current_user_id(request)
+    except HTTPException:
+        return None
+
 def get_current_user(request: Request, db: Session = Depends(get_db)):
     from app.models import User
     user_id = get_current_user_id(request)

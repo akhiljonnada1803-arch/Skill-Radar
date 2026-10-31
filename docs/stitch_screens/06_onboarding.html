@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta content="mobile_stack" name="shell-type"/>
+<title>Cadet Survey &amp; Profile — SkillRadar</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@600;700;800;900&amp;family=Arimo:wght@400;500;600;700&amp;family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-surface-variant": "#58413f",
+          "tertiary-container": "#440006",
+          "surface-container-high": "#ffe1e0",
+          "surface-container": "#ffe9e8",
+          "on-secondary-container": "#7a3233",
+          "primary": "#440001",
+          "error-container": "#ffdad6",
+          "on-secondary": "#ffffff",
+          "on-tertiary-fixed-variant": "#7e2a2a",
+          "surface-variant": "#ffdad8",
+          "tertiary-fixed-dim": "#ffb3b0",
+          "tertiary": "#0e0000",
+          "surface-bright": "#fff8f7",
+          "tertiary-fixed": "#ffdad8",
+          "on-secondary-fixed-variant": "#773031",
+          "primary-fixed-dim": "#ffb4aa",
+          "error": "#ba1a1a",
+          "secondary-fixed-dim": "#ffb3b1",
+          "on-primary-fixed": "#410001",
+          "inverse-surface": "#581c1e",
+          "inverse-on-surface": "#ffedeb",
+          "surface-tint": "#a8372e",
+          "on-primary": "#ffffff",
+          "on-surface": "#3c070b",
+          "inverse-primary": "#ffb4aa",
+          "on-background": "#3c070b",
+          "on-secondary-fixed": "#3d050a",
+          "on-primary-fixed-variant": "#7f2a21",
+          "on-tertiary-fixed": "#410006",
+          "on-error-container": "#93000a",
+          "primary-deep": "#440001",
+          "primary-container": "#690707",
+          "primary-fixed": "#ffdad5",
+          "secondary-container": "#ff9e9c",
+          "surface-container-lowest": "#ffffff",
+          "background": "#fff8f7",
+          "surface": "#fff8f7",
+          "on-primary-container": "#cf6659",
+          "outline-variant": "#dfbfbb",
+          "on-tertiary-container": "#cd6664",
+          "on-tertiary": "#ffffff",
+          "secondary": "#944747",
+          "surface-dim": "#ffcecc",
+          "secondary-fixed": "#ffdad8",
+          "surface-container-low": "#fff0ef",
+          "surface-container-highest": "#ffdad8",
+          "on-error": "#ffffff",
+          "outline": "#8b716e"
+        },
+        fontFamily: {
+          headline: ["Anybody", "sans-serif"],
+          body: ["Atkinson Hyperlegible Next", "sans-serif"],
+          label: ["Arimo", "sans-serif"]
+        }
+      }
+    }
+  };
+</script>
+<style>
+  @layer base {
+    html, body {
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      background-color: #fff8f7;
+      color: #3c070b;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .pb-safe {
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .pt-safe {
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      background: #440001;
+      border: 3px solid #fff8f7;
+      box-shadow: 0 0 0 1.5px #8b716e;
+      cursor: pointer;
+      border-radius: 9999px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: #690707;
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      background: #440001;
+      border: 3px solid #fff8f7;
+      box-shadow: 0 0 0 1.5px #8b716e;
+      cursor: pointer;
+      border-radius: 9999px;
+    }
+  }
+</style>
+</head>
+<body class="bg-[#fff8f7] text-[#3c070b] min-h-screen flex flex-col font-body selection:bg-[#440001] selection:text-white">
+<!-- Header: Crimson Monolith Edition -->
+<header class="fixed top-0 w-full z-50 pt-safe bg-[#fff8f7]/95 backdrop-blur-md border-b border-[#dfbfbb]">
+<div class="h-14 px-4 sm:px-6 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button aria-label="Return to previous screen" class="w-9 h-9 rounded-lg border border-[#dfbfbb] bg-white flex items-center justify-center text-[#3c070b] hover:bg-[#440001] hover:text-white hover:border-[#440001] transition-colors" onclick="history.back()" type="button">
+<span class="material-symbols-outlined text-[19px]">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline text-[13px] font-bold tracking-tight uppercase text-[#3c070b]">SkillRadar</span>
+<span class="font-label text-[10px] tracking-wider uppercase font-bold text-[#440001] bg-[#ffdad5] px-1.5 py-0.5 rounded">v2.4</span>
+</div>
+<span class="font-body text-[11px] text-[#58413f] tracking-normal font-normal">Cadet Intake Architecture</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex items-center gap-1.5 bg-[#ffe9e8] border border-[#dfbfbb] px-2.5 py-1 rounded-md">
+<span class="w-1.5 h-1.5 rounded-full bg-[#440001]"></span>
+<span class="font-label text-[11px] font-bold tracking-wider uppercase text-[#440001]">Phase 01</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-[#440001] text-white flex items-center justify-center text-[12px] font-headline font-bold">
+        AV
+      </div>
+</div>
+</div>
+</header>
+<!-- Main Container -->
+<main class="flex-1 w-full pt-20 pb-20 px-4 sm:px-6 max-w-2xl mx-auto flex flex-col">
+<!-- Architectural Document Header -->
+<div class="pt-4 pb-6 border-b border-[#dfbfbb]">
+<div class="flex items-center gap-2 font-label text-[11px] font-bold tracking-widest text-[#58413f] uppercase mb-2">
+<span>Index / Intake Dossier</span>
+<span>•</span>
+<span class="text-[#440001]">Form 01-SR</span>
+</div>
+<h1 class="font-headline text-2xl sm:text-3xl font-bold tracking-tight text-[#3c070b] uppercase">
+      Cadet Survey &amp; Profile
+    </h1>
+<p class="font-body text-sm text-[#58413f] mt-2 leading-relaxed max-w-xl">
+      Configure your profile matrix to align telemetry models and algorithmic tracking to your technical path.
+    </p>
+</div>
+<!-- Crimson Monolith Form -->
+<form class="py-6 space-y-8" id="expedition-form" onsubmit="event.preventDefault();">
+<!-- Section 01: Identifier -->
+<div class="space-y-2">
+<div class="flex items-baseline justify-between">
+<label class="font-label text-[11px] font-bold uppercase tracking-wider text-[#3c070b]" for="cadet-name">
+          01 / Identity &amp; Handle
+        </label>
+<span class="font-label text-[11px] text-[#58413f] tracking-tight">Required</span>
+</div>
+<div class="relative">
+<input class="w-full bg-white text-[#3c070b] font-body text-sm font-semibold border border-[#dfbfbb] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#440001] focus:ring-1 focus:ring-[#440001] placeholder:text-[#8b716e] shadow-sm transition-all" id="cadet-name" placeholder="e.g. Elena Rostova" type="text" value="A. Vance // CS-28"/>
+</div>
+<div class="flex justify-between font-label text-[11px] text-[#58413f] pt-0.5">
+<span>Verified System Identifier</span>
+<span class="font-mono text-[#3c070b] font-semibold">ID: SR-9942</span>
+</div>
+</div>
+<!-- Section 02: Domain Interests -->
+<div class="space-y-3">
+<div class="flex items-baseline justify-between border-b border-[#dfbfbb] pb-2">
+<span class="font-label text-[11px] font-bold uppercase tracking-wider text-[#3c070b]">
+          02 / Domain Specialization
+        </span>
+<span class="font-label text-[11px] font-bold text-[#440001] tracking-wider uppercase">
+          Select Minimum 2
+        </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="domains-grid">
+<!-- Tile 1 (Selected: Deep Crimson) -->
+<button class="domain-chip group flex items-center justify-between p-3 rounded-xl border-2 border-[#440001] bg-[#440001] text-white text-left transition-all shadow-sm" data-domain-tag="ai" type="button">
+<div class="flex items-center gap-3">
+<span class="status-box w-4 h-4 rounded-md border border-white bg-white text-[#440001] flex items-center justify-center text-[10px] font-bold">✓</span>
+<span class="text-xs font-semibold text-white tracking-tight">AI &amp; LLM Inference</span>
+</div>
+<span class="text-[10px] font-mono text-white/70">01</span>
+</button>
+<!-- Tile 2 (Selected: Deep Crimson) -->
+<button class="domain-chip group flex items-center justify-between p-3 rounded-xl border-2 border-[#440001] bg-[#440001] text-white text-left transition-all shadow-sm" data-domain-tag="systems" type="button">
+<div class="flex items-center gap-3">
+<span class="status-box w-4 h-4 rounded-md border border-white bg-white text-[#440001] flex items-center justify-center text-[10px] font-bold">✓</span>
+<span class="text-xs font-semibold text-white tracking-tight">Systems &amp; eBPF</span>
+</div>
+<span class="text-[10px] font-mono text-white/70">02</span>
+</button>
+<!-- Tile 3 -->
+<button class="domain-chip group flex items-center justify-between p-3 rounded-xl border border-[#dfbfbb] bg-white text-left transition-all hover:border-[#8b716e]" data-domain-tag="wasm" type="button">
+<div class="flex items-center gap-3">
+<span class="status-box w-4 h-4 rounded-md border border-[#8b716e] bg-white text-transparent flex items-center justify-center text-[10px] font-bold">✓</span>
+<span class="text-xs font-semibold text-[#3c070b] tracking-tight">Compiler &amp; WASM</span>
+</div>
+<span class="text-[10px] font-mono text-[#8b716e] group-hover:text-[#3c070b]">03</span>
+</button>
+<!-- Tile 4 -->
+<button class="domain-chip group flex items-center justify-between p-3 rounded-xl border border-[#dfbfbb] bg-white text-left transition-all hover:border-[#8b716e]" data-domain-tag="gpu" type="button">
+<div class="flex items-center gap-3">
+<span class="status-box w-4 h-4 rounded-md border border-[#8b716e] bg-white text-transparent flex items-center justify-center text-[10px] font-bold">✓</span>
+<span class="text-xs font-semibold text-[#3c070b] tracking-tight">Edge Compute &amp; GPU</span>
+</div>
+<span class="text-[10px] font-mono text-[#8b716e] group-hover:text-[#3c070b]">04</span>
+</button>
+<!-- Tile 5 -->
+<button class="domain-chip group flex items-center justify-between p-3 rounded-xl border border-[#dfbfbb] bg-white text-left transition-all hover:border-[#8b716e]" data-domain-tag="distrib" type="button">
+<div class="flex items-center gap-3">
+<span class="status-box w-4 h-4 rounded-md border border-[#8b716e] bg-white text-transparent flex items-center justify-center text-[10px] font-bold">✓</span>
+<span class="text-xs font-semibold text-[#3c070b] tracking-tight">Distributed Consensus</span>
+</div>
+<span class="text-[10px] font-mono text-[#8b716e] group-hover:text-[#3c070b]">05</span>
+</button>
+<!-- Tile 6 -->
+<button class="domain-chip group flex items-center justify-between p-3 rounded-xl border border-[#dfbfbb] bg-white text-left transition-all hover:border-[#8b716e]" data-domain-tag="crypto" type="button">
+<div class="flex items-center gap-3">
+<span class="status-box w-4 h-4 rounded-md border border-[#8b716e] bg-white text-transparent flex items-center justify-center text-[10px] font-bold">✓</span>
+<span class="text-xs font-semibold text-[#3c070b] tracking-tight">Applied Cryptography</span>
+</div>
+<span class="text-[10px] font-mono text-[#8b716e] group-hover:text-[#3c070b]">06</span>
+</button>
+</div>
+</div>
+<!-- Section 03: Practiced Skills -->
+<div class="space-y-3">
+<div class="flex items-baseline justify-between border-b border-[#dfbfbb] pb-2">
+<span class="font-label text-[11px] font-bold uppercase tracking-wider text-[#3c070b]">
+          03 / Practiced Technical Skills
+        </span>
+<span class="font-mono text-[11px] text-[#58413f] uppercase">Active Index</span>
+</div>
+<!-- Input Group -->
+<div class="flex items-center gap-2">
+<input class="flex-1 bg-white text-[#3c070b] text-xs font-normal border border-[#dfbfbb] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#440001] focus:ring-1 focus:ring-[#440001] placeholder:text-[#8b716e] shadow-sm" id="new-skill-input" placeholder="Add technology (e.g. Zig, Triton, Docker)..." type="text"/>
+<button class="px-4 py-2.5 bg-[#440001] text-white text-xs font-label font-bold uppercase tracking-wider rounded-xl hover:bg-[#690707] transition-colors shrink-0 shadow-sm" id="add-skill-btn" type="button">
+          Add Tag
+        </button>
+</div>
+<!-- Rounded-full Skill Pills -->
+<div class="flex flex-wrap gap-2 pt-1" id="skills-container">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#dfbfbb] rounded-full text-xs font-medium text-[#3c070b] shadow-xs hover:border-[#8b716e] transition-colors">
+          Python 3.12
+          <button aria-label="Remove skill" class="text-[#8b716e] hover:text-[#440001] flex items-center justify-center transition-colors" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-[13px]">close</span>
+</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#dfbfbb] rounded-full text-xs font-medium text-[#3c070b] shadow-xs hover:border-[#8b716e] transition-colors">
+          CUDA / C++
+          <button aria-label="Remove skill" class="text-[#8b716e] hover:text-[#440001] flex items-center justify-center transition-colors" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-[13px]">close</span>
+</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#dfbfbb] rounded-full text-xs font-medium text-[#3c070b] shadow-xs hover:border-[#8b716e] transition-colors">
+          Linux Kernel
+          <button aria-label="Remove skill" class="text-[#8b716e] hover:text-[#440001] flex items-center justify-center transition-colors" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-[13px]">close</span>
+</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#dfbfbb] rounded-full text-xs font-medium text-[#3c070b] shadow-xs hover:border-[#8b716e] transition-colors">
+          PyTorch
+          <button aria-label="Remove skill" class="text-[#8b716e] hover:text-[#440001] flex items-center justify-center transition-colors" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-[13px]">close</span>
+</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#dfbfbb] rounded-full text-xs font-medium text-[#3c070b] shadow-xs hover:border-[#8b716e] transition-colors">
+          Rust
+          <button aria-label="Remove skill" class="text-[#8b716e] hover:text-[#440001] flex items-center justify-center transition-colors" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-[13px]">close</span>
+</button>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#dfbfbb] rounded-full text-xs font-medium text-[#3c070b] shadow-xs hover:border-[#8b716e] transition-colors">
+          Go
+          <button aria-label="Remove skill" class="text-[#8b716e] hover:text-[#440001] flex items-center justify-center transition-colors" onclick="this.parentElement.remove()" type="button">
+<span class="material-symbols-outlined text-[13px]">close</span>
+</button>
+</span>
+</div>
+</div>
+<!-- Section 04: Experience Level -->
+<div class="space-y-3">
+<div class="flex items-baseline justify-between border-b border-[#dfbfbb] pb-2">
+<span class="font-label text-[11px] font-bold uppercase tracking-wider text-[#3c070b]">
+          04 / Experience Level
+        </span>
+<span class="font-label text-[11px] text-[#58413f]">Tier Categorization</span>
+</div>
+<div class="grid grid-cols-3 gap-2.5" id="stamp-ranks">
+<!-- Level 1: Novice -->
+<button class="rank-btn p-3.5 rounded-xl border border-[#dfbfbb] bg-white text-left transition-all hover:border-[#8b716e] cursor-pointer flex flex-col justify-between h-24" data-rank="novice" type="button">
+<span class="text-[10px] font-mono text-[#8b716e] uppercase">T-01</span>
+<div>
+<div class="text-xs font-bold text-[#3c070b] font-headline">Novice</div>
+<div class="text-[11px] text-[#58413f] mt-0.5 font-body">&lt; 1 Year</div>
+</div>
+</button>
+<!-- Level 2: Practicing (Active: Deep Crimson) -->
+<button class="rank-btn p-3.5 rounded-xl border-2 border-[#440001] bg-[#440001] text-white text-left transition-all cursor-pointer flex flex-col justify-between h-24 shadow-sm" data-rank="surveyor" type="button">
+<span class="text-[10px] font-mono text-white/80 uppercase">T-02</span>
+<div>
+<div class="text-xs font-bold text-white font-headline">Practicing</div>
+<div class="text-[11px] text-white/90 mt-0.5 font-body">1 – 3 Years</div>
+</div>
+</button>
+<!-- Level 3: Senior -->
+<button class="rank-btn p-3.5 rounded-xl border border-[#dfbfbb] bg-white text-left transition-all hover:border-[#8b716e] cursor-pointer flex flex-col justify-between h-24" data-rank="senior" type="button">
+<span class="text-[10px] font-mono text-[#8b716e] uppercase">T-03</span>
+<div>
+<div class="text-xs font-bold text-[#3c070b] font-headline">Senior</div>
+<div class="text-[11px] text-[#58413f] mt-0.5 font-body">4+ Years</div>
+</div>
+</button>
+</div>
+</div>
+<!-- Section 05: Career Trajectory & Goal -->
+<div class="space-y-3">
+<div class="flex items-baseline justify-between border-b border-[#dfbfbb] pb-2">
+<span class="font-label text-[11px] font-bold uppercase tracking-wider text-[#3c070b]">
+          05 / Target Trajectory
+        </span>
+<span class="font-label text-[11px] text-[#58413f]">Primary Direction</span>
+</div>
+<div class="space-y-2.5">
+<div>
+<label class="block font-label text-[11px] font-semibold text-[#58413f] uppercase tracking-wide mb-1">Target Designation</label>
+<input class="w-full bg-white text-[#3c070b] text-xs sm:text-sm font-semibold border border-[#dfbfbb] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#440001] focus:ring-1 focus:ring-[#440001] shadow-sm" type="text" value="Staff Systems Researcher in Distributed LLM Serving"/>
+</div>
+<div>
+<label class="block font-label text-[11px] font-semibold text-[#58413f] uppercase tracking-wide mb-1">Target Sector</label>
+<input class="w-full bg-white text-[#3c070b] text-xs sm:text-sm font-normal border border-[#dfbfbb] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#440001] focus:ring-1 focus:ring-[#440001] shadow-sm" type="text" value="Infrastructure &amp; Machine Learning Systems Labs"/>
+</div>
+</div>
+</div>
+<!-- Section 06: Weekly Study Allocation (Crimson Accented Slider) -->
+<div class="space-y-3">
+<div class="flex items-baseline justify-between border-b border-[#dfbfbb] pb-2">
+<span class="font-label text-[11px] font-bold uppercase tracking-wider text-[#3c070b]">
+          06 / Weekly Time Allocation
+        </span>
+<span class="font-mono text-[11px] text-[#58413f]">Weekly Gauge</span>
+</div>
+<!-- Metric Display Card -->
+<div class="p-4 bg-white border border-[#dfbfbb] rounded-xl flex items-center justify-between shadow-xs">
+<div>
+<span class="font-label text-[11px] uppercase tracking-wide text-[#58413f] font-semibold block">Allocated Study</span>
+<span class="font-headline text-xl font-bold tracking-tight text-[#3c070b]" id="hours-readout">12.5 hrs / week</span>
+</div>
+<div class="text-right">
+<span class="font-label text-xs font-bold text-[#440001]" id="rate-readout">~2.5 hrs daily focus</span>
+<span class="font-body text-[10px] text-[#58413f] block mt-0.5">Benchmark Pace</span>
+</div>
+</div>
+<!-- Crimson Slider -->
+<div class="pt-2 pb-1">
+<input class="w-full h-1.5 bg-[#ffdad8] accent-[#440001] appearance-none cursor-pointer rounded-full focus:outline-none" id="hours-slider" max="30" min="2" step="0.5" type="range" value="12.5"/>
+<div class="flex justify-between items-center text-[10px] font-mono text-[#8b716e] pt-2">
+<span>2H</span>
+<span>5H</span>
+<span>10H</span>
+<span>15H</span>
+<span>20H</span>
+<span>30H+</span>
+</div>
+</div>
+</div>
+<!-- Primary Action CTA -->
+<div class="pt-4">
+<button class="w-full py-3.5 px-6 bg-[#440001] hover:bg-[#690707] text-white font-headline text-sm font-bold uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.99]" id="submit-survey-btn" type="button">
+<span>INITIALIZE RADAR TELEMETRY</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<p class="text-center font-body text-[11px] text-[#58413f] mt-2.5">
+        Cadet parameters are applied immediately to radar diagnostic models.
+      </p>
+</div>
+</form>
+</main>
+<!-- Crimson Monolith Footer -->
+<footer class="fixed bottom-0 w-full z-40 pb-safe bg-[#fff8f7]/95 backdrop-blur-md border-t border-[#dfbfbb]">
+<div class="h-11 px-4 sm:px-6 flex items-center justify-between text-xs">
+<div class="flex items-center gap-2 text-[#58413f]">
+<span class="w-2 h-2 rounded-full bg-[#440001]"></span>
+<span class="font-mono text-[11px]">SR-800-42</span>
+</div>
+<div class="flex items-center gap-1 text-[11px] font-mono text-[#58413f]">
+<span>INDEX</span>
+<span class="font-bold text-[#3c070b]">01</span>
+<span class="text-[#8b716e]">/</span>
+<span>04</span>
+</div>
+</div>
+</footer>
+<script>
+  (function() {
+    // 1. Domain Specializations Toggle
+    const domainButtons = document.querySelectorAll('.domain-chip');
+    domainButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const box = btn.querySelector('.status-box');
+        const isChecked = btn.classList.contains('bg-[#440001]');
+        const textSpan = btn.querySelector('.text-xs');
+        const numSpan = btn.querySelector('.font-mono');
+        
+        if (isChecked) {
+          btn.classList.remove('bg-[#440001]', 'border-2', 'border-[#440001]', 'text-white', 'shadow-sm');
+          btn.classList.add('bg-white', 'border', 'border-[#dfbfbb]');
+          box.classList.remove('bg-white', 'border-white', 'text-[#440001]');
+          box.classList.add('bg-white', 'border-[#8b716e]', 'text-transparent');
+          if (textSpan) textSpan.className = 'text-xs font-semibold text-[#3c070b] tracking-tight';
+          if (numSpan) numSpan.className = 'text-[10px] font-mono text-[#8b716e] group-hover:text-[#3c070b]';
+        } else {
+          btn.classList.add('bg-[#440001]', 'border-2', 'border-[#440001]', 'text-white', 'shadow-sm');
+          btn.classList.remove('bg-white', 'border', 'border-[#dfbfbb]');
+          box.classList.add('bg-white', 'border-white', 'text-[#440001]');
+          box.classList.remove('border-[#8b716e]', 'text-transparent');
+          if (textSpan) textSpan.className = 'text-xs font-semibold text-white tracking-tight';
+          if (numSpan) numSpan.className = 'text-[10px] font-mono text-white/70';
+        }
+      });
+    });
+
+    // 2. Add New Skill Tag
+    const skillInput = document.getElementById('new-skill-input');
+    const addSkillBtn = document.getElementById('add-skill-btn');
+    const skillsContainer = document.getElementById('skills-container');
+
+    function addSkill() {
+      const val = skillInput.value.trim();
+      if (!val) return;
+      
+      const tag = document.createElement('span');
+      tag.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#dfbfbb] rounded-full text-xs font-medium text-[#3c070b] shadow-xs hover:border-[#8b716e] transition-colors';
+      tag.innerHTML = `${val} <button type="button" class="text-[#8b716e] hover:text-[#440001] flex items-center justify-center transition-colors" aria-label="Remove skill"><span class="material-symbols-outlined text-[13px]">close</span></button>`;
+      
+      tag.querySelector('button').addEventListener('click', () => tag.remove());
+      skillsContainer.appendChild(tag);
+      skillInput.value = '';
+    }
+
+    addSkillBtn.addEventListener('click', addSkill);
+    skillInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addSkill();
+      }
+    });
+
+    // 3. Experience Level Selector
+    const rankButtons = document.querySelectorAll('.rank-btn');
+    rankButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        rankButtons.forEach(b => {
+          b.className = 'rank-btn p-3.5 rounded-xl border border-[#dfbfbb] bg-white text-left transition-all hover:border-[#8b716e] cursor-pointer flex flex-col justify-between h-24';
+          const mono = b.querySelector('.font-mono');
+          if (mono) mono.className = 'text-[10px] font-mono text-[#8b716e] uppercase';
+          const title = b.querySelector('.text-xs');
+          if (title) title.className = 'text-xs font-bold text-[#3c070b] font-headline';
+          const sub = b.querySelectorAll('div > div')[1];
+          if (sub) sub.className = 'text-[11px] text-[#58413f] mt-0.5 font-body';
+        });
+
+        btn.className = 'rank-btn p-3.5 rounded-xl border-2 border-[#440001] bg-[#440001] text-white text-left transition-all cursor-pointer flex flex-col justify-between h-24 shadow-sm';
+        const mono = btn.querySelector('.font-mono');
+        if (mono) mono.className = 'text-[10px] font-mono text-white/80 uppercase';
+        const title = btn.querySelector('.text-xs');
+        if (title) title.className = 'text-xs font-bold text-white font-headline';
+        const sub = btn.querySelectorAll('div > div')[1];
+        if (sub) sub.className = 'text-[11px] text-white/90 mt-0.5 font-body';
+      });
+    });
+
+    // 4. Hours Slider
+    const slider = document.getElementById('hours-slider');
+    const readout = document.getElementById('hours-readout');
+    const rateReadout = document.getElementById('rate-readout');
+
+    slider.addEventListener('input', () => {
+      const val = parseFloat(slider.value).toFixed(1);
+      readout.textContent = `${val} hrs / week`;
+      const daily = (val / 5).toFixed(1);
+      rateReadout.textContent = `~${daily} hrs daily focus`;
+    });
+
+    // 5. Submit Micro-Interaction
+    const submitBtn = document.getElementById('submit-survey-btn');
+    submitBtn.addEventListener('click', () => {
+      submitBtn.innerHTML = `<span>TELEMETRY INITIALIZED ✓</span><span class="material-symbols-outlined text-[18px]">done</span>`;
+      submitBtn.classList.remove('bg-[#440001]', 'hover:bg-[#690707]');
+      submitBtn.classList.add('bg-[#690707]');
+      setTimeout(() => {
+        submitBtn.innerHTML = `<span>INITIALIZE RADAR TELEMETRY</span><span class="material-symbols-outlined text-[18px]">arrow_forward</span>`;
+        submitBtn.classList.remove('bg-[#690707]');
+        submitBtn.classList.add('bg-[#440001]', 'hover:bg-[#690707]');
+      }, 2500);
+    });
+  })();
+</script>
+</body></html>

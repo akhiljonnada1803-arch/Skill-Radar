@@ -18,9 +18,16 @@ SECURITY & UNTRUSTED CONTENT RULES:
 USER_PROMPT_TEMPLATE = """Analyze the following technology development and output a JSON object adhering to this schema:
 
 {{
-  "summary": "2-3 plain-language sentences explaining what was built or discovered.",
+  "summary": "Clear, engaging plain-English explanation of what happened and why it matters, avoiding dense unparsed jargon.",
   "category": "Technology field/category name",
   "discovery_type": "paper | article | repository | release | other",
+  "key_terms": [
+    {{
+      "term": "Technical Term 1",
+      "simple_explanation": "Simple 1-sentence explanation of what this word means in everyday language.",
+      "analogy": "Intuitive real-world analogy (e.g. 'Like an elevator emergency brake...')"
+    }}
+  ],
   "applications": ["Practical application 1", "Practical application 2", "Practical application 3"],
   "why_it_matters": "1-2 sentences on why this is relevant to a tech student's career.",
   "skills": ["normalized-skill-slug-1", "normalized-skill-slug-2"],
