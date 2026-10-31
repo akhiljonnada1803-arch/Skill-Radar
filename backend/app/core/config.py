@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     DEMO_USER_ID: str = "00000000-0000-0000-0000-000000000001"
     ENVIRONMENT: str = "development"
+    ENABLE_AUTO_INGESTION: bool = True
+    INGESTION_INTERVAL_MINUTES: int = 60
 
     model_config = ConfigDict(
         env_file=".env",
