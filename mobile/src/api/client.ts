@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import {
   StudentProfile, DomainItem, RoadmapDetail, RoadmapItemDetail,
   SuggestionItem, SuggestionsResponse, SkillLearn, UserNote,
@@ -8,7 +9,8 @@ import {
   mockSkillLearnMap, mockUserNotesMap, mockDiscoveries, mockDiscoveryDetails
 } from './mockData';
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://10.0.2.2:8000';
+const DEFAULT_LOCAL_URL = Platform.OS === 'android' ? 'http://10.0.2.2:8000' : 'http://localhost:8000';
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL || DEFAULT_LOCAL_URL;
 const USE_MOCK = process.env.EXPO_PUBLIC_USE_MOCK === 'true';
 
 export class ApiError extends Error {

@@ -21,6 +21,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from app.models import Base
+from app.core.database import engine
+
+@app.on_event("startup")
+def init_db():
+    Base.metadata.create_all(bind=engine)
+
 # Mount all v1 routers
 app.include_router(health.router, prefix=settings.API_V1_STR)
 app.include_router(auth.router, prefix=settings.API_V1_STR)
